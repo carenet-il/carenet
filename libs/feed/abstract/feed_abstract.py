@@ -10,5 +10,6 @@ class FeedAbstract(ABC):
     def pull(self) -> List[Document]:
         pass
 
+    @abstractmethod
     def __norm_document__(self, document) -> Document:
         pass
