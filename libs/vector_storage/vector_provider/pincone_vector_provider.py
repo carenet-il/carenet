@@ -31,7 +31,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         items = []
         for doc in documents:
             vector = self.embedding_model.encode(doc.title)
-            metadata = {**doc, "original_document": doc}
+            metadata = {**doc.model_dump(), "original_document": doc}
             _id = self.generate_id(doc)
 
             record: EmbeddingDocument = {"id": _id, "vector": vector, "metadata": metadata}

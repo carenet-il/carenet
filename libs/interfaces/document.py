@@ -21,7 +21,7 @@ class Document(BaseModel):
     title: str
     description: str
     age: Optional[AgeTag]
-    email: str
+    email: Optional[str]
     phone_number: Optional[str]
     source: SourceType
     location: str
@@ -33,7 +33,7 @@ class EmbeddingDocumentMetaData(BaseModel):
     title: str
     description: str
     age: Optional[AgeTag]
-    email: str
+    email: Optional[str]
     phone_number: Optional[str]
     source: SourceType
     location: str
