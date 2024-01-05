@@ -1,0 +1,924 @@
+[
+    {
+        "item_id": 114,
+        "event_type": "offer_help",
+        "header": "טיפול פלסטי שיקומי",
+        "address": "",
+        "content": "<p>פרופ' אייל וינקלר, מומחה לכירורגיה פלסטית ושיקום נפגעי כוויות, מציע טיפול שיקומי חינם לאזרחים וחיילים שנפצעו במתקפת הטרור ב-7 באוקטובר. הטיפול מיועד רק למי שכבר טופלו במערכת הבריאות ובבתי החולים, שוחררו, אך נותרו עם סימני צלקת או כוויה</p>",
+        "contact_name": "מרפאות וינקלר",
+        "contact_email": null,
+        "contact_phone": "035278128",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 96,
+                "name": "רפואה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.1117096,
+            "lon": 34.7967758
+        }
+    },
+    {
+        "item_id": 115,
+        "event_type": "offer_help",
+        "header": "טיפול פלסטי שיקומי",
+        "address": "",
+        "content": "<p>פרופ' אייל וינקלר, מומחה לכירורגיה פלסטית ושיקום נפגעי כוויות, מציע טיפול שיקומי חינם לאזרחים וחיילים שנפצעו במתקפת הטרור ב-7 באוקטובר. הטיפול מיועד רק למי שכבר טופלו במערכת הבריאות ובבתי החולים, שוחררו, אך נותרו עם סימני צלקת או כוויה</p>",
+        "contact_name": "מרפאות וינקלר",
+        "contact_email": null,
+        "contact_phone": "03-5278128",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 96,
+                "name": "רפואה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.8890514,
+            "lon": 35.0342216
+        }
+    },
+    {
+        "item_id": 119,
+        "event_type": "offer_help",
+        "header": "מרכז לתמיכה נפשית",
+        "address": "",
+        "content": "<p>\"מרכז אחוה לשירות פסיכולוגי\" של מכללת אחוה מציע תמיכה נפשית בידי פסיכולוגים ומטפלים לקהילות ולתושבי אזור הדרום הזקוקים לסיוע<br>לתיאום לשלוח ווצאפ למספר המצורף</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "0549600551",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 98,
+                "name": "בריאות הנפש"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.7399006,
+            "lon": 34.7812157
+        }
+    },
+    {
+        "item_id": 124,
+        "event_type": "offer_help",
+        "header": "מוקד תמיכה נפשית השחר החדש",
+        "address": "",
+        "content": "<p>עמותת השחר החדש בנגב מפעילה מוקד התנדבות ומרכז לוגיסטי בכפר אבו תלול, בבית הספר אלמוסתקבל, למען אזרחים בדואים שמצב החירום פגע קשות בפרנסתם. תושבים רבים עברו למקלטים מאולתרים בבתי ספר, אין להם מוצרי מזון או מוצרים בסיסיים לשהות ממושכת, והם לא מקבלים עזרה ראשונה נפשית או הדרכה כיצד להתמודד עם טראומה.</p>\n<p>העמותה יצרה שיתוף פעולה בין כמה ארגונים חברתיים, וביחד הם מפעילים נקודות לחלוקת מזון, קו טלפון לעזרה ראשונה נפשית, ומערך של מטפלים ומטפלות דוברי ערבית שמגישים סיוע נפשי בתוך הכפרים.</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "050-7890101",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 98,
+                "name": "בריאות הנפש"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.1388645,
+            "lon": 34.9142418
+        }
+    },
+    {
+        "item_id": 316,
+        "event_type": "offer_help",
+        "header": "לעוף עם הגוף",
+        "address": "",
+        "content": "<p>״לעוף עם הגוף״ מציעים שיעור חינם ביוגה לתושבי הדרום&nbsp;</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "0525916403",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 81,
+                "name": "יוגה ומיינדפולנס"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 8,
+            "name": "פעילות ופנאי"
+        },
+        "location": {
+            "lat": 29.5819263,
+            "lon": 34.9627037
+        }
+    },
+    {
+        "item_id": 323,
+        "event_type": "offer_help",
+        "header": "נהלל 17",
+        "address": "",
+        "content": "<p>אם אתם תושבים מהדרום/צפון שנאלצו לעזוב את ביתם מתארחים בשכונה, נשמח לארח אתכם בסטודיו ולהציע שיעורים ללא עלות לכל אורח שהותכם, ואולי - להחזיר לכם קצת אוויר לנשימה</p>",
+        "contact_name": "ענבר",
+        "contact_email": null,
+        "contact_phone": "0544350007",
+        "external_link": "https://instagram.com/nahalal17?utm_source=qr",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 81,
+                "name": "יוגה ומיינדפולנס"
+            },
+            {
+                "id": 82,
+                "name": "פילאטיס וסטודיו"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 8,
+            "name": "פעילות ופנאי"
+        },
+        "location": {
+            "lat": 32.8325157,
+            "lon": 34.9793167
+        }
+    },
+    {
+        "item_id": 324,
+        "event_type": "offer_help",
+        "header": "סוטרה-יוגה סטודיו",
+        "address": "",
+        "content": "<p>מזמינה את כלל משפחות המפונים להצטרף ולהתאמן ללא עלות</p>",
+        "contact_name": "יאנה",
+        "contact_email": null,
+        "contact_phone": "0544229032",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 81,
+                "name": "יוגה ומיינדפולנס"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 8,
+            "name": "פעילות ופנאי"
+        },
+        "location": {
+            "lat": 32.8064194,
+            "lon": 34.9873695
+        }
+    },
+    {
+        "item_id": 328,
+        "event_type": "offer_help",
+        "header": "רוני פרי החופש לנוע",
+        "address": "",
+        "content": "<p>הסטודיו מזמין אליו את מפוני הדרום והצפון לטיפולים בשיטת הג׳ירוטוניק - שיטת תנועה הוליסטית</p>",
+        "contact_name": "נטליה",
+        "contact_email": null,
+        "contact_phone": "058-4710102",
+        "external_link": "https://www.ronnyperry.com",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 62,
+                "name": "טיפולים הוליסטיים"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.7843056,
+            "lon": 34.988308
+        }
+    },
+    {
+        "item_id": 332,
+        "event_type": "offer_help",
+        "header": "מטה לאיתור הנעדרים",
+        "address": "",
+        "content": "<p>נפתח מרכז של פיקוד העורף יחד עם משטרת ישראל למען עזרה למשפחות השבויים והנעדרים</p>",
+        "contact_name": "מוקד",
+        "contact_email": null,
+        "contact_phone": "105",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 98,
+                "name": "בריאות הנפש"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.967741,
+            "lon": 34.898983
+        }
+    },
+    {
+        "item_id": 334,
+        "event_type": "offer_help",
+        "header": "סטודיו למפונים",
+        "address": "",
+        "content": "<p>סטודיו יוביפיט מזמין את כל המפונים לאשר הן, וכן את המשפחות המארחות אותם להתאמן בסטודיו ללא עלות</p>\n<p>לתיאום מראש ויצירת קשר נא לפנות בטלפון המצורף</p>",
+        "contact_name": "יובל",
+        "contact_email": null,
+        "contact_phone": "0533320207",
+        "external_link": "https://www.instagram.com/uvfit_studio/",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 81,
+                "name": "יוגה ומיינדפולנס"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 8,
+            "name": "פעילות ופנאי"
+        },
+        "location": {
+            "lat": 32.8109779,
+            "lon": 34.9836998
+        }
+    },
+    {
+        "item_id": 343,
+        "event_type": "offer_help",
+        "header": "אימוני סטודיו למפונים",
+        "address": "",
+        "content": "<p>מזמינה את משפחות המפונים מהדרום ומהצפון שרוצים קצת להתאוורר מהמצב הקשה בו אנחנו נמצאים להצטרף אלינו לאימונים בסטודיו ללא עלות ובאהבה רבה</p>",
+        "contact_name": "שירן",
+        "contact_email": null,
+        "contact_phone": "0506922388",
+        "external_link": "https://www.instagram.com/p/CyQoTaHCHsD/",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 81,
+                "name": "יוגה ומיינדפולנס"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 8,
+            "name": "פעילות ופנאי"
+        },
+        "location": {
+            "lat": 32.397274,
+            "lon": 34.9132423
+        }
+    },
+    {
+        "item_id": 347,
+        "event_type": "offer_help",
+        "header": "תרגול מיינדפולנס",
+        "address": "",
+        "content": "<p>טיפולים בחרדות, איזון אנרגטי מקרוב ומרחוק, תרגול מיינדפולנס, הטבעת מגן דוד תודעתי ועוד ללא עלות לתושבי העוטף.</p>\n<p>לתיאום יש ליצור קשר באתר</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "",
+        "external_link": "https://get-marketing.co.il/yaelzilberman/",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 81,
+                "name": "יוגה ומיינדפולנס"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 8,
+            "name": "פעילות ופנאי"
+        },
+        "location": {
+            "lat": 29.5583649,
+            "lon": 34.9507599
+        }
+    },
+    {
+        "item_id": 349,
+        "event_type": "offer_help",
+        "header": "פיזיוטרפיה התפתחותית",
+        "address": "",
+        "content": "<p>טיפול ויעוץ פיזיוטרפיה התפתחותית לתינוקות עם טורטיקוליס, עיכוב התפתחותי ועוד.</p>\n<p>למיקום מדויק נא להתקשר למספר המצורף</p>",
+        "contact_name": "עינת דמתי",
+        "contact_email": null,
+        "contact_phone": "0546276726",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 96,
+                "name": "רפואה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.1500206,
+            "lon": 34.8853645
+        }
+    },
+    {
+        "item_id": 363,
+        "event_type": "offer_help",
+        "header": "הועד הערבי לחירום בנגב",
+        "address": "",
+        "content": "<p>הועד הערבי לחירום פתח בחורה חדר מצב במטרה לסייע לנפגעים בעיירות וכפרים בנגב. במסגרת זו מציע טיפול נפשי ראשוני, מיפוי צרכים, סיוע באיתור נעדי קשר וסיוע בציוד בנייהם</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "0722212788 -0506616606 מספר נו",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 98,
+                "name": "בריאות הנפש"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.3004189,
+            "lon": 34.9355202
+        }
+    },
+    {
+        "item_id": 375,
+        "event_type": "offer_help",
+        "header": "האנגר ריהוט ותרומות למשפחו",
+        "address": "",
+        "content": "<p>כאן ״חזית הבית״, מיזם חברתי שמטרתו להלביש את בתי משפחות הדרום והעוטף מחדש בכדי שירגישו בבית שוב. אנו זקוקים למתנדבים לעבודה פיזית בהאנגר שמכיל ריהוט ותרומות למשפחות העוטף.</p>",
+        "contact_name": "עידו",
+        "contact_email": null,
+        "contact_phone": "0547777306",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 65,
+                "name": "סיוע כללי"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 7,
+            "name": "תעסוקה בהתנדבות"
+        },
+        "location": {
+            "lat": 32.3859482,
+            "lon": 34.9398422
+        }
+    },
+    {
+        "item_id": 377,
+        "event_type": "offer_help",
+        "header": "טיפולים במים בחינם למפונים",
+        "address": "",
+        "content": "<p>״דרך המים״ מציעה את כל סוגי הטיפולים במים ללא תשלום - לילדים ומבוגרים כאחד.</p>\n<p>הטיפולים - טיפולי וואטסו (שיטת טיפול ייחודית)</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "0778050022",
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 62,
+                "name": "טיפולים הוליסטיים"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.0590286,
+            "lon": 34.825367
+        }
+    },
+    {
+        "item_id": 385,
+        "event_type": "offer_help",
+        "header": "מרכז למפונים הסנטר תא",
+        "address": "",
+        "content": "<p>מרכז הקניות דיזנגוף סנטר פותח לקהילה ולמפונים מרכז אליו יוכלו להגיע. במרכז ידשנם מתנפחים וסרטים לילדים.כמו כן, במקום יש נקודות איסוף אליהן ניתן להביא ציוד, בגדים ומזון יבש ולעזור באריזה.</p>",
+        "contact_name": "",
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": null,
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 65,
+                "name": "סיוע כללי"
+            }
+        ],
+        "apps": [
+            {
+                "id": 1,
+                "name": "ynet",
+                "domain": "ynet.co.il"
+            }
+        ],
+        "cat": {
+            "id": 7,
+            "name": "תעסוקה בהתנדבות"
+        },
+        "location": {
+            "lat": 32.0752373,
+            "lon": 34.775116
+        }
+    },
+    {
+        "item_id": 403,
+        "event_type": "offer_help",
+        "header": "טיפול המשך לחולי סרטן",
+        "address": "",
+        "content": "<p>המשך טיפול במסגרת טיפול יום אונקולוגי בבית החולים יוספטל באילת עבור תושבי הדרום, הצפון והעוטף.</p>\n<p>השירות פעיל 7 ימים בשבוע, בשעות 8:00-20:00</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": "089927772",
+        "external_link": "https://view.monday.com/1308706928-922d9a932eda1e221b9801d1d6a38bcd?r=euc1",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 96,
+                "name": "רפואה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 29.5544701,
+            "lon": 34.9403152
+        }
+    },
+    {
+        "item_id": 404,
+        "event_type": "offer_help",
+        "header": "טיפולי רפואה משלימה",
+        "address": "",
+        "content": "<p class=\"p1\" dir=\"rtl\">מכללת רידמן מעניקה ללא תשלום טיפולים במגוון קליניקות המתמחים שלנו למפוני עוטף ישראל מדרום לצפון.</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://docs.google.com/forms/d/e/1FAIpQLScnFp7WCumPoOxHhwdR-BXuVt7NVtrDdW2NyQ8qHE5RC8TUzQ/viewform",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 104,
+                "name": "רפואה משלימה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.1056938,
+            "lon": 34.8008957
+        }
+    },
+    {
+        "item_id": 405,
+        "event_type": "offer_help",
+        "header": "טיפולי רפואה משלימה",
+        "address": "",
+        "content": "<p class=\"p1\" dir=\"rtl\">מכללת רידמן מעניקה ללא תשלום טיפולים במגוון קליניקות המתמחים שלנו למפוני עוטף ישראל מדרום לצפון</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://docs.google.com/forms/d/e/1FAIpQLScnFp7WCumPoOxHhwdR-BXuVt7NVtrDdW2NyQ8qHE5RC8TUzQ/viewform",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 104,
+                "name": "רפואה משלימה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.7881184,
+            "lon": 35.2068596
+        }
+    },
+    {
+        "item_id": 406,
+        "event_type": "offer_help",
+        "header": "טיפולי רפואה משלימה",
+        "address": "",
+        "content": "<p class=\"p1\" dir=\"rtl\">מכללת רידמן מעניקה ללא תשלום טיפולים במגוון קליניקות המתמחים שלנו למפוני עוטף ישראל מדרום לצפון</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://docs.google.com/forms/d/e/1FAIpQLScnFp7WCumPoOxHhwdR-BXuVt7NVtrDdW2NyQ8qHE5RC8TUzQ/viewform",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 104,
+                "name": "רפואה משלימה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.8108444,
+            "lon": 34.9837456
+        }
+    },
+    {
+        "item_id": 407,
+        "event_type": "offer_help",
+        "header": "טיפולי רפואה משלימה",
+        "address": "",
+        "content": "<p class=\"p1\" dir=\"rtl\">מכללת רידמן מעניקה ללא תשלום טיפולים במגוון קליניקות המתמחים שלנו למפוני עוטף ישראל מדרום לצפון</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://docs.google.com/forms/d/e/1FAIpQLScnFp7WCumPoOxHhwdR-BXuVt7NVtrDdW2NyQ8qHE5RC8TUzQ/viewform",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 104,
+                "name": "רפואה משלימה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 31.244957,
+            "lon": 34.7957191
+        }
+    },
+    {
+        "item_id": 408,
+        "event_type": "offer_help",
+        "header": "בדיקות שד במרפאת ניצן",
+        "address": "",
+        "content": "<p>המרפאה מזמינה נשים מהעוטף לבדיקה שגרתית או לאבחון ממצא חשוד בשד, במקום נעים ובטוח</p>",
+        "contact_name": null,
+        "contact_email": "info@nitzanclinic.co.il",
+        "contact_phone": "058-6918927",
+        "external_link": "https://nitzanclinic.co.il",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 96,
+                "name": "רפואה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.7067909,
+            "lon": 35.1747322
+        }
+    },
+    {
+        "item_id": 409,
+        "event_type": "offer_help",
+        "header": "בדיקות שד במרפאת ניצן",
+        "address": "",
+        "content": "<p>המרפאה מזמינה נשים מהעוטף לבדיקה שגרתית או לאבחון ממצא חשוד בשד, במקום נעים ובטוח</p>",
+        "contact_name": null,
+        "contact_email": "info@nitzanclinic.co.il",
+        "contact_phone": "058-6918927",
+        "external_link": "https://nitzanclinic.co.il",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 96,
+                "name": "רפואה"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 5,
+            "name": "סיוע מקצועי"
+        },
+        "location": {
+            "lat": 32.7067909,
+            "lon": 35.1747322
+        }
+    },
+    {
+        "item_id": 411,
+        "event_type": "offer_help",
+        "header": "מערך כביסות",
+        "address": "",
+        "content": "<p>אנא מלאו את הטופס. לאחר שתימצא משפחה שתוכל לכבס עבורכם, היא תגיע למקום ההתארחות שלכם על-מנת לאסוף את הכביסה.</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://docs.google.com/forms/d/e/1FAIpQLSdPoDz915iDcJESGQGmJ9VRWn6PPX3ORmZx6xRf05vI4k1YHQ/viewform",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 65,
+                "name": "סיוע כללי"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 7,
+            "name": "תעסוקה בהתנדבות"
+        },
+        "location": {
+            "lat": 32.0854454,
+            "lon": 34.7815971
+        }
+    },
+    {
+        "item_id": 412,
+        "event_type": "offer_help",
+        "header": "מערך כביסות",
+        "address": "",
+        "content": "<p>שירותי כביסה בחינם למשפחות שפונו מהדרום, לחיילות, חיילים וא.נשי מילואים. איסוף והחזרה תוך 24 שעות (איזור חדרה וצפונה)</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://docs.google.com/forms/d/e/1FAIpQLSd6bhsvGytvAdAw0qFx-Xx1GKs3MiDZw8ZP3ZtnUpdOrxwTJA/viewform",
+        "report_link": null,
+        "is_active": 0,
+        "subcats": [
+            {
+                "id": 65,
+                "name": "סיוע כללי"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 7,
+            "name": "תעסוקה בהתנדבות"
+        },
+        "location": {
+            "lat": 32.7953453,
+            "lon": 34.988884
+        }
+    },
+    {
+        "item_id": 414,
+        "event_type": "offer_help",
+        "header": "חמ״ל לב אחד",
+        "address": "",
+        "content": "<p>חמ״ל לב אחד מספק מענה לנפגעי הדרום, על כל הצרכים שעולים בסביבת ירושלים: אירוח, ציוד, מתנדבים, היסעים ועוד</p>",
+        "contact_name": null,
+        "contact_email": null,
+        "contact_phone": null,
+        "external_link": "https://linktr.ee/onelevjlm",
+        "report_link": null,
+        "is_active": 1,
+        "subcats": [
+            {
+                "id": 65,
+                "name": "סיוע כללי"
+            }
+        ],
+        "apps": [
+            {
+                "id": 2,
+                "name": "אחים לנשק",
+                "domain": "ahimlaneshek.org/"
+            }
+        ],
+        "cat": {
+            "id": 7,
+            "name": "תעסוקה בהתנדבות"
+        },
+        "location": {
+            "lat": 31.7682934,
+            "lon": 35.2137146
+        }
+    }
+]
