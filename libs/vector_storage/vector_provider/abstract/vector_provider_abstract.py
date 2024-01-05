@@ -15,5 +15,5 @@ class VectorProviderAbstract(ABC):
         pass
 
     @abstractmethod
-    def search(self, query: str, filters=None):
+    def search(self, query: str, filters=None) -> List[Document]:
         pass

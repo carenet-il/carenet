@@ -1,6 +1,7 @@
-from pydantic import BaseModel, EmailStr, constr
 from enum import Enum
-from typing import List, Optional
+from typing import List
+
+from pydantic import BaseModel, EmailStr, constr
 
 
 class AgeTag(Enum):
@@ -22,6 +23,7 @@ class Location(Enum):
 
 
 class Document(BaseModel):
+    id: str
     name: str
     title: str
     description: str
@@ -30,3 +32,25 @@ class Document(BaseModel):
     phone_number: constr(regex=r'^\+\d{1,3}-\d{1,10}$')  # Simple regex for phone numbers
     source: SourceType
     location: Location
+
+
+class EmbeddingDocumentMetaData(BaseModel):
+    original_document: Document
+    name: str
+    title: str
+    description: str
+    age: AgeTag
+    email: EmailStr
+    phone_number: constr(regex=r'^\+\d{1,3}-\d{1,10}$')  # Simple regex for phone numbers
+    source: SourceType
+    location: Location
+
+
+class EmbeddingDocument(BaseModel):
+    id: str
+    values: List[float]
+    metadata: EmbeddingDocumentMetaData
+
+    @property
+    def id(self):
+        return self.id
