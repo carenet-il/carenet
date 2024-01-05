@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
-from pydantic import BaseModel, EmailStr, constr
+from pydantic import BaseModel
 
 
 class AgeTag(Enum):
@@ -16,22 +16,15 @@ class SourceType(Enum):
     # Add other source types as needed
 
 
-class Location(Enum):
-    LOCATION1 = 'Location1'
-    LOCATION2 = 'Location2'
-    # Add other locations as needed
-
-
 class Document(BaseModel):
-    id: str
-    name: str
+    id: Optional[str]
     title: str
     description: str
-    age: AgeTag
-    email: EmailStr
-    phone_number: constr(regex=r'^\+\d{1,3}-\d{1,10}$')  # Simple regex for phone numbers
+    age: Optional[AgeTag]
+    email: str
+    phone_number: Optional[str]
     source: SourceType
-    location: Location
+    location: str
 
 
 class EmbeddingDocumentMetaData(BaseModel):
@@ -39,11 +32,11 @@ class EmbeddingDocumentMetaData(BaseModel):
     name: str
     title: str
     description: str
-    age: AgeTag
-    email: EmailStr
-    phone_number: constr(regex=r'^\+\d{1,3}-\d{1,10}$')  # Simple regex for phone numbers
+    age: Optional[AgeTag]
+    email: str
+    phone_number: Optional[str]
     source: SourceType
-    location: Location
+    location: str
 
 
 class EmbeddingDocument(BaseModel):

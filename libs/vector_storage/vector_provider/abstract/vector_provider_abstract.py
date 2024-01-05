@@ -17,3 +17,6 @@ class VectorProviderAbstract(ABC):
     @abstractmethod
     def search(self, query: str, filters=None) -> List[Document]:
         pass
+
+    def generate_id(self, doc: Document):
+        return doc.title

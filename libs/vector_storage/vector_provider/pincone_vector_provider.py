@@ -5,7 +5,7 @@ import pinecone
 from pinecone import QueryResponse
 
 from libs.embedding.abstract.embedding_abstract import EmbeddingAbstract
-from libs.interfaces.document import Document
+from libs.interfaces.document import Document, EmbeddingDocument
 from libs.vector_storage.vector_provider.abstract.vector_provider_abstract import VectorProviderAbstract
 
 
@@ -27,5 +27,15 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         return documents
 
     def insert_many(self, documents: List[Document]):
-        items_to_insert = [(doc.id, self.embedding_model.encode(doc.title)) for doc in documents]
-        self.index.upsert(items=items_to_insert)
+
+        items = []
+        for doc in documents:
+            vector = self.embedding_model.encode(doc.title)
+            metadata = {**doc, "original_document": doc}
+            _id = self.generate_id(doc)
+
+            record: EmbeddingDocument = {"id": _id, "vector": vector, "metadata": metadata}
+
+            items.append(record)
+
+        self.index.upsert(items=items)
