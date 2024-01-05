@@ -21,6 +21,24 @@ for record in json_data:
             #     break  # Break the inner loop if a matching subcat is found
 
 print("found results", str(len(filtered_records)))
+
+import requests
+
+
+def reverse_geocode(lat, lon):
+    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}"
+    response = requests.get(url)
+    data = response.json()
+    return data.get("display_name")
+
+
+for r in filtered_records:
+    print("******")
+    print(r["content"])
+    location = reverse_geocode(r["location"]["lat"], r["location"]["lon"])
+    print("Location:", location)
+    print("******")
+
 # Now filtered_records contains all the records with 'medical' or 'sport' subcategories
 # Define the path for the new JSON file
 output_file_path = './filtered_records.json'
