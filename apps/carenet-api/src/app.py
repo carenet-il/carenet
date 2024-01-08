@@ -1,13 +1,7 @@
-from flask import Flask
+from fastapi import FastAPI
+from routers import documents
 
-app = Flask(__name__)
-
-
-@app.route('/document/insertMany', methods=['POST'])
-def insert_many():
-    return {"ok": 200}
+app = FastAPI()
 
 
-@app.route('/document/search', methods=['POST'])
-def search():
-    return {"ok": 200}
+app.include_router(documents.router, prefix="/documents", tags=["documents"])
