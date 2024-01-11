@@ -18,6 +18,7 @@ class Document(BaseModel):
     full_location: str
     city: Optional[str] = ''
     state: Optional[str] = ''
+    score: Optional[float] = 0
 
 
 class EmbeddingDocument(BaseModel):

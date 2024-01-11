@@ -23,7 +23,11 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         results: QueryResponse = self.index.query(query_vector, top_k=10, include_metadata=True,
                                                   filter=filters)
 
-        documents: List[Document] = [r.metadata.original_document for r in results.matches]
+        documents: List[Document] = []
+        for r in results.matches:
+            doc = r.metadata
+            doc["score"] = r.score
+            documents.append(doc)
         return documents
 
     def split_into_batches(self, input_array, batch_size):

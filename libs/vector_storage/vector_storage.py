@@ -1,7 +1,11 @@
+import os
+from pprint import pprint
 from typing import List
 
+from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBertMultilingualEmbedding
 from libs.interfaces.document import Document
 from libs.vector_storage.vector_provider.abstract.vector_provider_abstract import VectorProviderAbstract
+from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
 
 
 class VectorStorage:
@@ -16,3 +20,18 @@ class VectorStorage:
             filters = {}
 
         return self.storage_provider.search(query, filters)
+
+
+if __name__ == "__main__":
+    embedding_model = QuoraDistilBertMultilingualEmbedding()
+
+    storage_provider = PineconeVectorProvider(embedding_model=embedding_model, api_key=os.getenv("PINECONE_API_KEY"),
+                                              environment=os.getenv("PINECONE_ENVIRONMENT"),
+                                              index_name=os.getenv("PINECONE_INDEX_NAME"))
+
+    vector_storage = VectorStorage(storage_provider=storage_provider)
+
+    query = "סיוע"
+    filters = {}
+    results = vector_storage.search(query=query, filters=filters)
+    pprint(results)
