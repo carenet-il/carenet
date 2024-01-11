@@ -1,4 +1,5 @@
 uvicorn
 fastapi==0.108.0
-pydantic==2.5.3
+pydantic
 pinecone-client
+sentence-transformers

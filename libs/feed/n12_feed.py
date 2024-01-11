@@ -1,9 +1,11 @@
 from abc import ABC
+from pprint import pprint
 from typing import List
 
 import requests
 
-from libs.feed.abstract.feed_abstract import FeedAbstract, get_location
+from libs.feed.abstract.feed_abstract import FeedAbstract, extract_email, extract_phone, \
+    extract_description, get_locations_by_coordination
 from libs.interfaces.document import Document, SourceType
 
 
@@ -31,6 +33,7 @@ class N12Feed(FeedAbstract, ABC):
 
         records = response.json()
 
+        pprint(records)
         documents: List[Document] = [self.__norm_document__(doc) for doc in records]
 
         return documents
@@ -73,13 +76,18 @@ class N12Feed(FeedAbstract, ABC):
     """
 
     def __norm_document__(self, document) -> Document:
+        full_location, city, state = get_locations_by_coordination(document["location"]["lat"],
+                                                                   document["location"]["lon"])
         document_dict = {
             "title": document["header"],
-            "description": document["content"],
-            "email": document["contact_email"],
-            "phone_number": document["contact_phone"],
-            "source": SourceType.N12,
-            "location": get_location(document["location"]["lat"], document["location"]["lon"])
+            "description": extract_description(document["content"]),
+            "email": extract_email(document["contact_email"]),
+            "phone_number": extract_phone(document["contact_phone"]),
+            "source": SourceType.N12.name,
+            "full_location": full_location,
+            "city": city,
+            "state": state
+
         }
 
         return Document(**document_dict)

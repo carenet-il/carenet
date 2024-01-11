@@ -22,6 +22,7 @@ def main():
 
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
+        print(norm_documents)
         vector_storage.insert_documents(norm_documents=norm_documents)
 
 

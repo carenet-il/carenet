@@ -4,46 +4,23 @@ from typing import List, Optional
 from pydantic import BaseModel
 
 
-class AgeTag(Enum):
-    CHILD = 'child'
-    TEEN = 'teen'
-    ADULT = 'adult'
-    SENIOR = 'senior'
-
-
 class SourceType(Enum):
     N12 = 'N12'
     # Add other source types as needed
 
 
 class Document(BaseModel):
-    id: Optional[str]
     title: str
     description: str
-    age: Optional[AgeTag]
-    email: Optional[str]
-    phone_number: Optional[str]
-    source: SourceType
-    location: str
-
-
-class EmbeddingDocumentMetaData(BaseModel):
-    original_document: Document
-    name: str
-    title: str
-    description: str
-    age: Optional[AgeTag]
-    email: Optional[str]
-    phone_number: Optional[str]
-    source: SourceType
-    location: str
+    email: Optional[str] = ''
+    phone_number: Optional[str] = ''
+    source: str
+    full_location: str
+    city: Optional[str] = ''
+    state: Optional[str] = ''
 
 
 class EmbeddingDocument(BaseModel):
     id: str
     values: List[float]
-    metadata: EmbeddingDocumentMetaData
-
-    @property
-    def id(self):
-        return self.id
+    metadata: Document
