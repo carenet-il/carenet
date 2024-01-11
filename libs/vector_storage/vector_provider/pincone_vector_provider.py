@@ -47,7 +47,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
 
         items = []
         for doc in documents:
-            vector = self.embedding_model.encode(doc.title)
+            vector = self.generate_vector(doc)
             _id = self.generate_id(doc)
             record: EmbeddingDocument = EmbeddingDocument(id=_id, values=vector, metadata=doc)
             items.append(record.model_dump())
@@ -56,3 +56,6 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         for ids_vectors_chunk in self.split_into_batches(items, batch_size=25):
             print(f"Insert to Storage {len(ids_vectors_chunk)} documents")
             self.index.upsert(vectors=ids_vectors_chunk)  # Assuming `index` defined elsewhere
+
+    def generate_vector(self, doc):
+        return self.embedding_model.encode(doc.title + doc.description + doc.full_location)

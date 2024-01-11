@@ -31,7 +31,8 @@ if __name__ == "__main__":
 
     vector_storage = VectorStorage(storage_provider=storage_provider)
 
-    query = "סיוע"
+    query = "משפחות השבויים והנעדרים"
+    # filters = {"state": "מחוז הדרום"}
     filters = {}
     results = vector_storage.search(query=query, filters=filters)
     pprint(results)
