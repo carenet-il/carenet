@@ -51,5 +51,4 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         # Upsert data with 100 vectors per upsert request
         for ids_vectors_chunk in self.split_into_batches(items, batch_size=25):
             print(f"Insert to Storage {len(ids_vectors_chunk)} documents")
-            print(ids_vectors_chunk)
             self.index.upsert(vectors=ids_vectors_chunk)  # Assuming `index` defined elsewhere

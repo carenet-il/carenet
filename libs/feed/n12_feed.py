@@ -1,5 +1,4 @@
 from abc import ABC
-from pprint import pprint
 from typing import List
 
 import requests
@@ -33,7 +32,6 @@ class N12Feed(FeedAbstract, ABC):
 
         records = response.json()
 
-        pprint(records)
         documents: List[Document] = [self.__norm_document__(doc) for doc in records]
 
         return documents
