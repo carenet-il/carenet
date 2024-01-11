@@ -7,29 +7,6 @@ import requests
 from libs.interfaces.document import Document
 
 
-def get_location_by_coordination(lat: float, lon: float):
-    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}"
-    response = requests.get(url)
-
-    if response.status_code == 200:
-        data = response.json()
-        # Depending on the response structure, you might need to adjust the keys
-        return data.get("display_name")
-    else:
-        return ""
-
-
-def get_city_by_coordination(lat: float, lon: float):
-    url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        # Depending on the response structure, you might need to adjust the keys
-        return data.get('address', {}).get('city', '')
-    else:
-        return ""
-
-
 def get_locations_by_coordination(lat: float, lon: float):
     url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}"
     response = requests.get(url)
