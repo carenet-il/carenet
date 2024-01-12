@@ -1,4 +1,5 @@
-uvicorn
+uvicorn==0.25.0
 fastapi==0.108.0
 pydantic==2.5.3
-pinecone-client
+pinecone-client==2.2.4
+sentence-transformers==2.2.2
