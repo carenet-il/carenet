@@ -20,4 +20,4 @@ class VectorProviderAbstract(ABC):
         pass
 
     def generate_id(self, doc: Document) -> str:
-        return hashlib.md5(doc.title.encode("utf-8")).hexdigest()
+        return hashlib.md5(doc.title.encode("utf-8") + doc.source.encode("utf-8")).hexdigest()

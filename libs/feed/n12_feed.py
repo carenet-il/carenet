@@ -3,8 +3,9 @@ from typing import List
 
 import requests
 
-from libs.feed.abstract.feed_abstract import FeedAbstract, extract_email, extract_phone, \
-    extract_description, get_locations_by_coordination
+from libs.feed.abstract.feed_abstract import FeedAbstract
+from libs.feed.extractors.extractors import get_locations_by_coordination, extract_email, extract_description, \
+    extract_phone
 from libs.interfaces.document import Document, SourceType
 
 
