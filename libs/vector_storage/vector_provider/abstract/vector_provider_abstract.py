@@ -1,3 +1,4 @@
+import hashlib
 from abc import ABC, abstractmethod
 from typing import List
 
@@ -18,5 +19,5 @@ class VectorProviderAbstract(ABC):
     def search(self, query: str, filters=None) -> List[Document]:
         pass
 
-    def generate_id(self, doc: Document):
-        return doc.title
+    def generate_id(self, doc: Document) -> str:
+        return hashlib.md5(doc.title.encode("utf-8") + doc.source.encode("utf-8")).hexdigest()

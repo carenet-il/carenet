@@ -23,19 +23,39 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         results: QueryResponse = self.index.query(query_vector, top_k=10, include_metadata=True,
                                                   filter=filters)
 
-        documents: List[Document] = [r.metadata.original_document for r in results.matches]
+        documents: List[Document] = []
+        for r in results.matches:
+            doc = r.metadata
+            doc["score"] = r.score
+            documents.append(doc)
         return documents
+
+    def split_into_batches(self, input_array, batch_size):
+        """
+        Split an array into batches of a specified size.
+
+        Args:
+            input_array (list or array-like): The array to split.
+            batch_size (int): The batch size for splitting.
+
+        Returns:
+            List of batches.
+        """
+        return [input_array[i:i + batch_size] for i in range(0, len(input_array), batch_size)]
 
     def insert_many(self, documents: List[Document]):
 
         items = []
         for doc in documents:
-            vector = self.embedding_model.encode(doc.title)
-            metadata = {**doc.model_dump(), "original_document": doc}
+            vector = self.generate_vector(doc)
             _id = self.generate_id(doc)
+            record: EmbeddingDocument = EmbeddingDocument(id=_id, values=vector, metadata=doc)
+            items.append(record.model_dump())
 
-            record: EmbeddingDocument = {"id": _id, "vector": vector, "metadata": metadata}
+        # Upsert data with 100 vectors per upsert request
+        for ids_vectors_chunk in self.split_into_batches(items, batch_size=25):
+            print(f"Insert to Storage {len(ids_vectors_chunk)} documents")
+            self.index.upsert(vectors=ids_vectors_chunk)  # Assuming `index` defined elsewhere
 
-            items.append(record)
-
-        self.index.upsert(items=items)
+    def generate_vector(self, doc):
+        return self.embedding_model.encode(doc.title + doc.description + doc.full_location)
