@@ -4,9 +4,9 @@ from typing import List
 import pinecone
 from pinecone import QueryResponse
 
-from libs.embedding.abstract.embedding_abstract import EmbeddingAbstract
+from libs.embedding.abstract import EmbeddingAbstract
 from libs.interfaces.document import Document, EmbeddingDocument
-from libs.vector_storage.vector_provider.abstract.vector_provider_abstract import VectorProviderAbstract
+from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
 
 class PineconeVectorProvider(VectorProviderAbstract, ABC):
@@ -27,7 +27,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         for r in results.matches:
             doc = r.metadata
             doc["score"] = r.score
-            documents.append(doc)
+            documents.append(Document(**doc))
         return documents
 
     def split_into_batches(self, input_array, batch_size):

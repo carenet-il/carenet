@@ -2,7 +2,7 @@ import hashlib
 from abc import ABC, abstractmethod
 from typing import List
 
-from libs.embedding.abstract.embedding_abstract import EmbeddingAbstract
+from libs.embedding.abstract import EmbeddingAbstract
 from libs.interfaces.document import Document
 
 

@@ -3,9 +3,13 @@ from typing import List
 
 import requests
 
-from libs.feed.abstract.feed_abstract import FeedAbstract
-from libs.feed.extractors.extractors import get_locations_by_coordination, extract_email, extract_description, \
-    extract_phone
+from libs.feed.abstract import FeedAbstract
+from libs.feed.extractors.extractors import (
+    get_locations_by_coordination,
+    extract_email,
+    extract_description,
+    extract_phone,
+)
 from libs.interfaces.document import Document, SourceType
 
 
@@ -15,18 +19,18 @@ class N12Feed(FeedAbstract, ABC):
 
         payload = {}
         headers = {
-            'authority': 'map-app.mappo.world:5000',
-            'accept': '/',
-            'accept-language': 'en,en-US;q=0.9,he;q=0.8',
-            'origin': 'https://map-fe.mappo.world',
-            'referer': 'https://map-fe.mappo.world/',
-            'sec-ch-ua': '"Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"',
-            'sec-ch-ua-mobile': '?0',
-            'sec-ch-ua-platform': '"macOS"',
-            'sec-fetch-dest': 'empty',
-            'sec-fetch-mode': 'cors',
-            'sec-fetch-site': 'same-site',
-            'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36'
+            "authority": "map-app.mappo.world:5000",
+            "accept": "/",
+            "accept-language": "en,en-US;q=0.9,he;q=0.8",
+            "origin": "https://map-fe.mappo.world",
+            "referer": "https://map-fe.mappo.world/",
+            "sec-ch-ua": '"Chromium";v="118", "Google Chrome";v="118", "Not=A?Brand";v="99"',
+            "sec-ch-ua-mobile": "?0",
+            "sec-ch-ua-platform": '"macOS"',
+            "sec-fetch-dest": "empty",
+            "sec-fetch-mode": "cors",
+            "sec-fetch-site": "same-site",
+            "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Safari/537.36",
         }
 
         response = requests.request("GET", url, headers=headers, data=payload)
@@ -75,8 +79,9 @@ class N12Feed(FeedAbstract, ABC):
     """
 
     def __norm_document__(self, document) -> Document:
-        full_location, city, state = get_locations_by_coordination(document["location"]["lat"],
-                                                                   document["location"]["lon"])
+        full_location, city, state = get_locations_by_coordination(
+            document["location"]["lat"], document["location"]["lon"]
+        )
         document_dict = {
             "title": document["header"],
             "description": extract_description(document["content"]),
@@ -85,8 +90,7 @@ class N12Feed(FeedAbstract, ABC):
             "source": SourceType.N12.name,
             "full_location": full_location,
             "city": city,
-            "state": state
-
+            "state": state,
         }
 
         return Document(**document_dict)
