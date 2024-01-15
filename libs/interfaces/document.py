@@ -25,3 +25,7 @@ class EmbeddingDocument(BaseModel):
     id: str
     values: List[float]
     metadata: Document
+
+class DocumentSearchFilters(BaseModel):
+    city: Optional[str] = Field(default=None)
+    state: Optional[str] = Field(default=None)
