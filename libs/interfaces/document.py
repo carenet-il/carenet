@@ -1,11 +1,11 @@
 from enum import Enum
 from typing import Optional, Union
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, conlist
 
 
 class SourceType(Enum):
-    N12 = 'N12'
+    N12 = "N12"
     # Add other source types as needed
 
 
@@ -26,6 +26,11 @@ class EmbeddingDocument(BaseModel):
     values: list[float]
     metadata: Document
 
+
 class DocumentSearchFilters(BaseModel):
-    city: Optional[Union[str, list[str]]] = Field(default=None, min_length=2)
-    state: Optional[Union[str, list[str]]] = Field(default=None, min_length=2)
+    city: Optional[Union[str, conlist(str, min_length=1, unique_items=True)]] = Field(
+        default=None
+    )
+    state: Optional[Union[str, conlist(str, min_length=1, unique_items=True)]] = Field(
+        default=None
+    )
