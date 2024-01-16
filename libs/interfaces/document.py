@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List, Optional
+from typing import Optional, Union
 
 from pydantic import BaseModel, Field
 
@@ -23,9 +23,9 @@ class Document(BaseModel):
 
 class EmbeddingDocument(BaseModel):
     id: str
-    values: List[float]
+    values: list[float]
     metadata: Document
 
 class DocumentSearchFilters(BaseModel):
-    city: Optional[str] = Field(default=None)
-    state: Optional[str] = Field(default=None)
+    city: Optional[Union[str, list[str]]] = Field(default=None, min_length=2)
+    state: Optional[Union[str, list[str]]] = Field(default=None, min_length=2)

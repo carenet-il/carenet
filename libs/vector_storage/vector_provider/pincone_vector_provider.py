@@ -30,14 +30,25 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         if not filters:
             filters = DocumentSearchFilters()
 
-        # TODO build the filters dict as required by pinecone
-        filters = filters.model_dump(exclude_none=True, exclude_unset=True)
+        builded_filters = {}
+        
+        if filters.city:
+            if isinstance(filters.city, list):
+                builded_filters["city"] = {"$in": filters.city}
+            else:
+                builded_filters["city"] = filters.city
+        
+        if filters.state:
+            if isinstance(filters.state, list):
+                builded_filters["state"] = {"$in": filters.state}
+            else:
+                builded_filters["state"] = filters.state
 
         query_vector = self.embedding_model.encode(
             query
         )  # Encode the query string to a vector
         results: QueryResponse = self.index.query(
-            query_vector, top_k=10, include_metadata=True, filter=filters
+            query_vector, top_k=10, include_metadata=True, filter=builded_filters
         )
 
         documents: List[Document] = []
