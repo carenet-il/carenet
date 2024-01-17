@@ -5,7 +5,7 @@ from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBe
 from libs.feed.n12_feed import N12Feed
 from libs.interfaces.document import Document
 from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
-from libs.vector_storage.vector_storage import VectorStorage
+from libs.vector_storage import VectorStorage
 
 
 def main():
