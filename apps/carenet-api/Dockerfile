@@ -10,4 +10,6 @@ COPY libs libs
 
 COPY apps/carenet-api apps/carenet-api
 
+EXPOSE 8000
+
 CMD ["python3", "apps/carenet-api/src/main.py"] 
