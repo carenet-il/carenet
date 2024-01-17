@@ -2,11 +2,8 @@ name: Nightly Python Script Run
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Runs at midnight every day
-  push:
-    branches:
-      - main  # Trigger the workflow on pushes to the main branch
-
+    - cron: '0 0 */3 * *'  # Runs at midnight every 3 days
+    
 env:
   PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
   PINECONE_ENVIRONMENT: 'gcp-starter'
