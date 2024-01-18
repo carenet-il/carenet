@@ -7,9 +7,9 @@ from libs.embedding.abstract import EmbeddingAbstract
 
 class QuoraDistilBertMultilingualEmbedding(EmbeddingAbstract, ABC):
     def __init__(self):
-        self.model = SentenceTransformer(
-            "sentence-transformers/quora-distilbert-multilingual"
-        )
-
+        # self.model = SentenceTransformer(
+        #     "sentence-transformers/quora-distilbert-multilingual"
+        # )
+        pass
     def encode(self, text: str) -> List[float]:
         return self.model.encode(text).tolist()
