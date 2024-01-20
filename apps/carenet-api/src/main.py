@@ -6,4 +6,7 @@ if __name__ == "__main__":
     # to allow import from libs
     sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
 
-    uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    if os.getenv("ENV") == "dev":
+        uvicorn.run("app:app", host="0.0.0.0", port=8000, reload=True)
+    else:
+        uvicorn.run("app:app", host="0.0.0.0", port=8000, workers=2)
