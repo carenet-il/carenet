@@ -16,15 +16,12 @@ class QuoraDistilBertMultilingualEmbedding(EmbeddingAbstract, ABC):
             self.model = SentenceTransformer(
                 "sentence-transformers/quora-distilbert-multilingual"
             )
-        pass
 
     def encode(self, text: str) -> List[float]:
 
         if self.load_locally_model:
             return self.model.encode(text).tolist()
-
         else:
-
             return self.request_to_model_api(text)
 
     def request_to_model_api(self, text):
