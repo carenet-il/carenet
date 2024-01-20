@@ -1,13 +1,14 @@
+import os
+
 from libs.embedding.quora_distilbert_multilingual_embedding import (
     QuoraDistilBertMultilingualEmbedding,
 )
+from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.pincone_vector_provider import (
     PineconeVectorProvider,
 )
-from libs.vector_storage import VectorStorage
-import os
 
-embedding_model = QuoraDistilBertMultilingualEmbedding()
+embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=False)
 
 storage_provider = PineconeVectorProvider(
     embedding_model=embedding_model,

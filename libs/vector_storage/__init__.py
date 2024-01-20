@@ -27,7 +27,7 @@ class VectorStorage:
 
 
 if __name__ == "__main__":
-    embedding_model = QuoraDistilBertMultilingualEmbedding()
+    embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=True)
 
     storage_provider = PineconeVectorProvider(
         embedding_model=embedding_model,
