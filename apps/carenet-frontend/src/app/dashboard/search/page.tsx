@@ -3,7 +3,7 @@ import { Card } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect } from 'react';
-import { Input, Select, Button } from 'antd';
+import { Input, Select, Button,Spin } from 'antd';
 const { Option } = Select;
 
 export default function Search() {
@@ -35,20 +35,22 @@ export default function Search() {
         };
 
         if (searchArgs) {
+          setResults([]);
+
           fetchData();
         }
   }, [searchArgs]);
 
 
   return (
-    <>
+    <div>
        <SearchComponent setSearchArgs={setSearchArgs}/>
        {
-        results.length && <ResultsComponent results={results}/>
+        results.length ? <ResultsComponent results={results}/> : <div>  <Spin /></div>
        }
 
 
-    </>
+    </div>
   );
 }
 
