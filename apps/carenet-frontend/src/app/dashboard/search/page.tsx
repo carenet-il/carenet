@@ -155,7 +155,7 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
         >
         <Input
             placeholder="הכנס פרטים עבור מציאת טיפול מתאים - ניתן לחפש בשפות שונות"
-            style={{fontSize : "18px"}}
+            style={{fontSize : "18px" ,width : 800}}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
