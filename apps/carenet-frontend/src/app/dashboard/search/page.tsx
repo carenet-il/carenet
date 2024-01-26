@@ -1,5 +1,5 @@
 'use client'
-import { Card } from 'antd';
+import { Card, Col, Row } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect } from 'react';
@@ -43,14 +43,23 @@ export default function Search() {
 
 
   return (
-    <div>
-       <SearchComponent setSearchArgs={setSearchArgs}/>
+
+    <Row gutter={24}>
+    <Col span={12}>
+      <Card title="חיפוש" bordered={false}>
+          <SearchComponent setSearchArgs={setSearchArgs}/>
+      </Card>
+    </Col>
+    <Col span={12}>
+      <Card title="תוצאות" bordered={false}>
+      
        {
-        results.length ? <ResultsComponent results={results}/> : <div>  <Spin /></div>
+        results.length ? <ResultsComponent results={results}/> : <div></div>
        }
 
-
-    </div>
+      </Card>
+    </Col>
+  </Row>
   );
 }
 
@@ -60,6 +69,11 @@ const SearchComponent = ({setSearchArgs}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedStates, setSelectedStates] = useState([]);
+
+  const cities = ["באר שבע"]
+
+  const states = ["מחוז דרום"]
+
 
   // Handler for submitting the search
   const handleSubmit = () => {
@@ -85,38 +99,42 @@ const SearchComponent = ({setSearchArgs}) => {
   };
 
   return (
-    <div>
-      <Input
-        placeholder="Enter search text"
+    <div className='flex flex-col'>
+      <Input.TextArea
+        placeholder="הכנס פרטים עבור מציאת טיפול מתאים - ניתן לחפש בשפות שונות"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
       <Select
         mode="multiple"
-        placeholder="Select cities"
-        style={{ width: '100%', margin: '10px 0' }}
+        placeholder="עיר"
+        style={{ width: '250px', margin: '10px 0' }}
         onChange={(value) => setSelectedCities(value)}
       >
-        {/* Options for cities */}
-        {/* Replace these options with real city data */}
-        <Option value="city1">City1</Option>
-        <Option value="city2">City2</Option>
-        {/* ... other cities */}
+       
+       {
+        cities.map(city => {
+          return <Option value={city}>{city}</Option>
+        })
+       }
+      
       </Select>
       <Select
         mode="multiple"
-        placeholder="Select states"
-        style={{ width: '100%', margin: '10px 0' }}
+        placeholder="מחוז"
+        style={{ width: '250px', margin: '10px 0' }}
         onChange={(value) => setSelectedStates(value)}
       >
-        {/* Options for states */}
-        {/* Replace these options with real state data */}
-        <Option value="state1">State1</Option>
-        <Option value="state2">State2</Option>
-        {/* ... other states */}
+
+{
+        states.map(state => {
+          return <Option value={state}>{state}</Option>
+        })
+       }
+
       </Select>
-      <Button onClick={handleSubmit}>
-        Search
+      <Button style={{ background: "#92bbfc", color: "white" }} onClick={handleSubmit}>
+        חיפוש
       </Button>
     </div>
   );
