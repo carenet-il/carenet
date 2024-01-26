@@ -9,3 +9,19 @@ html,
       div#__next > div {
         height: 100%;
       }
+
+
+.large-font {
+  font-size: 18px; /* Adjust font size as needed */
+}
+
+.large-font-padding {
+  font-size: 14px; /* Adjust font size as needed */
+  padding: 10px;
+}
+
+
+.custom-card {
+  background-color: #f0f2f5; /* Change to your desired background color */
+  border-color: rgb(71, 176, 220); /* Change to your desired border color */
+}

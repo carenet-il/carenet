@@ -1,5 +1,5 @@
 'use client'
-import { Card, Col, Row, Tag } from 'antd';
+import { Card, Col, Form, Row, Tag } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
@@ -18,17 +18,7 @@ interface Result {
   score: number;           // Assuming score is a numeric value
 }
 
-interface SearchArgs 
-{
-  query : string 
-  filters : {
-    city? : string[] , 
-    state? : string[]
-  }
-}
-
-
-export default function Search() {
+export default function SearchPage() {
 
   const [searchArgs, setSearchArgs] = useState<SearchArgs>({query : "",filters :{}});
 
@@ -64,26 +54,40 @@ export default function Search() {
   }, [searchArgs]);
 
 
-  return (
+  return (<>
 
-    <Row gutter={24}>
-    <Col span={12}>
-      <Card title="חיפוש" bordered={false}>
+    <Row gutter={24} className='pb-5'>
+      <Col span={12}>
+      <Card title="חיפוש" bordered={true}>
           <SearchComponent setSearchArgs={setSearchArgs}/>
       </Card>
-    </Col>
-    <Col span={12}>
-      <Card title="תוצאות" bordered={false}>
-      
-       {
-        results.length ? <ResultsComponent results={results}/> : <div></div>
-       }
+      </Col>
 
-      </Card>
-    </Col>
+    </Row>
+
+    <Row gutter={24}>
+    <Col>
+
+      <Card title="תוצאות" bodyStyle={{maxHeight : 500 , overflowY:"auto",direction:"rtl"}} bordered={true}>
+      {
+       results.length ? <ResultsComponent results={results}/> : <div></div>
+      }
+     </Card>
+     </Col>
   </Row>
-  );
+  </>);
 }
+
+
+interface SearchArgs 
+{
+  query : string 
+  filters : {
+    city? : string[] , 
+    state? : string[]
+  }
+}
+
 
 
 interface SearchComponentProps
@@ -106,63 +110,109 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
 
   // Handler for submitting the search
   const handleSubmit = () => {
-    const searchData : SearchArgs = {
-      query: searchQuery,
-      filters :{}
-    };
 
-    if(selectedStates.length)
+    if (searchQuery !== "")
     {
-        searchData.filters.state = selectedStates
+      const searchData : SearchArgs = {
+        query: searchQuery,
+        filters :{}
+      };
+  
+      if(selectedStates.length)
+      {
+          searchData.filters.state = selectedStates
+      }
+  
+      if(selectedCities.length)
+      {
+        searchData.filters.city = selectedCities
+      }
+  
+      setSearchArgs(searchData)
     }
-
-    if(selectedCities.length)
-    {
-      searchData.filters.city = selectedCities
-    }
-
-    setSearchArgs(searchData)
+   
 
   };
 
   return (
     <div className='flex flex-col'>
-      <Input.TextArea
-        placeholder="הכנס פרטים עבור מציאת טיפול מתאים - ניתן לחפש בשפות שונות"
-        value={searchQuery}
-        onChange={(e) => setSearchQuery(e.target.value)}
-      />
-      <Select
-        mode="multiple"
-        placeholder="עיר"
-        style={{ width: '250px', margin: '10px 0' }}
-        onChange={(value) => setSelectedCities(value)}
-      >
-       
-       {
-        cities.map(city => {
-          return <Option value={city}>{city}</Option>
-        })
-       }
-      
-      </Select>
-      <Select
-        mode="multiple"
-        placeholder="מחוז"
-        style={{ width: '250px', margin: '10px 0' }}
-        onChange={(value) => setSelectedStates(value)}
+
+
+    <Form
+        name="basic"
+        labelCol={{ span: 8 }}
+        wrapperCol={{ span: 16 }}
+        style={{ maxWidth: 600 }}
+        initialValues={{ remember: true }}
+        onFinish={handleSubmit}
+        autoComplete="off"
       >
 
-{
-        states.map(state => {
-          return <Option value={state}>{state}</Option>
-        })
-       }
+    <Form.Item
+          label=""
+          name="search"
+          rules={[{ required: true, message: 'שדה חובה' }]}
+        >
+        <Input
+            placeholder="הכנס פרטים עבור מציאת טיפול מתאים - ניתן לחפש בשפות שונות"
+            style={{fontSize : "18px"}}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
 
-      </Select>
-      <Button style={{ background: "#2db7f5", color: "white" }} onClick={handleSubmit}>
+
+        </Form.Item>
+
+
+        <Form.Item label="">
+              <Select
+              mode="multiple"
+              placeholder="עיר"
+              style={{ width: '250px', margin: '10px 0' }}
+              onChange={(value) => setSelectedCities(value)}
+            >
+            
+            {
+              cities.map(city => {
+                return <Option value={city}>{city}</Option>
+              })
+            }
+            
+            </Select>
+        </Form.Item>
+
+
+        <Form.Item label="">
+              <Select
+              mode="multiple"
+              placeholder="מחוז"
+              style={{ width: '250px', margin: '10px 0' }}
+              onChange={(value) => setSelectedStates(value)}
+            >
+
+      {
+              states.map(state => {
+                return <Option value={state}>{state}</Option>
+              })
+            }
+
+            </Select>
+        </Form.Item>
+
+
+        
+      <Button htmlType='submit' style={{ background: "#001529", color: "white",width:250 }} onClick={handleSubmit}>
         חיפוש
       </Button>
+
+        </Form>
+
+
+
+
+      
+      
+     
     </div>
   );
 };
@@ -176,15 +226,18 @@ interface ChipsResultsComponentProps {
 const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result }) => {
 
 
-  return (
-    <div className='flex-wrap space-y-5'>
-      {result.email && <Tag color="#2db7f5"> {result.email}</Tag>}
-      {result.phone_number && <Tag color="#2db7f5">{result.phone_number}</Tag>}
-      {result.full_location && <Tag color="#2db7f5"> {result.full_location}</Tag>}
-      {result.city && <Tag color="#2db7f5">{result.city}</Tag>}
-      {result.state && <Tag color="#2db7f5">{result.state}</Tag>}
-    </div>
-  );
+ return (
+  <div className='flex flex-wrap space-y-2 space-x-2 large-font-padding' style={{width:300}}>
+    {result.email && <div><Tag color="#2db7f5" className="large-font-padding">{result.email}</Tag> </div>}
+    {result.phone_number && <div> <Tag color="#2db7f5" className="large-font-padding">{result.phone_number}</Tag>  </div>}
+    {result.full_location &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.full_location}</Tag>  </div>}
+    {result.city && <div> <Tag color="#2db7f5" className="large-font-padding">{result.city}</Tag>  </div>}
+    {result.state &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.state}</Tag>  </div>}
+  </div>
+);
+
+  
+  
 };
 
 
@@ -200,11 +253,11 @@ const ResultsComponent = (resultsProps:ResultsProps) => {
   const { results } = resultsProps
 
   return (
-    <div className='height-screen-full'>
+    <div>
       {
           results.map((result, index) => (
-            <Card key={index} title={result.title} style={{ margin: '10px 0' }}>
-                 {result.description}
+            <Card type="inner" className='custom-card' key={index} title={<div style={{ fontSize: '18px' }}>{result.title}</div>} style={{ margin: '10px 0' }}>
+                 <div style={{ fontSize: '18px' }}>{result.description}</div>
 
                  {
                    <ChipsResultsComponent result={result}></ChipsResultsComponent>
