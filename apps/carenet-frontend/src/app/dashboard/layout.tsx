@@ -1,13 +1,14 @@
 'use client'
 
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme, MenuProps } from 'antd';
+import {  Avatar, Layout, Menu, theme } from 'antd';
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
+import Image from 'next/image';
 
 const { Header, Content, Footer } = Layout;
 
-const items = [{key : "search",label : "Search"},{key : "about",label : "About"},]
+const items = [{key : "search",label : "חיפוש"},{key : "about",label : "אודות"},]
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -16,8 +17,6 @@ export default function DashboardLayout({
 }) {
 
   const router = useRouter()
-  const pathname = usePathname()
-  const pathParts = pathname ? pathname.split('/').filter(part => part) : [];
 
   const {
     token: { colorBgContainer, borderRadiusLG },
@@ -29,31 +28,24 @@ export default function DashboardLayout({
   };
 
   return (
-    <Layout>
-      <Header style={{ display: 'flex', alignItems: 'center' }}>
-        <div className="demo-logo" />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['search']}
-          items={items}
-          style={{ flex: 1, minWidth: 0 }}
-          onClick={onClick}
+    <Layout className="layout">
+      <Header  className='flex flex-row items-center'>
 
-        />
+      <Image alt="Carenet Logo" height={64}  width={64} src="/carenet.png" />
+
+            <Menu
+              theme="dark"
+              mode="horizontal"
+              defaultSelectedKeys={['search']}
+              items={items}
+              style={{ flex: 1, minWidth: 0 }}
+              onClick={onClick}
+
+            />
+
       </Header>
-      <Content style={{ padding: '0 48px' }}>
-        <Breadcrumb style={{ margin: '16px 0' }}>
+      <Content className='p-5'>
 
-          {
-          pathParts.map((part, index) => {
-            const path = `/${pathParts.slice(0, index + 1).join('/')}`;
-            return <Breadcrumb.Item key={path} >{part}</Breadcrumb.Item>;
-          })
-          }
-
-
-        </Breadcrumb>
         <div
           style={{
             background: colorBgContainer,
