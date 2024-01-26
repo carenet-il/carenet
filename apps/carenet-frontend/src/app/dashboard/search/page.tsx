@@ -1,16 +1,38 @@
 'use client'
-import { Card, Col, Row } from 'antd';
+import { Card, Col, Row, Tag } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Input, Select, Button,Spin } from 'antd';
 const { Option } = Select;
 
+interface Result {
+  title: string;
+  description: string;
+  email?: string;          // Optional property
+  phone_number?: string;   // Optional property
+  source: string;
+  full_location: string;
+  city: string;
+  state: string;
+  score: number;           // Assuming score is a numeric value
+}
+
+interface SearchArgs 
+{
+  query : string 
+  filters : {
+    city? : string[] , 
+    state? : string[]
+  }
+}
+
+
 export default function Search() {
 
-  const [searchArgs, setSearchArgs] = useState({});
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({query : "",filters :{}});
 
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState<Result[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -64,38 +86,43 @@ export default function Search() {
 }
 
 
+interface SearchComponentProps
+{
+  setSearchArgs : Dispatch<SetStateAction<SearchArgs>>
+}
 
-const SearchComponent = ({setSearchArgs}) => {
+const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
+
+  const { setSearchArgs} = SearchComponentProps
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedStates, setSelectedStates] = useState([]);
 
-  const cities = ["באר שבע"]
+  const cities = ["באר שבע","לוד"] // TODO GET FROM SERVER
 
-  const states = ["מחוז דרום"]
+  const states = ["מחוז הדרום"]
 
 
   // Handler for submitting the search
   const handleSubmit = () => {
-    const searchData = {
+    const searchData : SearchArgs = {
       query: searchQuery,
       filters :{}
     };
 
     if(selectedStates.length)
     {
-        searchData["filters"]["state"] = selectedStates
+        searchData.filters.state = selectedStates
     }
 
     if(selectedCities.length)
     {
-      searchData["filters"]["city"] = selectedCities
+      searchData.filters.city = selectedCities
     }
 
     setSearchArgs(searchData)
 
-    console.log('Search Data:', searchData);
-    // Here you can also perform an API call or any other action with searchData
   };
 
   return (
@@ -133,7 +160,7 @@ const SearchComponent = ({setSearchArgs}) => {
        }
 
       </Select>
-      <Button style={{ background: "#92bbfc", color: "white" }} onClick={handleSubmit}>
+      <Button style={{ background: "#2db7f5", color: "white" }} onClick={handleSubmit}>
         חיפוש
       </Button>
     </div>
@@ -141,21 +168,52 @@ const SearchComponent = ({setSearchArgs}) => {
 };
 
 
-const ResultsComponent = ({ results }) => {
+
+interface ChipsResultsComponentProps {
+  result: Result;
+}
+
+const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result }) => {
+
+
   return (
-    <div>
-      {results.map((result, index) => (
-        <Card key={index} title={result.title} style={{ margin: '10px 0' }}>
-          <p><strong>Description:</strong> {result.description}</p>
-          {result.email && <p><strong>Email:</strong> {result.email}</p>}
-          {result.phone_number && <p><strong>Phone:</strong> {result.phone_number}</p>}
-          <p><strong>Source:</strong> {result.source}</p>
-          <p><strong>Location:</strong> {result.full_location}</p>
-          <p><strong>City:</strong> {result.city}</p>
-          <p><strong>State:</strong> {result.state}</p>
-          <p><strong>Score:</strong> {result.score.toFixed(2)}</p>
-        </Card>
-      ))}
+    <div className='flex-wrap space-y-5'>
+      {result.email && <Tag color="#2db7f5"> {result.email}</Tag>}
+      {result.phone_number && <Tag color="#2db7f5">{result.phone_number}</Tag>}
+      {result.full_location && <Tag color="#2db7f5"> {result.full_location}</Tag>}
+      {result.city && <Tag color="#2db7f5">{result.city}</Tag>}
+      {result.state && <Tag color="#2db7f5">{result.state}</Tag>}
+    </div>
+  );
+};
+
+
+
+
+
+export interface ResultsProps 
+{
+  results : Result[]
+}
+const ResultsComponent = (resultsProps:ResultsProps) => {
+
+  const { results } = resultsProps
+
+  return (
+    <div className='height-screen-full'>
+      {
+          results.map((result, index) => (
+            <Card key={index} title={result.title} style={{ margin: '10px 0' }}>
+                 {result.description}
+
+                 {
+                   <ChipsResultsComponent result={result}></ChipsResultsComponent>
+                 }
+
+              </Card>
+
+          ))
+      } 
     </div>
   );
 };
