@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import { Breadcrumb, Layout, Menu, theme } from 'antd';
+import { Breadcrumb, Layout, Menu, theme, MenuProps } from 'antd';
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 

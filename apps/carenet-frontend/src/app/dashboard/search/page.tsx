@@ -55,7 +55,7 @@ export default function Search() {
 }
 
 
-
+//@ts-ignore
 const SearchComponent = ({setSearchArgs}) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
@@ -70,11 +70,13 @@ const SearchComponent = ({setSearchArgs}) => {
 
     if(selectedStates.length)
     {
+        // @ts-ignore
         searchData["filters"]["state"] = selectedStates
     }
 
     if(selectedCities.length)
     {
+      // @ts-ignore
       searchData["filters"]["city"] = selectedCities
     }
 
@@ -122,10 +124,11 @@ const SearchComponent = ({setSearchArgs}) => {
   );
 };
 
-
+//@ts-ignore
 const ResultsComponent = ({ results }) => {
   return (
     <div>
+      {/*//@ts-ignore*/}
       {results.map((result, index) => (
         <Card key={index} title={result.title} style={{ margin: '10px 0' }}>
           <p><strong>Description:</strong> {result.description}</p>
