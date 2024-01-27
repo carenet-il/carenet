@@ -4,7 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="1474af99-d87e-4637-bfac-2dc3e032d711" name="Changes" comment="frontend design" />
+    <list default="true" id="1474af99-d87e-4637-bfac-2dc3e032d711" name="Changes" comment="frontend design">
+      <change afterPath="$PROJECT_DIR$/libs/feed/nafshi_feed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/carenet-frontend/src/app/dashboard/search/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carenet-frontend/src/app/dashboard/search/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/apps/crawler-feeds/src/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/crawler-feeds/src/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/feed/n12_feed.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/feed/n12_feed.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/interfaces/document.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/interfaces/document.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/vector_storage/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/vector_storage/__init__.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/vector_storage/vector_provider/abstract.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/vector_storage/vector_provider/abstract.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/libs/vector_storage/vector_provider/pincone_vector_provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/libs/vector_storage/vector_provider/pincone_vector_provider.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,7 +33,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="frontend-design" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -64,28 +74,53 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/sallvata/carenet/apps/carenet-frontend/src/app&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "nafshi-feed",
+    "last_opened_file_path": "D:/sallvata/carenet/libs/feed",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\sallvata\carenet\libs\feed" />
       <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app" />
       <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app\search" />
       <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app\about" />
       <recent name="D:\sallvata\carenet\libs\vector_storage\vector_provider\abstract" />
-      <recent name="D:\sallvata\carenet\libs\vector_storage\vector_provider" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app\dashboard" />
       <recent name="D:\sallvata\carenet\libs" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.main">
+  <component name="RunManager" selected="Python.app">
+    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PINECONE_ENVIRONMENT" value="gcp-starter" />
+        <env name="PINECONE_INDEX_NAME" value="carenet" />
+        <env name="PINECONE_API_KEY" value="f0407717-984b-482b-82ba-f2ed65e25023" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs/vector_storage" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/vector_storage/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="carenet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -131,6 +166,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="nafshi_feed" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs/feed" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/feed/nafshi_feed.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="parser" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="carenet" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -153,16 +209,19 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Python.__init__" />
+      <item itemvalue="Python.nafshi_feed" />
       <item itemvalue="Python.app" />
       <item itemvalue="Python.main" />
       <item itemvalue="Python.parser" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.app" />
+        <item itemvalue="Python.__init__" />
+        <item itemvalue="Python.nafshi_feed" />
         <item itemvalue="Python.parser" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.app" />
-        <item itemvalue="Python.parser" />
       </list>
     </recent_temporary>
   </component>
@@ -359,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706289724541</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="frontend design">
+      <option name="closed" value="true" />
+      <created>1706346485177</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1706346485177</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">

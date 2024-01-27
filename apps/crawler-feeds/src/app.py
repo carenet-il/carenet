@@ -3,6 +3,7 @@ from typing import List
 
 from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBertMultilingualEmbedding
 from libs.feed.n12_feed import N12Feed
+from libs.feed.nafshi_feed import NafshiFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
@@ -17,8 +18,9 @@ def main():
 
     vector_storage = VectorStorage(storage_provider=storage_provider)
     n12_feed = N12Feed()
+    nafshi_feed = NafshiFeed()
 
-    feeds = [n12_feed]
+    feeds = [n12_feed, nafshi_feed]
 
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()

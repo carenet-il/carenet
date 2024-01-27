@@ -173,8 +173,8 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
             >
             
             {
-              cities.map(city => {
-                return <Option value={city}>{city}</Option>
+              cities.map((city,index) => {
+                return <Option key={`city-${index}`} value={city}>{city}</Option>
               })
             }
             
@@ -191,8 +191,8 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
             >
 
       {
-              states.map(state => {
-                return <Option value={state}>{state}</Option>
+              states.map((state,index) => {
+                return <Option key={`state-${index}`} value={state}>{state}</Option>
               })
             }
 

@@ -1,10 +1,10 @@
 import hashlib
 from abc import ABC, abstractmethod
 from typing import List
+from typing import Optional
 
 from libs.embedding.abstract import EmbeddingAbstract
 from libs.interfaces.document import Document, DocumentSearchFilters
-from typing import Optional
 
 
 class VectorProviderAbstract(ABC):
@@ -16,8 +16,12 @@ class VectorProviderAbstract(ABC):
         pass
 
     @abstractmethod
+    def delete_all(self):
+        pass
+
+    @abstractmethod
     def search(
-        self, query: str, filters: Optional[DocumentSearchFilters] = None
+            self, query: str, filters: Optional[DocumentSearchFilters] = None
     ) -> List[Document]:
         pass
 

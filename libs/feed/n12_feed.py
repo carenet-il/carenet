@@ -36,6 +36,7 @@ class N12Feed(FeedAbstract, ABC):
         response = requests.request("GET", url, headers=headers, data=payload)
 
         records = response.json()
+        print(f"Found at N12 {len(records)} documents")
 
         documents: List[Document] = [self.__norm_document__(doc) for doc in records]
 
