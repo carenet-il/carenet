@@ -233,6 +233,9 @@ const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result })
     {result.full_location &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.full_location}</Tag>  </div>}
     {result.city && <div> <Tag color="#2db7f5" className="large-font-padding">{result.city}</Tag>  </div>}
     {result.state &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.state}</Tag>  </div>}
+
+   {result.source &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.source}</Tag>  </div>}
+
   </div>
 );
 
