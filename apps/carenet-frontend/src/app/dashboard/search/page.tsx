@@ -173,8 +173,8 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
             >
             
             {
-              cities.map(city => {
-                return <Option value={city}>{city}</Option>
+              cities.map((city,index) => {
+                return <Option key={`city-${index}`} value={city}>{city}</Option>
               })
             }
             
@@ -191,8 +191,8 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
             >
 
       {
-              states.map(state => {
-                return <Option value={state}>{state}</Option>
+              states.map((state,index) => {
+                return <Option key={`state-${index}`} value={state}>{state}</Option>
               })
             }
 
@@ -233,6 +233,9 @@ const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result })
     {result.full_location &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.full_location}</Tag>  </div>}
     {result.city && <div> <Tag color="#2db7f5" className="large-font-padding">{result.city}</Tag>  </div>}
     {result.state &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.state}</Tag>  </div>}
+
+   {result.source &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.source}</Tag>  </div>}
+
   </div>
 );
 
