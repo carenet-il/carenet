@@ -2,6 +2,8 @@
 .venv
 __pycache__
 
+.idea
+
 # node
 node_modules
 
