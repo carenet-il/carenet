@@ -11,11 +11,11 @@ from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
 class PineconeVectorProvider(VectorProviderAbstract, ABC):
     def __init__(
-        self,
-        embedding_model: EmbeddingAbstract,
-        index_name: str,
-        api_key: str,
-        environment: str,
+            self,
+            embedding_model: EmbeddingAbstract,
+            index_name: str,
+            api_key: str,
+            environment: str,
     ):
         super().__init__(embedding_model)
         self.index_name = index_name
@@ -25,19 +25,19 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         self.index = pinecone.Index(self.index_name)
 
     def search(
-        self, query: str, filters: Optional[DocumentSearchFilters] = None
+            self, query: str, filters: Optional[DocumentSearchFilters] = None
     ) -> List[Document]:
         if not filters:
             filters = DocumentSearchFilters()
 
         builded_filters = {}
-        
+
         if filters.city:
             if isinstance(filters.city, list):
                 builded_filters["city"] = {"$in": filters.city}
             else:
                 builded_filters["city"] = filters.city
-        
+
         if filters.state:
             if isinstance(filters.state, list):
                 builded_filters["state"] = {"$in": filters.state}
@@ -70,9 +70,12 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
             List of batches.
         """
         return [
-            input_array[i : i + batch_size]
+            input_array[i: i + batch_size]
             for i in range(0, len(input_array), batch_size)
         ]
+
+    def delete_all(self):
+        self.index.delete(delete_all=True, namespace='')
 
     def insert_many(self, documents: List[Document]):
         items = []

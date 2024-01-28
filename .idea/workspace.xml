@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1474af99-d87e-4637-bfac-2dc3e032d711" name="Changes" comment="add nafshi">
+      <change beforePath="$PROJECT_DIR$/apps/carenet-frontend/src/app/dashboard/search/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/apps/carenet-frontend/src/app/dashboard/search/page.tsx" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="FormatOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;liranzxc&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="a5d12a24-1f23-4f5e-aca1-7445d49e63f2" />
+        <option name="url" value="https://github.com/omercotkd/carenet.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/libs/vector_storage/vector_provider/pincone_vector_provider.py" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="OptimizeOnSaveOptions">
+    <option name="myRunOnSave" value="true" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2aXGuHPp3lsYsE02hXddqA2sfoa" />
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="autoscrollFromSource" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "nafshi-feed",
+    "last_opened_file_path": "D:/sallvata/carenet/libs/feed",
+    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\sallvata\carenet\libs\feed" />
+      <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app" />
+      <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app\search" />
+      <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app\about" />
+      <recent name="D:\sallvata\carenet\libs\vector_storage\vector_provider\abstract" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\sallvata\carenet\apps\carenet-frontend\src\app\dashboard" />
+      <recent name="D:\sallvata\carenet\libs" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Python.app">
+    <configuration name="__init__" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PINECONE_ENVIRONMENT" value="gcp-starter" />
+        <env name="PINECONE_INDEX_NAME" value="carenet" />
+        <env name="PINECONE_API_KEY" value="f0407717-984b-482b-82ba-f2ed65e25023" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs/vector_storage" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/vector_storage/__init__.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+        <env name="PINECONE_ENVIRONMENT" value="gcp-starter" />
+        <env name="PINECONE_INDEX_NAME" value="carenet" />
+        <env name="PINECONE_API_KEY" value="f0407717-984b-482b-82ba-f2ed65e25023" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/apps/crawler-feeds/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/apps/crawler-feeds/src/app.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="main" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/apps/carenet-api/src" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/apps/carenet-api/src/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="nafshi_feed" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/libs/feed" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/libs/feed/nafshi_feed.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="parser" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="carenet" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/examples" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/examples/parser.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Python.__init__" />
+      <item itemvalue="Python.nafshi_feed" />
+      <item itemvalue="Python.app" />
+      <item itemvalue="Python.main" />
+      <item itemvalue="Python.parser" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Python.app" />
+        <item itemvalue="Python.__init__" />
+        <item itemvalue="Python.nafshi_feed" />
+        <item itemvalue="Python.parser" />
+        <item itemvalue="Python.main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="1474af99-d87e-4637-bfac-2dc3e032d711" name="Changes" comment="" />
+      <created>1704457730271</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704457730271</updated>
+    </task>
+    <task id="LOCAL-00001" summary="add baseline of classes">
+      <option name="closed" value="true" />
+      <created>1704460979824</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1704460979824</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add baseline of classes">
+      <option name="closed" value="true" />
+      <created>1704461035800</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1704461035800</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add baseline of classes">
+      <option name="closed" value="true" />
+      <created>1704461344978</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1704461344978</updated>
+    </task>
+    <task id="LOCAL-00004" summary="implement pinecone">
+      <option name="closed" value="true" />
+      <created>1704462258662</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1704462258662</updated>
+    </task>
+    <task id="LOCAL-00005" summary="implement pinecone">
+      <option name="closed" value="true" />
+      <created>1704462423405</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1704462423405</updated>
+    </task>
+    <task id="LOCAL-00006" summary="n12 testing">
+      <option name="closed" value="true" />
+      <created>1704464202626</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1704464202626</updated>
+    </task>
+    <task id="LOCAL-00007" summary="n12 parsers">
+      <option name="closed" value="true" />
+      <created>1704465909047</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1704465909047</updated>
+    </task>
+    <task id="LOCAL-00008" summary="n12 parsers">
+      <option name="closed" value="true" />
+      <created>1704466912279</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1704466912279</updated>
+    </task>
+    <task id="LOCAL-00009" summary="n12 parsers">
+      <option name="closed" value="true" />
+      <created>1704470951080</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1704470951080</updated>
+    </task>
+    <task id="LOCAL-00010" summary="n12 parsers">
+      <option name="closed" value="true" />
+      <created>1704471016240</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1704471016240</updated>
+    </task>
+    <task id="LOCAL-00011" summary="n12 feed works">
+      <option name="closed" value="true" />
+      <created>1704999769054</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1704999769054</updated>
+    </task>
+    <task id="LOCAL-00012" summary="n12 feed works">
+      <option name="closed" value="true" />
+      <created>1704999873796</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1704999873796</updated>
+    </task>
+    <task id="LOCAL-00013" summary="n12 feed works">
+      <option name="closed" value="true" />
+      <created>1705000590731</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1705000590731</updated>
+    </task>
+    <task id="LOCAL-00014" summary="add playground for vector storage">
+      <option name="closed" value="true" />
+      <created>1705000892478</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1705000892478</updated>
+    </task>
+    <task id="LOCAL-00015" summary="add playground for vector storage">
+      <option name="closed" value="true" />
+      <created>1705000992175</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1705000992175</updated>
+    </task>
+    <task id="LOCAL-00016" summary="fix comments">
+      <option name="closed" value="true" />
+      <created>1705064813763</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1705064813763</updated>
+    </task>
+    <task id="LOCAL-00017" summary="fix comments">
+      <option name="closed" value="true" />
+      <created>1705750310556</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1705750310556</updated>
+    </task>
+    <task id="LOCAL-00018" summary="add model">
+      <option name="closed" value="true" />
+      <created>1705750408522</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1705750408522</updated>
+    </task>
+    <task id="LOCAL-00019" summary="basic frontend">
+      <option name="closed" value="true" />
+      <created>1705772045016</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1705772045016</updated>
+    </task>
+    <task id="LOCAL-00020" summary="basic frontend">
+      <option name="closed" value="true" />
+      <created>1705773123817</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1705773123817</updated>
+    </task>
+    <task id="LOCAL-00021" summary="add cors">
+      <option name="closed" value="true" />
+      <created>1705773266600</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1705773266600</updated>
+    </task>
+    <task id="LOCAL-00022" summary="add loading">
+      <option name="closed" value="true" />
+      <created>1706034479912</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1706034479912</updated>
+    </task>
+    <task id="LOCAL-00023" summary="frontend design">
+      <option name="closed" value="true" />
+      <created>1706289724541</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1706289724541</updated>
+    </task>
+    <task id="LOCAL-00024" summary="frontend design">
+      <option name="closed" value="true" />
+      <created>1706346485177</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1706346485177</updated>
+    </task>
+    <task id="LOCAL-00025" summary="add nafshi">
+      <option name="closed" value="true" />
+      <created>1706352233402</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1706352233402</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add baseline of classes" />
+    <MESSAGE value="implement pinecone" />
+    <MESSAGE value="n12 testing" />
+    <MESSAGE value="n12 parsers" />
+    <MESSAGE value="n12 feed works" />
+    <MESSAGE value="add playground for vector storage" />
+    <MESSAGE value="fix comments" />
+    <MESSAGE value="add model" />
+    <MESSAGE value="basic frontend" />
+    <MESSAGE value="add cors" />
+    <MESSAGE value="add loading" />
+    <MESSAGE value="frontend design" />
+    <MESSAGE value="add nafshi" />
+    <option name="LAST_COMMIT_MESSAGE" value="add nafshi" />
+  </component>
+</project>
