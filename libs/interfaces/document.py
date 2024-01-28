@@ -28,9 +28,9 @@ class EmbeddingDocument(BaseModel):
 
 
 class DocumentSearchFilters(BaseModel):
-    city: Optional[Union[str, conlist(str, min_length=1, unique_items=True)]] = Field(
+    city: Optional[Union[str, conlist(str, min_length=1)]] = Field(
         default=None
     )
-    state: Optional[Union[str, conlist(str, min_length=1, unique_items=True)]] = Field(
+    state: Optional[Union[str, conlist(str, min_length=1)]] = Field(
         default=None
     )
