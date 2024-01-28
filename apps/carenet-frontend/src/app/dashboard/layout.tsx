@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react';
-import {  Avatar, Layout, Menu, theme } from 'antd';
+import {  Avatar, Layout, Menu, theme, MenuProps } from 'antd';
 import { useRouter } from 'next/navigation'
 import { usePathname } from 'next/navigation'
 import Image from 'next/image';
