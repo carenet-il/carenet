@@ -1,7 +1,5 @@
-'use client'
+"use client";
 
 export default function About() {
-  return (
-        <div>About</div>
-  );
+  return <div>About</div>;
 }
