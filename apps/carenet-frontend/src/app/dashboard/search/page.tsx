@@ -284,20 +284,20 @@ const ResultsComponent = (resultsProps: ResultsProps) => {
     <div>
       {
         results.map((result, index) => (
+          <div className='pb-5'  key={index}>
+
           <Card type="inner"
             headStyle={{
               backgroundColor: "#291F68", /* Change to your desired background color */
               borderColor: "rgb(71, 176, 220)", /* Change to your desired border color */
-              margin: '10px 0'
 
             }}
             bodyStyle={{
               backgroundColor: "#DFE2FF", /* Change to your desired background color */
               borderColor: "rgb(71, 176, 220)", /* Change to your desired border color */
-              margin: '10px 0'
             }
             }
-            key={index}
+          
 
             title={<div className='text-wrap text-white'>{result.title}</div>}
 
@@ -309,6 +309,7 @@ const ResultsComponent = (resultsProps: ResultsProps) => {
             }
 
           </Card>
+          </div>
 
         ))
       }
