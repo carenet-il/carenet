@@ -3,7 +3,7 @@ import { Card, Col, Form, Row, Tag } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { Input, Select, Button,Spin } from 'antd';
+import { Input, Select, Button, Spin } from 'antd';
 const { Option } = Select;
 
 interface Result {
@@ -20,90 +20,92 @@ interface Result {
 
 export default function SearchPage() {
 
-  const [searchArgs, setSearchArgs] = useState<SearchArgs>({query : "",filters :{}});
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {} });
 
   const [results, setResults] = useState<Result[]>([]);
 
-    useEffect(() => {
-        const fetchData = async () => {
-          try {
-            const response = await fetch('https://api-carenet.koyeb.app/documents/search', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(searchArgs)
-            });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch('https://api-carenet.koyeb.app/documents/search', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(searchArgs)
+        });
 
-            if (!response.ok) {
-              throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            setResults(data.results);
-          } catch (error) {
-            console.error('Fetch error:', error);
-          }
-        };
-
-        if (searchArgs) {
-          setResults([]);
-
-          fetchData();
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
         }
+
+        const data = await response.json();
+        setResults(data.results);
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    if (searchArgs) {
+      setResults([]);
+
+      fetchData();
+    }
   }, [searchArgs]);
 
 
-  return (<>
+  return (
+  <div>
 
-    <Row gutter={24} className='pb-5'>
-      <Col span={12}>
-      <Card title="חיפוש" bordered={true}>
-          <SearchComponent setSearchArgs={setSearchArgs}/>
-      </Card>
+    <Row gutter={24}>
+      <Col span={24}>
+        <Card title="חיפוש" bordered={true}>
+          <SearchComponent setSearchArgs={setSearchArgs} />
+        </Card>
       </Col>
 
     </Row>
 
     <Row gutter={24}>
-    <Col>
+      <Col span={24}>
 
-      <Card title="תוצאות" bodyStyle={{maxHeight : 500 , overflowY:"auto",direction:"rtl"}} bordered={true}>
-      {
-       results.length ? <ResultsComponent results={results}/> : <div></div>
-      }
-     </Card>
-     </Col>
-  </Row>
-  </>);
+        <Card title="תוצאות" bodyStyle={{ maxHeight:"50vh", overflowY:"auto", direction: "rtl" }} bordered={true}>
+          {
+            results.length ? <ResultsComponent results={results} /> : <div></div>
+          }
+        </Card>
+       </Col>
+    </Row> 
+    
+    </div>
+  )
+
 }
 
 
-interface SearchArgs 
-{
-  query : string 
-  filters : {
-    city? : string[] , 
-    state? : string[]
+interface SearchArgs {
+  query: string
+  filters: {
+    city?: string[],
+    state?: string[]
   }
 }
 
 
 
-interface SearchComponentProps
-{
-  setSearchArgs : Dispatch<SetStateAction<SearchArgs>>
+interface SearchComponentProps {
+  setSearchArgs: Dispatch<SetStateAction<SearchArgs>>
 }
 
-const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
+const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
-  const { setSearchArgs} = SearchComponentProps
+  const { setSearchArgs } = SearchComponentProps
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedStates, setSelectedStates] = useState([]);
 
-  const cities = ["באר שבע","לוד"] // TODO GET FROM SERVER
+  const cities = ["באר שבע", "לוד"] // TODO GET FROM SERVER
 
   const states = ["מחוז הדרום"]
 
@@ -111,34 +113,29 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
   // Handler for submitting the search
   const handleSubmit = () => {
 
-    if (searchQuery !== "")
-    {
-      const searchData : SearchArgs = {
+    if (searchQuery !== "") {
+      const searchData: SearchArgs = {
         query: searchQuery,
-        filters :{}
+        filters: {}
       };
-  
-      if(selectedStates.length)
-      {
-          searchData.filters.state = selectedStates
+
+      if (selectedStates.length) {
+        searchData.filters.state = selectedStates
       }
-  
-      if(selectedCities.length)
-      {
+
+      if (selectedCities.length) {
         searchData.filters.city = selectedCities
       }
-  
+
       setSearchArgs(searchData)
     }
-   
+
 
   };
 
   return (
     <div className='flex flex-col'>
-
-
-    <Form
+      <Form
         name="basic"
         labelCol={{ span: 8 }}
         wrapperCol={{ span: 16 }}
@@ -148,14 +145,16 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
         autoComplete="off"
       >
 
-    <Form.Item
+        <Form.Item
           label=""
           name="search"
           rules={[{ required: true, message: 'שדה חובה' }]}
+          wrapperCol={{ offset: 0, span: 16 }}
+
         >
-        <Input
-            placeholder="הכנס פרטים עבור מציאת טיפול מתאים - ניתן לחפש בשפות שונות"
-            style={{fontSize : "18px" ,width : 800}}
+          <Input
+            size='large'
+            placeholder="הכנס פרטים עבור מציאת טיפול מתאים"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -164,55 +163,58 @@ const SearchComponent = (SearchComponentProps : SearchComponentProps) => {
         </Form.Item>
 
 
-        <Form.Item label="">
-              <Select
-              mode="multiple"
-              placeholder="עיר"
-              style={{ width: '250px', margin: '10px 0' }}
-              onChange={(value) => setSelectedCities(value)}
-            >
-            
+        <Form.Item
+          label=""
+          wrapperCol={{ offset: 0, span: 16 }}>
+          <Select
+            mode="multiple"
+            placeholder="עיר"
+            onChange={(value) => setSelectedCities(value)}
+
+          >
+
             {
-              cities.map((city,index) => {
+              cities.map((city, index) => {
                 return <Option key={`city-${index}`} value={city}>{city}</Option>
               })
             }
-            
-            </Select>
+
+          </Select>
         </Form.Item>
 
 
-        <Form.Item label="">
-              <Select
-              mode="multiple"
-              placeholder="מחוז"
-              style={{ width: '250px', margin: '10px 0' }}
-              onChange={(value) => setSelectedStates(value)}
-            >
+        <Form.Item
+          label=""
+          wrapperCol={{ offset: 0, span: 16 }}
+        >
+          <Select
+            mode="multiple"
+            placeholder="מחוז"
+            onChange={(value) => setSelectedStates(value)}
+          >
 
-      {
-              states.map((state,index) => {
+            {
+              states.map((state, index) => {
                 return <Option key={`state-${index}`} value={state}>{state}</Option>
               })
             }
 
-            </Select>
+          </Select>
         </Form.Item>
 
 
-        
-      <Button htmlType='submit' style={{ background: "#001529", color: "white",width:250 }} onClick={handleSubmit}>
-        חיפוש
-      </Button>
+        <Form.Item label=""
+          wrapperCol={{ offset: 0, span: 16 }}
 
-        </Form>
+        >
+          <Button htmlType='submit' style={{ background: "#291F68", color: "white" }} onClick={handleSubmit}>
+            חיפוש
+          </Button>
+
+        </Form.Item>
 
 
-
-
-      
-      
-     
+      </Form>
     </div>
   );
 };
@@ -226,50 +228,91 @@ interface ChipsResultsComponentProps {
 const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result }) => {
 
 
- return (
-  <div className='flex flex-wrap space-y-2 space-x-2 large-font-padding' style={{width:300}}>
-    {result.email && <div><Tag color="#2db7f5" className="large-font-padding">{result.email}</Tag> </div>}
-    {result.phone_number && <div> <Tag color="#2db7f5" className="large-font-padding">{result.phone_number}</Tag>  </div>}
-    {result.full_location &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.full_location}</Tag>  </div>}
-    {result.city && <div> <Tag color="#2db7f5" className="large-font-padding">{result.city}</Tag>  </div>}
-    {result.state &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.state}</Tag>  </div>}
+  return (
+    <div className='pt-5'>
+      <Row gutter={[16, 16]} wrap>
+        {result.email && (
+          <Col>
+            <Tag className='custom-tag'>{result.email}</Tag>
+          </Col>
+        )}
+        {result.phone_number && (
+          <Col>
+            <Tag className='custom-tag'>{result.phone_number}</Tag>
+          </Col>
+        )}
+        {result.full_location && (
+          <Col>
+            <Tag className='custom-tag '>{result.full_location}</Tag>
+          </Col>
+        )}
+        {result.city && (
+          <Col>
+            <Tag className='custom-tag'>{result.city}</Tag>
+          </Col>
+        )}
+        {result.state && (
+          <Col>
+            <Tag className='custom-tag'>{result.state}</Tag>
+          </Col>
+        )}
+        {result.source && (
+          <Col>
+            <Tag className='custom-tag'>{result.source}</Tag>
+          </Col>
+        )}
+      </Row>
+    </div>
 
-   {result.source &&<div> <Tag color="#2db7f5" className="large-font-padding">{result.source}</Tag>  </div>}
-
-  </div>
-);
-
-  
-  
+  );
 };
 
 
 
 
 
-export interface ResultsProps 
-{
-  results : Result[]
+
+
+export interface ResultsProps {
+  results: Result[]
 }
-const ResultsComponent = (resultsProps:ResultsProps) => {
+const ResultsComponent = (resultsProps: ResultsProps) => {
 
   const { results } = resultsProps
 
   return (
     <div>
       {
-          results.map((result, index) => (
-            <Card type="inner" className='custom-card' key={index} title={<div style={{ fontSize: '18px' }}>{result.title}</div>} style={{ margin: '10px 0' }}>
-                 <div style={{ fontSize: '18px' }}>{result.description}</div>
+        results.map((result, index) => (
+          <div className='pb-5'  key={index}>
 
-                 {
-                   <ChipsResultsComponent result={result}></ChipsResultsComponent>
-                 }
+          <Card type="inner"
+            headStyle={{
+              backgroundColor: "#291F68", /* Change to your desired background color */
+              borderColor: "rgb(71, 176, 220)", /* Change to your desired border color */
 
-              </Card>
+            }}
+            bodyStyle={{
+              backgroundColor: "#DFE2FF", /* Change to your desired background color */
+              borderColor: "rgb(71, 176, 220)", /* Change to your desired border color */
+            }
+            }
+          
 
-          ))
-      } 
+            title={<div className='text-wrap text-white'>{result.title}</div>}
+
+          >
+            <div className='text-wrap'>{result.description}</div>
+
+            {
+              <ChipsResultsComponent result={result}></ChipsResultsComponent>
+            }
+
+          </Card>
+          </div>
+
+        ))
+      }
     </div>
   );
 };

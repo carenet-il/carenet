@@ -49,7 +49,6 @@ export default function DashboardLayout({
         <div
           style={{
             background: colorBgContainer,
-            minHeight: 280,
             padding: 24,
             borderRadius: borderRadiusLG,
           }}
