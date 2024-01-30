@@ -31,7 +31,7 @@ export default function DashboardLayout({
     <Layout className="layout">
       <Header  className='flex flex-row items-center'>
 
-      <Image alt="Carenet Logo" height={64}  width={64} src="/carenet.png" />
+      <Image alt="Carenet Logo" height={64}  width={64} unoptimized  src="https://i.ibb.co/6bC8ndt/carenet.webp" />
 
             <Menu
               theme="dark"
