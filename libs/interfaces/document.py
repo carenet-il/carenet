@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field, conlist
 class SourceType(Enum):
     N12 = "N12"
     NAFSHI = "NAFSHI"
+    MOF = 'Ministry of Health'
     # Add other source types as needed
 
 

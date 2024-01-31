@@ -49,3 +49,4 @@ def extract_description(text):
 
     # Remove the HTML tags
     return tag_re.sub('', text)
+
