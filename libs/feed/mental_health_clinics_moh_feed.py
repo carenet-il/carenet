@@ -26,6 +26,8 @@ class MhcFeed(FeedAbstract, ABC):
         # records.get('features') is a list
         documents: list[Document] = [self.__norm_document__(doc) for doc in records.get('features')]
 
+        print(f'number of documents from Mch- {len(documents)}')
+        
         return documents
 
     def __norm_document__(self, document) -> Document:

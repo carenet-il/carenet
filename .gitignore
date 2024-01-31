@@ -10,4 +10,4 @@ node_modules
 
 # mac
 .DS_Store
-apps/*/.env
+apps/**/.env
