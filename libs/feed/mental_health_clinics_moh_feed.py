@@ -33,12 +33,12 @@ class MhcFeed(FeedAbstract, ABC):
         record = document.get('attributes')
 
         document_dict = {
-            "title": record.get("institute_desc"),
-            "description": record.get("institute_type_desc"),
-            "phone_number": record.get("Phone"),
+            "title": record.get("institute_desc", ""),
+            "description": record.get("institute_type_desc", ""),
+            "phone_number": record.get("Phone", ""),
             "source": SourceType.MOF.name, # MOF stands for Ministry of Health
-            "full_location": record.get('Address'),
-            "city": record.get('CityName'),
+            "full_location": record.get('Address', ""),
+            "city": record.get('CityName', ""),
         }
 
         return Document(**document_dict)
