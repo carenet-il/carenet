@@ -2,6 +2,7 @@ import os
 from typing import List
 
 from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBertMultilingualEmbedding
+from libs.feed.mental_health_clinics_moh_feed import MhcFeed
 from libs.feed.n12_feed import N12Feed
 from libs.feed.nafshi_feed import NafshiFeed
 from libs.interfaces.document import Document
@@ -19,8 +20,9 @@ def main():
     vector_storage = VectorStorage(storage_provider=storage_provider)
     n12_feed = N12Feed()
     nafshi_feed = NafshiFeed()
+    minster_of_health_feed = MhcFeed()
 
-    feeds = [n12_feed, nafshi_feed]
+    feeds = [n12_feed, nafshi_feed,minster_of_health_feed]
 
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
