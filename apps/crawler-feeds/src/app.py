@@ -24,13 +24,8 @@ def main():
     minster_of_health_feed = MhcFeed()
     social_security_feed = SocSecFeed()
 
-    # n12_feed, nafshi_feed,minster_of_health_feed,
-    feeds = [social_security_feed]
+    feeds = [n12_feed,nafshi_feed,minster_of_health_feed,social_security_feed]
 
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
         vector_storage.insert_documents(norm_documents=norm_documents)
-
-
-if __name__ == "__main__":
-    main()

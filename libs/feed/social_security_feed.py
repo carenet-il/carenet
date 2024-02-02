@@ -57,23 +57,23 @@ class SocSecFeed(FeedAbstract, ABC):
             json_data = json.loads(json_string)
 
             for record in json_data:
-                # adding the state to the record
-                print(f'record is {record} and his type {type(record)}')
+                # adding the state to the record based on the url
+                record['state'] = region
+
+                # edge-case for 'מגידו' that don't have a phone number
+                if record.get('ישוב') == 'מגידו':
+                    continue
+
+                # norm the record
                 norm_doc = self.__norm_document__(record)
                 documents.append(norm_doc)
-                break
-
-            break
-        
+                
         print(f'number of documents from social security - {len(documents)}')
 
         return documents
 
     def __norm_document__(self, document) -> Document:
         
-        # todo : 1. add state to each file
-        # todo : 2. remove duplicate
-        # todo : 3. take care of records that has empty values or corrupted output 
         document_dict = {
             "title": f' מרכז חוסן {document.get("מרפאה", "")}',
             "description": "",
@@ -81,6 +81,7 @@ class SocSecFeed(FeedAbstract, ABC):
             "source": SourceType.BTL.name,  # SOCSEC stands for Social Security
             "full_location": document.get("כתובת", ""),
             "city": document.get("ישוב", ""),
+            "state" : document.get("state", "")
         }
 
         return Document(**document_dict)
