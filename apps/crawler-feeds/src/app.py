@@ -24,7 +24,8 @@ def main():
     minster_of_health_feed = MhcFeed()
     social_security_feed = SocSecFeed()
 
-    feeds = [n12_feed, nafshi_feed,minster_of_health_feed,social_security_feed]
+    # n12_feed, nafshi_feed,minster_of_health_feed,
+    feeds = [social_security_feed]
 
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()

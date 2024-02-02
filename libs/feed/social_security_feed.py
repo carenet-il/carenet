@@ -57,8 +57,13 @@ class SocSecFeed(FeedAbstract, ABC):
             json_data = json.loads(json_string)
 
             for record in json_data:
+                # adding the state to the record
+                print(f'record is {record} and his type {type(record)}')
                 norm_doc = self.__norm_document__(record)
                 documents.append(norm_doc)
+                break
+
+            break
         
         print(f'number of documents from social security - {len(documents)}')
 
@@ -73,7 +78,7 @@ class SocSecFeed(FeedAbstract, ABC):
             "title": f' מרכז חוסן {document.get("מרפאה", "")}',
             "description": "",
             "phone_number": document.get("טלפון", ""),
-            "source": SourceType.SOCSEC.name,  # SOCSEC stands for Social Security
+            "source": SourceType.BTL.name,  # SOCSEC stands for Social Security
             "full_location": document.get("כתובת", ""),
             "city": document.get("ישוב", ""),
         }
