@@ -11,11 +11,11 @@ from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
 class PineconeVectorProvider(VectorProviderAbstract, ABC):
     def __init__(
-            self,
-            embedding_model: EmbeddingAbstract,
-            index_name: str,
-            api_key: str,
-            environment: str,
+        self,
+        embedding_model: EmbeddingAbstract,
+        index_name: str,
+        api_key: str,
+        environment: str,
     ):
         super().__init__(embedding_model)
         self.index_name = index_name
@@ -25,7 +25,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         self.index = pinecone.Index(self.index_name)
 
     def search(
-            self, query: str, filters: Optional[DocumentSearchFilters] = None
+        self, query: str, filters: Optional[DocumentSearchFilters] = None
     ) -> List[Document]:
         if not filters:
             filters = DocumentSearchFilters()
@@ -70,12 +70,12 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
             List of batches.
         """
         return [
-            input_array[i: i + batch_size]
+            input_array[i : i + batch_size]
             for i in range(0, len(input_array), batch_size)
         ]
 
     def delete_all(self):
-        self.index.delete(delete_all=True, namespace='')
+        self.index.delete(delete_all=True, namespace="")
 
     def insert_many(self, documents: List[Document]):
         items = []
@@ -98,3 +98,34 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         return self.embedding_model.encode(
             doc.title + doc.description + doc.full_location
         )
+
+    def fetch_search_filters(self) -> DocumentSearchFilters:
+        res = self.index.query(
+            vector=[0] * 768,
+            # this is the max value for top_k
+            top_k=10000,
+            include_metadata=True,
+            include_values=False,
+            filter={
+                "$or": [
+                    {Document.Fields.city: {"$exists": True}},
+                    {Document.Fields.state: {"$exists": True}},
+                ]
+            },
+        )
+
+        cities = set()
+        states = set()
+
+        for r in res.matches:
+            metadata = r.metadata
+            if Document.Fields.city in metadata:
+                value = metadata[Document.Fields.city]
+                if value:
+                    cities.add(value)
+            if Document.Fields.state in metadata:
+                value = metadata[Document.Fields.state]
+                if value:
+                    states.add(value)
+
+        return DocumentSearchFilters(city=list(cities), state=list(states))

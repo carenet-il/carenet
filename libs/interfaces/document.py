@@ -22,6 +22,19 @@ class Document(BaseModel):
     state: Optional[str] = Field(default="")
     score: Optional[float] = Field(default=0)
 
+    class Fields:
+        """
+        To prevent hardcoding field names in the code, we can use this class to store the field names.
+        """
+        title = "title"
+        description = "description"
+        source = "source"
+        email = "email"
+        phone_number = "phone_number"
+        full_location = "full_location"
+        city = "city"
+        state = "state"
+        score = "score"
 
 class EmbeddingDocument(BaseModel):
     id: str
