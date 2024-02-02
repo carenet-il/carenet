@@ -8,7 +8,7 @@ class SourceType(Enum):
     N12 = "N12"
     NAFSHI = "NAFSHI"
     MOH = 'Ministry of Health'
-    SOCSEC = "Social Security"
+    BTL = "BTL"
     # Add other source types as needed
 
 class Document(BaseModel):

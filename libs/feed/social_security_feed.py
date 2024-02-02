@@ -22,7 +22,6 @@ region_urls = {
 
 class SocSecFeed(FeedAbstract, ABC):
 
-
     def clean_text(self,text):
         # remove zero width space characters
         return text.replace('\u200b', '').strip()
@@ -66,14 +65,17 @@ class SocSecFeed(FeedAbstract, ABC):
         return documents
 
     def __norm_document__(self, document) -> Document:
-
+        
+        # todo : 1. add state to each file
+        # todo : 2. remove duplicate
+        # todo : 3. take care of records that has empty values or corrupted output 
         document_dict = {
             "title": f' מרכז חוסן {document.get("מרפאה", "")}',
             "description": "",
             "phone_number": document.get("טלפון", ""),
             "source": SourceType.SOCSEC.name,  # SOCSEC stands for Social Security
             "full_location": document.get("כתובת", ""),
-            "city": document.get("ישוב'", ""),
+            "city": document.get("ישוב", ""),
         }
 
         return Document(**document_dict)
