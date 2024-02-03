@@ -393,18 +393,18 @@ const ListResults = (resultsProps: ResultsProps) => {
           <List.Item.Meta
             avatar={sourceMapAvater[SourceType[item.source]]}
             title={item.title}
-            description={<div className='flex flex-col space-y-2'>
-              <div>
+            description={<div className='flex flex-col space-y-2 break-words'>
+              <div className='break-words'>
                 {
                   item.description
                 }
               </div>
-              <div>
+              <div className='break-words'>
                 {
                   item.city
                 }
               </div>
-              <div>
+              <div className='break-words'>
                 {
                   item.state
                 }
