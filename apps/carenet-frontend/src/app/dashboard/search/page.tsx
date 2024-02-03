@@ -116,7 +116,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
     const fetchFilter = async () => {
       try {
-        const response = await fetch('https://api-carenet.koyeb.app/filters', {
+        const response = await fetch('https://api-carenet.koyeb.app/filters/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
