@@ -311,6 +311,7 @@ const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result })
             <a href={generateWazeLink(result.full_location)} target="_blank"
               rel="noopener noreferrer" >
               <img
+                key="waze icon"
                 src="https://www.myteacherlanguages.com/wp-content/uploads/2018/11/Waze-Icon-copy_Link.jpg"
                 alt="Waze Icon"
                 style={{ width: '40px', height: '40px' }}
@@ -385,7 +386,7 @@ const ListResults = (resultsProps: ResultsProps) => {
         <List.Item actions={
           [
 
-            <ChipsResultsComponent result={item}></ChipsResultsComponent>
+            <ChipsResultsComponent key={index} result={item}></ChipsResultsComponent>
 
 
           ]}>
