@@ -29,3 +29,7 @@ def main():
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
         vector_storage.insert_documents(norm_documents=norm_documents)
+
+
+if __name__ == "__main__":
+    main()
