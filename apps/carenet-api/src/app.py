@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import documents
+from routers import documents, filters as filters_router
 
 app = FastAPI()
 
@@ -20,3 +20,4 @@ app.add_middleware(
 )
 
 app.include_router(documents.router, prefix="/documents", tags=["documents"])
+app.include_router(filters_router.router, prefix="/filters", tags=["filters"])

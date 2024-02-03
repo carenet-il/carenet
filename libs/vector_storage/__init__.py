@@ -9,6 +9,7 @@ from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 from libs.vector_storage.vector_provider.pincone_vector_provider import (
     PineconeVectorProvider,
 )
+from libs.utils.cache import lru_cache_with_ttl
 
 
 class VectorStorage:
@@ -27,6 +28,11 @@ class VectorStorage:
 
         return self.storage_provider.search(query, filters)
 
+    # I am using no maxsize for the cache, since there is only one argument, and it is the same for all calls.
+    @lru_cache_with_ttl(maxsize=None, ttl=120)
+    def fetch_search_filters(self):
+        return self.storage_provider.fetch_search_filters()
+    
 
 if __name__ == "__main__":
     embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=True)
