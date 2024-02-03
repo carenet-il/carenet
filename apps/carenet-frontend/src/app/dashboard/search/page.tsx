@@ -277,7 +277,7 @@ interface ChipsResultsComponentProps {
 const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result }) => {
 
   const generateWazeLink = (address: string) => {
-    return `https://waze.com/ul?q=${encodeURIComponent(address)}`;
+    return `https://waze.com/ul?q=${encodeURIComponent(address)}&navigate=yes`;
   };
 
   return (
