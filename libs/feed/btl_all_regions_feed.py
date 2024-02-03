@@ -43,7 +43,7 @@ class SocSecFeed(FeedAbstract, ABC):
             rows = []
             for tr in table.find_all('tr'):
                 cells = tr.find_all(['th', 'td'])
-                row = [self.clean_text(cell.text) for cell in cells]  # Apply clean_text to each cell's text
+                row = [clean_text(cell.text) for cell in cells]  # Apply clean_text to each cell's text
                 rows.append(row)
 
             df = pd.DataFrame(rows[1:], columns=rows[0])            
