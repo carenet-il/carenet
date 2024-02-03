@@ -9,6 +9,7 @@ class SourceType(Enum):
     NAFSHI = "NAFSHI"
     MOH = 'Ministry of Health'
     BTL = "BTL"
+    BTL_ANXIETY = "BTL_ANXIETY"
     # Add other source types as needed
 
 class Document(BaseModel):

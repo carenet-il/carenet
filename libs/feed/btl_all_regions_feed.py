@@ -20,11 +20,11 @@ region_urls = {
     url_Jerusalem_Samaria: 'מחוז יהודה ושומרון'
 }
 
-class SocSecFeed(FeedAbstract, ABC):
+def clean_text(self,text):
+    # remove zero width space characters
+    return text.replace('\u200b', '').strip()
 
-    def clean_text(self,text):
-        # remove zero width space characters
-        return text.replace('\u200b', '').strip()
+class SocSecFeed(FeedAbstract, ABC):
     
     def pull(self) -> list[Document]:
         
@@ -46,10 +46,6 @@ class SocSecFeed(FeedAbstract, ABC):
                 row = [self.clean_text(cell.text) for cell in cells]  # Apply clean_text to each cell's text
                 rows.append(row)
 
-            print(f'rows - {rows}')
-
-            print(f'The number of documents from the {region} region is: {len(rows) - 1}')
-
             df = pd.DataFrame(rows[1:], columns=rows[0])            
 
             # from data-frame to string
@@ -63,14 +59,19 @@ class SocSecFeed(FeedAbstract, ABC):
                 record['state'] = region
 
                 # edge-case for 'מגידו' that don't have a phone number
-                if record.get('טלפון') is None:
+                if record.get('ישוב') == 'מגידו':
                     continue
+                
+                # edge-case because miss info from the website
+                if record.get('טלפון') == '​צור משה, נתניה':
+                    record['טלפון'] = record.get('כתובת')
+                    record['כתובת'] = 'הצורן 2, נתניה' # the address not appear on the web
 
                 # norm the record
                 norm_doc = self.__norm_document__(record)
                 documents.append(norm_doc)
                 
-        print(f'number of documents from social security - {len(documents)}')
+        print(f'number of documents from BTL is - {len(documents)}')
     
         return documents
 

@@ -5,7 +5,7 @@ from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBe
 from libs.feed.mental_health_clinics_moh_feed import MhcFeed
 from libs.feed.n12_feed import N12Feed
 from libs.feed.nafshi_feed import NafshiFeed
-from libs.feed.social_security_feed import SocSecFeed
+from libs.feed.btl_all_regions_feed import SocSecFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
