@@ -14,10 +14,10 @@ url_Jerusalem_Samaria = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/Y
 
 # URLs with corresponding region names
 region_urls = {
-    url_north: 'Northern',
-    url_south: 'Southern',
-    url_central_Sharon: 'Central Sharon',
-    url_Jerusalem_Samaria: 'Jerusalem Samaria'
+    url_north: 'מחוז צפון',
+    url_south: 'מחוז דרום',
+    url_central_Sharon: 'מרכז השרון',
+    url_Jerusalem_Samaria: 'מחוז יהודה ושומרון'
 }
 
 class SocSecFeed(FeedAbstract, ABC):
