@@ -46,9 +46,11 @@ class SocSecFeed(FeedAbstract, ABC):
                 row = [self.clean_text(cell.text) for cell in cells]  # Apply clean_text to each cell's text
                 rows.append(row)
 
+            print(f'rows - {rows}')
+
             print(f'The number of documents from the {region} region is: {len(rows) - 1}')
 
-            df = pd.DataFrame(rows[1:], columns=rows[0])
+            df = pd.DataFrame(rows[1:], columns=rows[0])            
 
             # from data-frame to string
             json_string = df.to_json(orient='records', force_ascii=False)
@@ -61,7 +63,7 @@ class SocSecFeed(FeedAbstract, ABC):
                 record['state'] = region
 
                 # edge-case for 'מגידו' that don't have a phone number
-                if record.get('ישוב') == 'מגידו':
+                if record.get('טלפון') is None:
                     continue
 
                 # norm the record
@@ -69,7 +71,7 @@ class SocSecFeed(FeedAbstract, ABC):
                 documents.append(norm_doc)
                 
         print(f'number of documents from social security - {len(documents)}')
-
+    
         return documents
 
     def __norm_document__(self, document) -> Document:
@@ -78,7 +80,7 @@ class SocSecFeed(FeedAbstract, ABC):
             "title": f' מרכז חוסן {document.get("מרפאה", "")}',
             "description": "",
             "phone_number": document.get("טלפון", ""),
-            "source": SourceType.BTL.name,  # SOCSEC stands for Social Security
+            "source": SourceType.BTL.name,  # BTL stands for 'ביטוח לאומי'
             "full_location": document.get("כתובת", ""),
             "city": document.get("ישוב", ""),
             "state" : document.get("state", "")
