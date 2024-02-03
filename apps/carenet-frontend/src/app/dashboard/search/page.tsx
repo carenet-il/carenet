@@ -22,9 +22,7 @@ export default function SearchPage() {
 
   const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {} });
 
-  const [cities, setCities] = useState<string[]>([]);
-  const [states, setStates] = useState<string[]>([]);
-
+ 
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
@@ -57,40 +55,13 @@ export default function SearchPage() {
   }, [searchArgs]);
 
 
-  useEffect(()=> {
-
-    const fetchFilter = async () => {
-      try {
-        const response = await fetch('https://api-carenet.koyeb.app/filters', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-
-        const data = await response.json();
-        setCities(data.cities)
-        setStates(data.states)
-      } catch (error) {
-        console.error('Fetch error:', error);
-      }
-    };
-
-    fetchFilter()
-
-  }, [states,cities])
-
   return (
   <div>
 
     <Row gutter={24}>
       <Col span={24}>
         <Card title="חיפוש" bordered={true}>
-          <SearchComponent cities={cities} states={states} setSearchArgs={setSearchArgs} />
+          <SearchComponent  setSearchArgs={setSearchArgs} />
         </Card>
       </Col>
 
@@ -125,18 +96,51 @@ interface SearchArgs {
 
 interface SearchComponentProps {
   setSearchArgs: Dispatch<SetStateAction<SearchArgs>>
-  cities: string[],
-  states :string[]
 }
 
 const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
-  const { setSearchArgs ,cities,states} = SearchComponentProps
+  const { setSearchArgs } = SearchComponentProps
+
+  const [cities, setCities] = useState<string[]>([]);
+  const [states, setStates] = useState<string[]>([]);
+
 
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedStates, setSelectedStates] = useState([]);
 
+
+  
+  useEffect(()=> {
+
+    const fetchFilter = async () => {
+      try {
+        const response = await fetch('https://api-carenet.koyeb.app/filters', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+
+        const data = await response.json();
+        setCities(data.results.city)
+        setStates(data.results.state)
+      } catch (error) {
+        console.error('Fetch error:', error);
+      }
+    };
+
+    if(states.length === 0 && cities.length === 0)
+    {
+      fetchFilter()
+    }
+  
+  }, [states,cities])
 
 
   // Handler for submitting the search
@@ -327,11 +331,10 @@ const ResultsComponent = (resultsProps: ResultsProps) => {
             }
             }
           
-
-            title={<div className='text-wrap text-white'>{result.title}</div>}
+            title={<div className='text-wrap break-words text-white'>{result.title}</div>}
 
           >
-            <div className='text-wrap'>{result.description}</div>
+            <div className='text-wrap break-words'>{result.description}</div>
 
             {
               <ChipsResultsComponent result={result}></ChipsResultsComponent>
