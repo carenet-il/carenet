@@ -1,8 +1,6 @@
 from abc import ABC
-
 import requests
 from libs.feed.abstract import FeedAbstract
-
 from libs.interfaces.document import Document, SourceType
 
 
@@ -26,8 +24,7 @@ class MhcFeed(FeedAbstract, ABC):
         # records.get('features') is a list
         documents: list[Document] = [self.__norm_document__(doc) for doc in records.get('features')]
 
-        print(f'number of documents from Mch- {len(documents)}')
-        
+        print(f'number of documents from minister of health - {len(documents)}')
         return documents
 
     def __norm_document__(self, document) -> Document:
@@ -38,7 +35,7 @@ class MhcFeed(FeedAbstract, ABC):
             "title": record.get("institute_desc", ""),
             "description": record.get("institute_type_desc", ""),
             "phone_number": record.get("Phone", ""),
-            "source": SourceType.MOF.name, # MOF stands for Ministry of Health
+            "source": SourceType.MOH.name, # MOH stands for Ministry of Health
             "full_location": record.get('Address', ""),
             "city": record.get('CityName', ""),
         }
