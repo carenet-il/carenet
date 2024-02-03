@@ -1,17 +1,30 @@
 'use client'
-import { Card, Col, Form, Row, Tag } from 'antd';
+import { Card, Col, Form, Row } from 'antd';
+import { MailOutlined, PhoneOutlined, GlobalOutlined } from '@ant-design/icons';
+import { Avatar, List } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Input, Select, Button, Spin } from 'antd';
 const { Option } = Select;
 
+
+enum SourceType {
+
+  N12 = "N12",
+  NAFSHI = "NAFSHI",
+  MOH = 'MOH',
+  BTL = "BTL"
+}
+
+
 interface Result {
   title: string;
+  website?: string;
   description: string;
   email?: string;          // Optional property
   phone_number?: string;   // Optional property
-  source: string;
+  source: SourceType;
   full_location: string;
   city: string;
   state: string;
@@ -22,11 +35,14 @@ export default function SearchPage() {
 
   const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {} });
 
- 
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [results, setResults] = useState<Result[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
+
+      setLoading(true)
       try {
         const response = await fetch('https://api-carenet.koyeb.app/documents/search', {
           method: 'POST',
@@ -42,42 +58,43 @@ export default function SearchPage() {
 
         const data = await response.json();
         setResults(data.results);
+        setLoading(false)
       } catch (error) {
         console.error('Fetch error:', error);
+        setLoading(true)
       }
     };
 
     if (searchArgs) {
-      setResults([]);
-
       fetchData();
     }
   }, [searchArgs]);
 
 
   return (
-  <div>
+    <div>
 
-    <Row gutter={24}>
-      <Col span={24}>
-        <Card title="חיפוש" bordered={true}>
-          <SearchComponent  setSearchArgs={setSearchArgs} />
-        </Card>
-      </Col>
+      <Row gutter={24}>
+        <Col span={24}>
+          <Card title="חיפוש" bordered={true}>
+            <SearchComponent setSearchArgs={setSearchArgs} />
+          </Card>
+        </Col>
 
-    </Row>
+      </Row>
 
-    <Row gutter={24}>
-      <Col span={24}>
+      <Row gutter={24}>
+        <Col span={24}>
 
-        <Card title="תוצאות" bodyStyle={{ maxHeight:"50vh", overflowY:"auto", direction: "rtl" }} bordered={true}>
-          {
-            results.length ? <ResultsComponent results={results} /> : <div></div>
-          }
-        </Card>
-       </Col>
-    </Row> 
-    
+          <Card title="תוצאות" bodyStyle={{ maxHeight: "50vh", overflowY: "auto", direction: "rtl" }} bordered={true}>
+
+            {
+              (results.length > 0) && <ListResults loading={loading} results={results}></ListResults>
+            }
+          </Card>
+        </Col>
+      </Row>
+
     </div>
   )
 
@@ -111,8 +128,8 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   const [selectedStates, setSelectedStates] = useState([]);
 
 
-  
-  useEffect(()=> {
+
+  useEffect(() => {
 
     const fetchFilter = async () => {
       try {
@@ -135,12 +152,11 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
       }
     };
 
-    if(states.length === 0 && cities.length === 0)
-    {
+    if (states.length === 0 && cities.length === 0) {
       fetchFilter()
     }
-  
-  }, [states,cities])
+
+  }, [states, cities])
 
 
   // Handler for submitting the search
@@ -260,43 +276,68 @@ interface ChipsResultsComponentProps {
 
 const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result }) => {
 
+  const generateWazeLink = (address: string) => {
+    return `https://waze.com/ul?q=${encodeURIComponent(address)}`;
+  };
 
   return (
     <div className='pt-5'>
       <Row gutter={[16, 16]} wrap>
         {result.email && (
           <Col>
-            <Tag className='custom-tag'>{result.email}</Tag>
+            <Button
+              href={`mailto:${result.email}`}
+              size='large'
+              icon={<MailOutlined />}
+            >
+            </Button>
           </Col>
         )}
         {result.phone_number && (
           <Col>
-            <Tag className='custom-tag'>{result.phone_number}</Tag>
+            <Button
+              href={`tel:${result.phone_number}`}
+              size='large'
+              icon={<PhoneOutlined />}
+            >
+            </Button>
           </Col>
         )}
+
+
+
         {result.full_location && (
           <Col>
-            <Tag className='custom-tag '>{result.full_location}</Tag>
+            <a href={generateWazeLink(result.full_location)} target="_blank"
+              rel="noopener noreferrer" >
+              <img
+                src="https://www.myteacherlanguages.com/wp-content/uploads/2018/11/Waze-Icon-copy_Link.jpg"
+                alt="Waze Icon"
+                style={{ width: '40px', height: '40px' }}
+              />
+            </a>
+
+
           </Col>
         )}
-        {result.city && (
+
+
+        {result.website && (
           <Col>
-            <Tag className='custom-tag'>{result.city}</Tag>
+            <Button
+              href={result.website}
+              target="_blank"
+              rel="noopener noreferrer"
+              icon={<GlobalOutlined />}
+            >
+              Website
+            </Button>
           </Col>
         )}
-        {result.state && (
-          <Col>
-            <Tag className='custom-tag'>{result.state}</Tag>
-          </Col>
-        )}
-        {result.source && (
-          <Col>
-            <Tag className='custom-tag'>{result.source}</Tag>
-          </Col>
-        )}
+
+
       </Row>
     </div>
-
   );
 };
 
@@ -307,45 +348,75 @@ const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result })
 
 
 export interface ResultsProps {
-  results: Result[]
+  results: Result[],
+  loading: boolean
 }
-const ResultsComponent = (resultsProps: ResultsProps) => {
 
-  const { results } = resultsProps
 
-  return (
-    <div>
-      {
-        results.map((result, index) => (
-          <div className='pb-5'  key={index}>
 
-          <Card type="inner"
-            headStyle={{
-              backgroundColor: "#291F68", /* Change to your desired background color */
-              borderColor: "rgb(71, 176, 220)", /* Change to your desired border color */
+interface AvatarSourceProps {
+  url: string
+}
+const AvatarSource = (props: AvatarSourceProps) => {
 
-            }}
-            bodyStyle={{
-              backgroundColor: "#DFE2FF", /* Change to your desired background color */
-              borderColor: "rgb(71, 176, 220)", /* Change to your desired border color */
-            }
-            }
-          
-            title={<div className='text-wrap break-words text-white'>{result.title}</div>}
+  return <Avatar shape='square'
+    size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+    src={props.url}></Avatar>
+}
 
-          >
-            <div className='text-wrap break-words'>{result.description}</div>
 
-            {
-              <ChipsResultsComponent result={result}></ChipsResultsComponent>
-            }
+const ListResults = (resultsProps: ResultsProps) => {
 
-          </Card>
-          </div>
+  const sourceMapAvater = {
+    [SourceType.N12]: <AvatarSource url={"https://img.mako.co.il/2020/02/17/SHAREIMG.png"}></AvatarSource>,
+    [SourceType.MOH]: <AvatarSource url={"https://biomedic.co.il/wp-content/uploads/2017/03/%D7%9C%D7%95%D7%92%D7%95-%D7%9E%D7%A9%D7%A8%D7%93-%D7%94%D7%91%D7%A8%D7%99%D7%90%D7%95%D7%AA.png"} ></AvatarSource>,
+    [SourceType.NAFSHI]: <AvatarSource url={"https://static.wixstatic.com/media/12ddcf_dd9eec1e62e1470b9d358a04db980fdc~mv2.png/v1/fill/w_400,h_400,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/AdobeStock_529317698-%5BConverted%5D.png"}>
+    </AvatarSource>,
+    [SourceType.BTL]: <AvatarSource url={"https://lirp.cdn-website.com/6acf9e61/dms3rep/multi/opt/66-320w.jpg"} ></AvatarSource>
 
-        ))
-      }
-    </div>
-  );
-};
+  }
+
+  return <>
+    <List
+      loading={resultsProps.loading}
+      itemLayout="horizontal"
+      dataSource={resultsProps.results}
+      renderItem={(item, index) => (
+        <List.Item actions={
+          [
+
+            <ChipsResultsComponent result={item}></ChipsResultsComponent>
+
+
+          ]}>
+          <List.Item.Meta
+            avatar={sourceMapAvater[SourceType[item.source]]}
+            title={item.title}
+            description={<div className='flex flex-col space-y-2'>
+              <div>
+                {
+                  item.description
+                }
+              </div>
+              <div>
+                {
+                  item.city
+                }
+              </div>
+              <div>
+                {
+                  item.state
+                }
+              </div>
+
+
+
+            </div>
+            }></List.Item.Meta>
+
+        </List.Item>
+      )}
+    />
+  </>
+}
 
