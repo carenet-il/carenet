@@ -41,4 +41,4 @@ jobs:
             username: ${{ secrets.FTP_USERNAME }}
             password: ${{ secrets.FTP_PASSWORD }}
             local-dir: ./apps/carenet-frontend/out
-            server-dir: /htdocs  # Replace with your server directory
+            server-dir: /carenet.free.nf/htdocs
