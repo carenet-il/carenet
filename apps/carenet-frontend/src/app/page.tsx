@@ -6,6 +6,7 @@ import { Avatar, List } from 'antd';
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Input, Select, Button, Spin } from 'antd';
+import DashboardLayout from './dashboard-layout';
 const { Option } = Select;
 
 
@@ -72,6 +73,8 @@ export default function SearchPage() {
 
 
   return (
+
+    <DashboardLayout>
     <div>
 
       <Row gutter={24}>
@@ -96,6 +99,7 @@ export default function SearchPage() {
       </Row>
 
     </div>
+    </DashboardLayout>
   )
 
 }

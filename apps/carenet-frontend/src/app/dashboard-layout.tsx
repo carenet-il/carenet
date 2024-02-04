@@ -8,7 +8,7 @@ import Image from 'next/image';
 
 const { Header, Content, Footer } = Layout;
 
-const items = [{key : "search",label : "חיפוש"},{key : "about",label : "אודות"},]
+const items = [{key : "/",label : "חיפוש"},{key : "about",label : "אודות"},]
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -36,7 +36,7 @@ export default function DashboardLayout({
             <Menu
               theme="dark"
               mode="horizontal"
-              defaultSelectedKeys={['search']}
+              defaultSelectedKeys={['/']}
               items={items}
               style={{ flex: 1, minWidth: 0 }}
               onClick={onClick}

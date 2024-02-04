@@ -1,9 +1,11 @@
 'use client'
 
 import { Card } from "antd";
+import DashboardLayout from "../dashboard-layout";
 
 export default function About() {
   return (
+    <DashboardLayout>
     <Card title="אודות Carenet" className="large-font"   style={{ width: '100%', padding: '20px' }}>
     <h2 className="large-font" >ברוכים הבאים ל-Carenet</h2>
     <p className="large-font">המרכז המוביל לשירותים בתחום בריאות הנפש בישראל. ב-Carenet, אנו מחויבים להקל על הדרך אל טיפול נפשי איכותי ומתאים לכל אדם.</p>
@@ -33,5 +35,6 @@ export default function About() {
 
     <p className="large-font">לכל שאלה או התעניינות, אל תהססו לפנות אלינו.</p>
 </Card>
+</DashboardLayout>
 );
 }
