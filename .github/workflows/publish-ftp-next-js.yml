@@ -2,7 +2,7 @@ name: publish-frontend-to-ftp
 on:
   push:
     branches:
-      - ftp-test
+      - main
 
 permissions:
   contents: read
