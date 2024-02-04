@@ -12,7 +12,7 @@ const nextConfig = {
   // if using docker uncomment this
   // output: 'standalone'
   // for git pages use the two lines below
-  output: "export",
+  output: "standalone",
   basePath: "/carenet",
 };
 
