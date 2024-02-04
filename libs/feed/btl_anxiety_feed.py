@@ -27,8 +27,8 @@ class BtlAnxiety(FeedAbstract, ABC):
             cells = tr.find_all(['th', 'td'])
             row = [clean_text(cell.text) for cell in cells]  # Apply clean_text to each cell's text
 
-            # edge case for one record that return 5 values instead of 4 like it should as the number of columns
-            if len(row) > 4:
+            # edge case for one record that return 5 values instead of 4 like it should be as the number of columns
+            if len(row) == 5:
                 rows.append(row[:-1])
             else:
                 rows.append(row)
@@ -47,6 +47,13 @@ class BtlAnxiety(FeedAbstract, ABC):
             if record.get('ישוב') == 'מגידו':
                 continue
 
+            # edge-case because in the html content this record is inside a table that is inside a table
+            # I added a pic of the html content in this link: https://drive.google.com/file/d/1w2D9Q5fZsEEhcB4ABBNtuGMxUSwOEjSz/view?usp=sharing
+            if record.get('ישוב') == 'משגב - כרמיאל':
+                record['מרפאה'] = 'משגב - כרמיאל'
+                record['טלפון'] = '04-9922091 שלוחה 1 או 2'
+                record['כתובת'] = 'הגפן 13, כרמיאל'
+
             # norm the record
             norm_doc = self.__norm_document__(record)
             documents.append(norm_doc)
@@ -60,7 +67,7 @@ class BtlAnxiety(FeedAbstract, ABC):
             "title": f' מרכז חוסן {document.get("מרפאה", "")}',
             "description": "",
             "phone_number": document.get("טלפון", ""),
-            "source": SourceType.BTL_ANXIETY.name,  # BTL stands for 'ביטוח לאומי'
+            "source": SourceType.BTL.name,
             "full_location": document.get("כתובת", ""),
             "city": document.get("ישוב", ""),
             "state": document.get("state", "")

@@ -20,7 +20,7 @@ region_urls = {
     url_Jerusalem_Samaria: 'מחוז יהודה ושומרון'
 }
 
-def clean_text(self,text):
+def clean_text(text):
     # remove zero width space characters
     return text.replace('\u200b', '').strip()
 
@@ -64,8 +64,8 @@ class SocSecFeed(FeedAbstract, ABC):
                 
                 # edge-case because miss info from the website
                 if record.get('טלפון') == '​צור משה, נתניה':
-                    record['טלפון'] = record.get('כתובת')
-                    record['כתובת'] = 'הצורן 2, נתניה' # the address not appear on the web
+                    record['טלפון'] = record.get('כתובת',"") # switch between them
+                    record['כתובת'] = 'הצורן 2, נתניה' # the address not appear on the web                    
 
                 # norm the record
                 norm_doc = self.__norm_document__(record)
