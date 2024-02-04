@@ -47,6 +47,7 @@ if __name__ == "__main__":
     vector_storage = VectorStorage(storage_provider=storage_provider)
 
     vector_storage.delete_all()
+    print('After delete all data from db')
     # query = "משפחות השבויים והנעדרים"
     # # filters = {"state": "מחוז הדרום"}
     # filters = {}
