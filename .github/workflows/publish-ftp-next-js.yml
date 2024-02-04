@@ -27,7 +27,7 @@ jobs:
 
       - name: Build with Next.js 🏗️
         working-directory: ./apps/carenet-frontend
-        run: npx next build
+        run: npm run deploy
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
