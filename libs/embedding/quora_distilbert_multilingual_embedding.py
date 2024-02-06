@@ -40,6 +40,7 @@ class QuoraDistilBertMultilingualEmbedding(EmbeddingAbstract, ABC):
             })
             return output
         except Exception as error:
+            print("error on request_to_model_api function", text)
             print(error)
 
             return []

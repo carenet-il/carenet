@@ -7,7 +7,7 @@ router = APIRouter()
 
 @router.post("/search", response_model=SearchDocumentResult)
 def search(payload: SearchDocumentPayload):
-    res = vector_storage.search(query=payload.query, filters=payload.filters)
+    res = vector_storage.search(query=payload.query, filters=payload.filters, threshold=payload.threshold)
 
     return {"results": res}
 

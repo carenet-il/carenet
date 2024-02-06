@@ -20,7 +20,7 @@ class VectorProviderAbstract(ABC):
 
     @abstractmethod
     def search(
-            self, query: str, filters: Optional[DocumentSearchFilters] = None
+            self, query: str, filters: Optional[DocumentSearchFilters] = None, k: int = 100, threshold: float = 0.9
     ) -> List[Document]:
         pass
 
@@ -28,7 +28,7 @@ class VectorProviderAbstract(ABC):
         return hashlib.md5(
             doc.title.encode("utf-8") + doc.source.encode("utf-8")
         ).hexdigest()
-        
+
     @abstractmethod
     def fetch_search_filters(self) -> DocumentSearchFilters:
         """

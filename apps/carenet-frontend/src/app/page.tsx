@@ -2,6 +2,7 @@
 import { Card, Col, Form, Row } from 'antd';
 import { MailOutlined, PhoneOutlined, GlobalOutlined } from '@ant-design/icons';
 import { Avatar, List } from 'antd';
+import { Slider } from 'antd';
 
 // Import necessary components and hooks from React, Next.js, and Ant Design
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
@@ -110,7 +111,8 @@ interface SearchArgs {
   filters: {
     city?: string[],
     state?: string[]
-  }
+  },
+  threshold:float
 }
 
 
@@ -130,8 +132,11 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedStates, setSelectedStates] = useState([]);
+  const [thresholdValue, setThresholdValue] = useState(0.9); // Initial value of the slider
 
-
+  const onChange = value => {
+        setThresholdValue(value);
+  };
 
   useEffect(() => {
 
@@ -169,7 +174,8 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
     if (searchQuery !== "") {
       const searchData: SearchArgs = {
         query: searchQuery,
-        filters: {}
+        filters: {},
+        threshold : thresholdValue
       };
 
       if (selectedStates.length) {
@@ -195,6 +201,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
         style={{ maxWidth: 600 }}
         initialValues={{ remember: true }}
         onFinish={handleSubmit}
+        layout="vertical"
         autoComplete="off"
       >
 
@@ -242,7 +249,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
         >
           <Select
             mode="multiple"
-            placeholder="מחוז"
+            placeholder="אזור בארץ"
             onChange={(value) => setSelectedStates(value)}
           >
 
@@ -253,6 +260,21 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
             }
 
           </Select>
+        </Form.Item>
+
+
+        <Form.Item
+
+         label="חוזק התאמה"
+
+        >
+         <Slider
+        min={0.5}
+        max={1}
+        step={0.1}
+        onChange={onChange}
+        value={typeof thresholdValue === 'number' ? thresholdValue : 0}
+      />
         </Form.Item>
 
 
@@ -401,6 +423,11 @@ const ListResults = (resultsProps: ResultsProps) => {
               <div className='break-words'>
                 {
                   item.description
+                }
+              </div>
+              <div className='break-words'>
+                {
+                  item.full_location
                 }
               </div>
               <div className='break-words'>

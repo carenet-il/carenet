@@ -22,11 +22,11 @@ class VectorStorage:
     def delete_all(self):
         return self.storage_provider.delete_all()
 
-    def search(self, query, filters: Optional[DocumentSearchFilters] = None):
+    def search(self, query, filters: Optional[DocumentSearchFilters] = None, k: int = 100, threshold: float = 0.9):
         if filters is None:
             filters = {}
 
-        return self.storage_provider.search(query, filters)
+        return self.storage_provider.search(query=query, filters=filters,k=k,threshold=threshold)
 
     # I am using no maxsize for the cache, since there is only one argument, and it is the same for all calls.
     @lru_cache_with_ttl(maxsize=None, ttl=120)
