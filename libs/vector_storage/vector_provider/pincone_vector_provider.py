@@ -11,11 +11,11 @@ from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
 class PineconeVectorProvider(VectorProviderAbstract, ABC):
     def __init__(
-        self,
-        embedding_model: EmbeddingAbstract,
-        index_name: str,
-        api_key: str,
-        environment: str,
+            self,
+            embedding_model: EmbeddingAbstract,
+            index_name: str,
+            api_key: str,
+            environment: str,
     ):
         super().__init__(embedding_model)
         self.index_name = index_name
@@ -25,7 +25,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         self.index = pinecone.Index(self.index_name)
 
     def search(
-        self, query: str, filters: Optional[DocumentSearchFilters] = None
+            self, query: str, filters: Optional[DocumentSearchFilters] = None, k: int = 100, threshold: float = 0.9
     ) -> List[Document]:
         if not filters:
             filters = DocumentSearchFilters()
@@ -47,15 +47,21 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
         query_vector = self.embedding_model.encode(
             query
         )  # Encode the query string to a vector
-        results: QueryResponse = self.index.query(
-            query_vector, top_k=10, include_metadata=True, filter=builded_filters
-        )
 
         documents: List[Document] = []
+
+        if len(query_vector) == 0:
+            return documents
+
+        results: QueryResponse = self.index.query(
+            query_vector, top_k=k, include_metadata=True, filter=builded_filters
+        )
+
         for r in results.matches:
-            doc = r.metadata
-            doc["score"] = r.score
-            documents.append(Document(**doc))
+            if r.score >= threshold:
+                doc = r.metadata
+                doc["score"] = r.score
+                documents.append(Document(**doc))
         return documents
 
     def split_into_batches(self, input_array, batch_size):
@@ -70,7 +76,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
             List of batches.
         """
         return [
-            input_array[i : i + batch_size]
+            input_array[i: i + batch_size]
             for i in range(0, len(input_array), batch_size)
         ]
 
