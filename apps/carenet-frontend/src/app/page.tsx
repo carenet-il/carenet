@@ -35,7 +35,7 @@ interface Result {
 
 export default function SearchPage() {
 
-  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {} });
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {},threshold : 0.9  });
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -112,7 +112,7 @@ interface SearchArgs {
     city?: string[],
     state?: string[]
   },
-  threshold:float
+  threshold:number
 }
 
 
@@ -134,7 +134,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   const [selectedStates, setSelectedStates] = useState([]);
   const [thresholdValue, setThresholdValue] = useState(0.9); // Initial value of the slider
 
-  const onChange = value => {
+  const onChange = (value:number) => {
         setThresholdValue(value);
   };
 
