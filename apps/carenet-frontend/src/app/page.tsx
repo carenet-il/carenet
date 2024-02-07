@@ -33,6 +33,9 @@ interface Result {
   score: number;           // Assuming score is a numeric value
 }
 
+const hostname = "https://api-carenet.koyeb.app";
+//   const hostname = "http://localhost:8000";
+
 export default function SearchPage() {
 
   const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {},threshold : 0.8  });
@@ -42,8 +45,7 @@ export default function SearchPage() {
   const [results, setResults] = useState<Result[]>([]);
 
 
-  const hostname = "https://api-carenet.koyeb.app";
-//   const hostname = "http://localhost:8000";
+
 
   useEffect(() => {
     const fetchData = async () => {
