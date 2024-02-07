@@ -6,7 +6,7 @@ from typing import Optional
 class SearchDocumentPayload(BaseModel):
     query: str = Field(..., min_length=1, max_length=1000)
     filters: Optional[DocumentSearchFilters] = Field(default=None)
-    threshold: float = Field(default=0.9)
+    threshold: float = Field(default=0.8)
     # page: int = Field(..., ge=0)
     # limit: int = Field(..., ge=1, le=100)
 

@@ -16,6 +16,7 @@ class Document(BaseModel):
     description: str
     source: str
     email: Optional[str] = Field(default="")
+    website: Optional[str] = Field(default="")
     phone_number: Optional[str] = Field(default="")
     full_location: Optional[str] = Field(default="")
     city: Optional[str] = Field(default="")
@@ -30,6 +31,7 @@ class Document(BaseModel):
         description = "description"
         source = "source"
         email = "email"
+        website = "website"
         phone_number = "phone_number"
         full_location = "full_location"
         city = "city"
