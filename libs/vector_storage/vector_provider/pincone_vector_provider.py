@@ -48,6 +48,8 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
             query
         )  # Encode the query string to a vector
 
+        print(query_vector, query,filters)
+
         documents: List[Document] = []
 
         if len(query_vector) == 0:
@@ -102,7 +104,7 @@ class PineconeVectorProvider(VectorProviderAbstract, ABC):
 
     def generate_vector(self, doc):
         return self.embedding_model.encode(
-            doc.title + doc.description + doc.full_location
+            doc.title
         )
 
     def fetch_search_filters(self) -> DocumentSearchFilters:

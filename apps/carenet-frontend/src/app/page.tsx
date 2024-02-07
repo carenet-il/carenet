@@ -35,18 +35,22 @@ interface Result {
 
 export default function SearchPage() {
 
-  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {},threshold : 0.9  });
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {},threshold : 0.8  });
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const [results, setResults] = useState<Result[]>([]);
+
+
+  const hostname = "https://api-carenet.koyeb.app";
+//   const hostname = "http://localhost:8000";
 
   useEffect(() => {
     const fetchData = async () => {
 
       setLoading(true)
       try {
-        const response = await fetch('https://api-carenet.koyeb.app/documents/search', {
+        const response = await fetch(`${hostname}/documents/search`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -132,7 +136,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCities, setSelectedCities] = useState([]);
   const [selectedStates, setSelectedStates] = useState([]);
-  const [thresholdValue, setThresholdValue] = useState(0.9); // Initial value of the slider
+  const [thresholdValue, setThresholdValue] = useState(0.8); // Initial value of the slider
 
   const onChange = (value:number) => {
         setThresholdValue(value);
@@ -142,7 +146,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
     const fetchFilter = async () => {
       try {
-        const response = await fetch('https://api-carenet.koyeb.app/filters/', {
+        const response = await fetch(`${hostname}/filters/`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json'
@@ -268,13 +272,18 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
          label="חוזק התאמה"
 
         >
-         <Slider
-        min={0.5}
-        max={1}
-        step={0.1}
-        onChange={onChange}
-        value={typeof thresholdValue === 'number' ? thresholdValue : 0}
-      />
+        <Slider
+              min={0.6}
+              max={0.8}
+              step={0.1}
+              onChange={onChange}
+              value={typeof thresholdValue === 'number' ? thresholdValue : 0}
+              marks={{
+                0.6: '0.6',
+                0.7: '0.7',
+                0.8: '0.8',
+              }}
+            />
         </Form.Item>
 
 
@@ -352,12 +361,13 @@ const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result })
         {result.website && (
           <Col>
             <Button
+              size='large'
               href={result.website}
               target="_blank"
               rel="noopener noreferrer"
               icon={<GlobalOutlined />}
             >
-              Website
+              אתר
             </Button>
           </Col>
         )}
@@ -387,7 +397,7 @@ interface AvatarSourceProps {
 const AvatarSource = (props: AvatarSourceProps) => {
 
   return <Avatar shape='square'
-    size={{ xs: 24, sm: 32, md: 40, lg: 64, xl: 80, xxl: 100 }}
+    size={{ xs: 24, sm: 32, md: 40, lg: 80, xl: 96, xxl: 120 }}
     src={props.url}></Avatar>
 }
 
@@ -396,7 +406,7 @@ const ListResults = (resultsProps: ResultsProps) => {
 
   const sourceMapAvater = {
     [SourceType.N12]: <AvatarSource url={"https://img.mako.co.il/2020/02/17/SHAREIMG.png"}></AvatarSource>,
-    [SourceType.MOH]: <AvatarSource url={"https://biomedic.co.il/wp-content/uploads/2017/03/%D7%9C%D7%95%D7%92%D7%95-%D7%9E%D7%A9%D7%A8%D7%93-%D7%94%D7%91%D7%A8%D7%99%D7%90%D7%95%D7%AA.png"} ></AvatarSource>,
+    [SourceType.MOH]: <AvatarSource url={"https://www.ihud.org.il/wp-content/uploads/2018/07/unnamed.jpg"} ></AvatarSource>,
     [SourceType.NAFSHI]: <AvatarSource url={"https://static.wixstatic.com/media/12ddcf_dd9eec1e62e1470b9d358a04db980fdc~mv2.png/v1/fill/w_400,h_400,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/AdobeStock_529317698-%5BConverted%5D.png"}>
     </AvatarSource>,
     [SourceType.BTL]: <AvatarSource url={"https://lirp.cdn-website.com/6acf9e61/dms3rep/multi/opt/66-320w.jpg"} ></AvatarSource>

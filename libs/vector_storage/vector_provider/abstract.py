@@ -20,7 +20,7 @@ class VectorProviderAbstract(ABC):
 
     @abstractmethod
     def search(
-            self, query: str, filters: Optional[DocumentSearchFilters] = None, k: int = 100, threshold: float = 0.9
+            self, query: str, filters: Optional[DocumentSearchFilters] = None, k: int = 100, threshold: float = 0.8
     ) -> List[Document]:
         pass
 

@@ -97,9 +97,7 @@ class NafshiFeed(FeedAbstract, ABC):
             {",".join(document.tagsAges)}  
             {",".join(document.tagsPopulationType)}
             {",".join(document.serviceOrientationTags)} 
-            {",".join(document.langsTags)}
-            \n
-            {document.serviceLink} 
+            {",".join(document.langsTags)} 
             """
 
         if type(document.location1) == list:
@@ -109,6 +107,7 @@ class NafshiFeed(FeedAbstract, ABC):
                     "description": description,
                     "phone_number": document.phoneNumber,
                     "source": SourceType.NAFSHI.name,
+                    "website": document.serviceLink,
                     "state": location
                 }
                 documents_final.append(Document(**document_dict))
@@ -118,6 +117,7 @@ class NafshiFeed(FeedAbstract, ABC):
                 "description": description,
                 "phone_number": document.phoneNumber,
                 "source": SourceType.NAFSHI.name,
+                "website": document.serviceLink,
                 "state": document.location1
             }
 
