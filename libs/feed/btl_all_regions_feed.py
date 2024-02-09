@@ -20,7 +20,7 @@ def clean_text(text):
     # remove zero width space characters
     return text.replace('\u200b', '').strip()
 
-class SocSecFeed(FeedAbstract, ABC):
+class BtlFeed(FeedAbstract, ABC):
     
     def pull(self) -> list[Document]:
         
@@ -66,7 +66,7 @@ class SocSecFeed(FeedAbstract, ABC):
                     record['state'] = "מחוז ירושלים"
                     
                 else: # if not, use the function extract_region_by_city
-                    record['state'] = extract_region_by_city(record['ישוב'])
+                    record['state'] = extract_region_by_city(record['ישוב']) # the function returns an empty string if not found
 
                 # norm the record
                 norm_doc = self.__norm_document__(record)

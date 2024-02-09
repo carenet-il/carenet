@@ -15,12 +15,12 @@ nafshi_to_genral_region = {
     "ארצי - מרחוק": "ארצי - מרחוק",
     "דרום - נגב צפוני": "מחוז הדרום",
     "המרכז": "מחוז המרכז",
-    "השרון":"מחוז המרכז",
-    "ירושלים והסביבה":"מחוז ירושלים",
-    "ישובי העוטף":"מחוז הדרום",
-    "מרכז":"מחוז תל אביב",
-    "צפון":"מחוז הצפון",
-    "שפלה":"מחוז המרכז"
+    "השרון": "מחוז המרכז",
+    "ירושלים והסביבה": "מחוז ירושלים",
+    "ישובי העוטף": "מחוז הדרום",
+    "מרכז": "מחוז תל אביב",
+    "צפון": "מחוז הצפון",
+    "שפלה": "מחוז המרכז"
     
 }
 
@@ -123,7 +123,7 @@ class NafshiFeed(FeedAbstract, ABC):
                     "phone_number": document.phoneNumber,
                     "source": SourceType.NAFSHI.name,
                     "website": document.serviceLink,
-                    "state": nafshi_to_genral_region.get(location)
+                    "state": nafshi_to_genral_region.get(location,"")
                 }
                 documents_final.append(Document(**document_dict))
         else:
@@ -133,7 +133,7 @@ class NafshiFeed(FeedAbstract, ABC):
                 "phone_number": document.phoneNumber,
                 "source": SourceType.NAFSHI.name,
                 "website": document.serviceLink,
-                "state": nafshi_to_genral_region.get(document.location1)
+                "state": nafshi_to_genral_region.get(document.location1,"")
             }
 
             documents_final.append(Document(**document_dict))

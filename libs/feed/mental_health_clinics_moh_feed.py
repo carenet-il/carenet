@@ -40,7 +40,7 @@ class MhcFeed(FeedAbstract, ABC):
             "source": SourceType.MOH.name, # MOH stands for Ministry of Health
             "full_location": record.get('Address', ""),
             "city": city,
-            "state": extract_region_by_city(city),
+            "state": extract_region_by_city(city), # the function returns an empty string if not found
         }
 
         return Document(**document_dict)

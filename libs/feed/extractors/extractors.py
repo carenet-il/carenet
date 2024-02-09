@@ -49,21 +49,20 @@ def extract_description(text):
     # Remove the HTML tags
     return tag_re.sub('', text)
 
-def get_labeled_region_from_text(text: str) -> str:
-    """Extracts the region from a given string, starting with 'מחוז' and ending before the next ','."""
+def extract_labeled_region_from_text(text: str) -> str:
+    """Extracts the region from a given string"""
 
-    # Regular expression to match 'מחוז' followed by any characters except ',' (non-greedy) until a ','
+    # regular expression to match 'מחוז' followed by any characters except ',' (non-greedy) until a ','
     pattern = r"מחוז(.*?),"
+    
+    regions = ['מחוז ירושלים','מחוז הצפון','מחוז הדרום','מחוז חיפה','מחוז תל אביב','ארצי - מרחוק','מחוז המרכז']
 
-    # Search for the pattern in the text
+    # search for the pattern in the text
     match = re.search(pattern, text)
 
-    # If a match is found, return it, otherwise return an empty string
-    if match:
-        # Extract the matched group, which excludes 'מחוז' and the comma
-        return "מחוז " + match.group(1).strip()
-    else:
-        return ""
+    region = "מחוז " + match.group(1).strip() if match else ''
+    
+    return region if region in regions else ''
 
 
 def extract_region_by_city(city: str) -> str:
@@ -76,10 +75,8 @@ def extract_region_by_city(city: str) -> str:
         city_details = response.get('display_name', "")  # example of the var : עכו, נפת עכו, מחוז הצפון, ישראל
 
         # happens when there is no such city in the API or city name is not in the api dataset
-        if city_details == '':
-            return ''
-        else:
-            return get_labeled_region_from_text(city_details)
+        
+        return '' if len(city_details) == 0 else extract_labeled_region_from_text(city_details)
 
     except Exception as e:
         return ''

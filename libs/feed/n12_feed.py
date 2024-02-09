@@ -92,7 +92,7 @@ class N12Feed(FeedAbstract, ABC):
             "source": SourceType.N12.name,
             "full_location": full_location,
             "city": city,
-            "state": extract_region_by_city(city),
+            "state": extract_region_by_city(city), # the function returns an empty string if not found
         }
 
         return Document(**document_dict)
