@@ -9,6 +9,21 @@ from libs.feed.abstract import FeedAbstract
 from libs.interfaces.document import Document, SourceType
 
 
+nafshi_to_genral_region = {
+    
+    "איו״ש": "מחוז ירושלים",
+    "ארצי - מרחוק": "ארצי - מרחוק",
+    "דרום - נגב צפוני": "מחוז הדרום",
+    "המרכז": "מחוז המרכז",
+    "השרון":"מחוז המרכז",
+    "ירושלים והסביבה":"מחוז ירושלים",
+    "ישובי העוטף":"מחוז הדרום",
+    "מרכז":"מחוז תל אביב",
+    "צפון":"מחוז הצפון",
+    "שפלה":"מחוז המרכז"
+    
+}
+
 class NafshiDocument(BaseModel):
     tagsAges: Optional[List[str]] = []
     serviceOrientationTags: Optional[List[str]] = []
@@ -108,7 +123,7 @@ class NafshiFeed(FeedAbstract, ABC):
                     "phone_number": document.phoneNumber,
                     "source": SourceType.NAFSHI.name,
                     "website": document.serviceLink,
-                    "state": location
+                    "state": nafshi_to_genral_region.get(location)
                 }
                 documents_final.append(Document(**document_dict))
         else:
@@ -118,7 +133,7 @@ class NafshiFeed(FeedAbstract, ABC):
                 "phone_number": document.phoneNumber,
                 "source": SourceType.NAFSHI.name,
                 "website": document.serviceLink,
-                "state": document.location1
+                "state": nafshi_to_genral_region.get(document.location1)
             }
 
             documents_final.append(Document(**document_dict))

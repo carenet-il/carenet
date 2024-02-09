@@ -2,6 +2,7 @@ from abc import ABC
 import requests
 from libs.feed.abstract import FeedAbstract
 from libs.interfaces.document import Document, SourceType
+from libs.feed.extractors.extractors import extract_region_by_city
 
 
 class MhcFeed(FeedAbstract, ABC):
@@ -30,6 +31,7 @@ class MhcFeed(FeedAbstract, ABC):
     def __norm_document__(self, document) -> Document:
 
         record = document.get('attributes')
+        city = record.get('CityName', "")
 
         document_dict = {
             "title": record.get("institute_desc", ""),
@@ -37,7 +39,8 @@ class MhcFeed(FeedAbstract, ABC):
             "phone_number": record.get("Phone", ""),
             "source": SourceType.MOH.name, # MOH stands for Ministry of Health
             "full_location": record.get('Address', ""),
-            "city": record.get('CityName', ""),
+            "city": city,
+            "state": extract_region_by_city(city),
         }
 
         return Document(**document_dict)

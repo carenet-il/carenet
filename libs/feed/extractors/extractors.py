@@ -1,5 +1,4 @@
 import re
-
 import requests
 
 
@@ -50,3 +49,37 @@ def extract_description(text):
     # Remove the HTML tags
     return tag_re.sub('', text)
 
+def get_labeled_region_from_text(text: str) -> str:
+    """Extracts the region from a given string, starting with 'מחוז' and ending before the next ','."""
+
+    # Regular expression to match 'מחוז' followed by any characters except ',' (non-greedy) until a ','
+    pattern = r"מחוז(.*?),"
+
+    # Search for the pattern in the text
+    match = re.search(pattern, text)
+
+    # If a match is found, return it, otherwise return an empty string
+    if match:
+        # Extract the matched group, which excludes 'מחוז' and the comma
+        return "מחוז " + match.group(1).strip()
+    else:
+        return ""
+
+
+def extract_region_by_city(city: str) -> str:
+    """This function gets a city and return its region using the api of openstreetmap """
+
+    try:
+        url = f'https://nominatim.openstreetmap.org/search?city={city}&format=json&accept-language=he'
+        response = requests.get(url).json()[0]  # take the first record, sometimes it returns more than one
+
+        city_details = response.get('display_name', "")  # example of the var : עכו, נפת עכו, מחוז הצפון, ישראל
+
+        # happens when there is no such city in the API or city name is not in the api dataset
+        if city_details == '':
+            return ''
+        else:
+            return get_labeled_region_from_text(city_details)
+
+    except Exception as e:
+        return ''
