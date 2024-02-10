@@ -9,6 +9,7 @@ from libs.feed.extractors.extractors import (
     extract_email,
     extract_description,
     extract_phone,
+    extract_region_by_city
 )
 from libs.interfaces.document import Document, SourceType
 
@@ -91,7 +92,7 @@ class N12Feed(FeedAbstract, ABC):
             "source": SourceType.N12.name,
             "full_location": full_location,
             "city": city,
-            "state": state,
+            "state": extract_region_by_city(city), # the function returns an empty string if not found
         }
 
         return Document(**document_dict)

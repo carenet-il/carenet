@@ -2,6 +2,7 @@ from abc import ABC
 from bs4 import BeautifulSoup
 import requests
 from libs.feed.abstract import FeedAbstract
+from libs.feed.extractors.extractors import extract_region_by_city
 import pandas as pd
 import json
 
@@ -9,28 +10,23 @@ from libs.interfaces.document import Document, SourceType
 
 url_north = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/MercazeiHOSEN_zafon_hb.aspx'
 url_south = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/MercazeiOsenDaromHB.aspx'
-url_central_Sharon = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/HOZENmercazhb.aspx'
-url_Jerusalem_Samaria = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/YerushalaimYoshHB.aspx'
+url_central_sharon = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/HOZENmercazhb.aspx'
+url_jerusalem_samaria = 'https://www.btl.gov.il/HaravotBarzel1/Harada_HB/Pages/YerushalaimYoshHB.aspx'
 
 # URLs with corresponding region names
-region_urls = {
-    url_north: 'מחוז צפון',
-    url_south: 'מחוז דרום',
-    url_central_Sharon: 'מרכז השרון',
-    url_Jerusalem_Samaria: 'מחוז יהודה ושומרון'
-}
+region_urls = [url_north,url_south,url_central_sharon,url_jerusalem_samaria]
 
 def clean_text(text):
     # remove zero width space characters
     return text.replace('\u200b', '').strip()
 
-class SocSecFeed(FeedAbstract, ABC):
+class BtlFeed(FeedAbstract, ABC):
     
     def pull(self) -> list[Document]:
         
         documents:list[Document] = []
 
-        for url, region in region_urls.items():
+        for url in region_urls:
 
             response = requests.get(url)
             html_content = response.content
@@ -55,17 +51,22 @@ class SocSecFeed(FeedAbstract, ABC):
             json_data = json.loads(json_string)
 
             for record in json_data:
-                # adding the state to the record based on the url
-                record['state'] = region
 
                 # edge-case for 'מגידו' that don't have a phone number
                 if record.get('ישוב') == 'מגידו':
                     continue
-                
+
                 # edge-case because miss info from the website
                 if record.get('טלפון') == '​צור משה, נתניה':
                     record['טלפון'] = record.get('כתובת',"") # switch between them
-                    record['כתובת'] = 'הצורן 2, נתניה' # the address not appear on the web                    
+                    record['כתובת'] = 'הצורן 2, נתניה' # the address not appear on the web       
+                
+                # checks if the url is for jerusalem and samaria, and use the "מחוז ירושלים" as a region
+                if url == url_jerusalem_samaria:
+                    record['state'] = "מחוז ירושלים"
+                    
+                else: # if not, use the function extract_region_by_city
+                    record['state'] = extract_region_by_city(record['ישוב']) # the function returns an empty string if not found
 
                 # norm the record
                 norm_doc = self.__norm_document__(record)
