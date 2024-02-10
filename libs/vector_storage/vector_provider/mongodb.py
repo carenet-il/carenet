@@ -78,7 +78,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
             ]
         )
 
-        return list(results)
+        return [Document(**doc) for doc in results]
 
     def delete_all(self):
         self.document_collection.delete_many({})
