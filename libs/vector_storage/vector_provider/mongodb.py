@@ -9,7 +9,7 @@ from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
 
 class MongoVectorProvider(VectorProviderAbstract, ABC):
-    
+
     def __init__(
         self,
         embedding_model: EmbeddingAbstract,
@@ -21,7 +21,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         self.db = self.client[db_name]
         self.document_collection = self.db["documents"]
         super().__init__(embedding_model)
-    
+
     def search(
         self,
         query: str,
@@ -32,42 +32,56 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if not filters:
             filters = DocumentSearchFilters()
 
-        builded_filters = {}
+        builded_filters = []
 
         if filters.city:
             if isinstance(filters.city, list):
-                builded_filters["city"] = {"$in": filters.city}
+                builded_filters.append({"metadata.city": {"$in": filters.city}})
             else:
-                builded_filters["city"] = filters.city
+                builded_filters.append({"metadata.city": filters.city})
 
         if filters.state:
             if isinstance(filters.state, list):
-                builded_filters["state"] = {"$in": filters.state}
+                builded_filters.append({"metadata.state": {"$in": filters.state}})
             else:
-                builded_filters["state"] = filters.state
+                builded_filters.append({"metadata.state": filters.state})
 
         query_vector = self.embedding_model.encode(
             query
         )  # Encode the query string to a vector
 
-        documents: List[Document] = []
-
         if len(query_vector) == 0:
-            return documents
+            return []
 
-        results: QueryResponse = self.index.query(
-            query_vector, top_k=k, include_metadata=True, filter=builded_filters
+        results = self.document_collection.aggregate(
+            [
+                {
+                    "$vectorSearch": {
+                        "index": "default_vector_index",
+                        "path": "values",
+                        "filter": (
+                            {"$and": builded_filters} if builded_filters else None
+                        ),
+                        "queryVector": query_vector,
+                        "numCandidates": k * 10,
+                        "limit": k,
+                    }
+                },
+                {"$addFields": {"score": {"$meta": "vectorSearchScore"}}},
+                # {"$match": {"score": {"$gte": threshold}}},
+                {"$sort": {"score": -1}},
+                {
+                    "$replaceRoot": {
+                        "newRoot": {"$mergeObjects": ["$metadata", {"score": "$score"}]}
+                    }
+                },
+            ]
         )
 
-        for r in results.matches:
-            if r.score >= threshold:
-                doc = r.metadata
-                doc["score"] = r.score
-                documents.append(Document(**doc))
-        return documents
+        return list(results)
 
     def delete_all(self):
-        self.index.delete(delete_all=True, namespace="")
+        self.document_collection.delete_many({})
 
     def insert_many(self, documents: List[Document]):
         items = []
@@ -85,32 +99,9 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         return self.embedding_model.encode(doc.title)
 
     def fetch_search_filters(self) -> DocumentSearchFilters:
-        res = self.index.query(
-            vector=[0] * 768,
-            # this is the max value for top_k
-            top_k=10000,
-            include_metadata=True,
-            include_values=False,
-            filter={
-                "$or": [
-                    {Document.Fields.city: {"$exists": True}},
-                    {Document.Fields.state: {"$exists": True}},
-                ]
-            },
-        )
 
-        cities = set()
-        states = set()
+        cities = self.document_collection.distinct("metadata.city", {"metadata.city": {"$nin": [None, ""]}})
 
-        for r in res.matches:
-            metadata = r.metadata
-            if Document.Fields.city in metadata:
-                value = metadata[Document.Fields.city]
-                if value:
-                    cities.add(value)
-            if Document.Fields.state in metadata:
-                value = metadata[Document.Fields.state]
-                if value:
-                    states.add(value)
+        states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
 
-        return DocumentSearchFilters(city=list(cities), state=list(states))
+        return DocumentSearchFilters(city=cities, state=states)
