@@ -83,11 +83,11 @@ class OtefLevFeed(FeedAbstract, ABC):
         ages = join_elements_with_separator(document.get('ages', ''))
         
         document_dict = {
-            "title": document.get('title', ''),
-            "description": f'{expertises} {ages}',
+            "title": f"{document.get('title', '')} {ages}",
+            "description": f"{expertises} {document.get('workingHours', '')}",
             "phone_number": document.get("contact", ''),
             "source": SourceType.OTEFLEV.name,
-            "full_location": f"{document.get('location', '')} {document.get('workingHours', '')}",
+            "full_location": f"{document.get('location', '')}",
             "city": document.get('city',''),
             "state": extract_region_by_city(document.get('city','')),
         }
