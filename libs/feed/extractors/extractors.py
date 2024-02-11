@@ -80,3 +80,11 @@ def extract_region_by_city(city: str) -> str:
 
     except Exception as e:
         return ''
+    
+
+def join_elements_with_separator(elements: list) -> str:
+    if len(elements) == 0:
+        return ''
+    else:
+        concatenated_string = ', '.join(elements)
+        return concatenated_string
