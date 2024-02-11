@@ -30,7 +30,7 @@ def main():
     btl_anxiety_feed = BtlAnxietyFeed()
     otef_lev_feed = OtefLevFeed()
 
-    feeds = [otef_lev_feed, n12_feed, nafshi_feed, minster_of_health_feed, btl_all_regions_feed, btl_anxiety_feed]
+    feeds = [n12_feed, nafshi_feed, minster_of_health_feed, btl_all_regions_feed, btl_anxiety_feed,otef_lev_feed, ]
 
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()

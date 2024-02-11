@@ -70,7 +70,6 @@ class OtefLevFeed(FeedAbstract, ABC):
             data["dataQuery"]["paging"]["offset"] = offset  # update and offset
 
         print(f'number of documants in Otef Lev is {len(documants)}')
-        print(f'documants - {documants}')
         
         return documants
 
