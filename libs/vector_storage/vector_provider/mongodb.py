@@ -83,7 +83,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
     def delete_all(self):
         self.document_collection.delete_many({})
 
-    def insert_many(self, documents):
+    def insert_many(self, documents: List[Document]):
         operations = []
         for doc in documents:
             vector = self.generate_vector(doc)
