@@ -10,7 +10,6 @@ from libs.feed.btl_all_regions_feed import BtlFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
-from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
 
 
 def main():
