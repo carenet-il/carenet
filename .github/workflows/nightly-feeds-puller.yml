@@ -3,7 +3,11 @@ name: Nightly Python Script Run
 on:
   schedule:
     - cron: '0 0 */3 * *'  # Runs at midnight every 3 days
-    
+  workflow_dispatch:
+    inputs:
+
+
+
 env:
   PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
   PINECONE_ENVIRONMENT: 'gcp-starter'
