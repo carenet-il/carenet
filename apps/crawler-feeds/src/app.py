@@ -9,18 +9,18 @@ from libs.feed.nafshi_feed import NafshiFeed
 from libs.feed.btl_all_regions_feed import BtlFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
+from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
 from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
 
 
 def main():
     embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=True)
 
-    storage_provider = PineconeVectorProvider(embedding_model=embedding_model, api_key=os.getenv("PINECONE_API_KEY"),
-                                              environment=os.getenv("PINECONE_ENVIRONMENT"),
-                                              index_name=os.getenv("PINECONE_INDEX_NAME"))
+    storage_provider = MongoVectorProvider(mongodb_uri=os.getenv("MONGO_URI"),
+                                           embedding_model=embedding_model, db_name="dev")
 
     vector_storage = VectorStorage(storage_provider=storage_provider)
-    
+
     # feeds
     n12_feed = N12Feed()
     nafshi_feed = NafshiFeed()
@@ -33,6 +33,8 @@ def main():
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
         vector_storage.insert_documents(norm_documents=norm_documents)
+
+    print("done feeds crawler")
 
 
 if __name__ == "__main__":
