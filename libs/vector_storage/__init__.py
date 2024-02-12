@@ -1,14 +1,7 @@
 import os
 from typing import List, Optional
-
-from libs.embedding.quora_distilbert_multilingual_embedding import (
-    QuoraDistilBertMultilingualEmbedding,
-)
 from libs.interfaces.document import Document, DocumentSearchFilters
 from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
-from libs.vector_storage.vector_provider.pincone_vector_provider import (
-    PineconeVectorProvider,
-)
 from libs.utils.cache import lru_cache_with_ttl
 
 
@@ -34,22 +27,22 @@ class VectorStorage:
         return self.storage_provider.fetch_search_filters()
     
 
-if __name__ == "__main__":
-    embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=True)
-
-    storage_provider = PineconeVectorProvider(
-        embedding_model=embedding_model,
-        api_key=os.getenv("PINECONE_API_KEY"),
-        environment=os.getenv("PINECONE_ENVIRONMENT"),
-        index_name=os.getenv("PINECONE_INDEX_NAME"),
-    )
-
-    vector_storage = VectorStorage(storage_provider=storage_provider)
-
-    vector_storage.delete_all()
-    print('After delete all data from db')
-    # query = "משפחות השבויים והנעדרים"
-    # # filters = {"state": "מחוז הדרום"}
-    # filters = {}
-    # results = vector_storage.search(query=query, filters=filters)
-    # pprint(results)
+# if __name__ == "__main__":
+#     embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=True)
+#
+#     storage_provider = PineconeVectorProvider(
+#         embedding_model=embedding_model,
+#         api_key=os.getenv("PINECONE_API_KEY"),
+#         environment=os.getenv("PINECONE_ENVIRONMENT"),
+#         index_name=os.getenv("PINECONE_INDEX_NAME"),
+#     )
+#
+#     vector_storage = VectorStorage(storage_provider=storage_provider)
+#
+#     vector_storage.delete_all()
+#     print('After delete all data from db')
+#     # query = "משפחות השבויים והנעדרים"
+#     # # filters = {"state": "מחוז הדרום"}
+#     # filters = {}
+#     # results = vector_storage.search(query=query, filters=filters)
+#     # pprint(results)
