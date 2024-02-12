@@ -5,7 +5,7 @@ from libs.interfaces.document import Document, SourceType
 from libs.feed.extractors.extractors import extract_region_by_city
 
 
-class MhcFeed(FeedAbstract, ABC):
+class MOH_ResilienceCentersFeed(FeedAbstract, ABC):
     
     def pull(self) -> list[Document]:
 
@@ -25,7 +25,7 @@ class MhcFeed(FeedAbstract, ABC):
         # records.get('features') is a list
         documents: list[Document] = [self.__norm_document__(doc) for doc in records.get('features')]
 
-        print(f'number of documents from minister of health - {len(documents)}')
+        print(f'Found at minister of health resilience centers {len(documents)} documents')
         return documents
 
     def __norm_document__(self, document) -> Document:

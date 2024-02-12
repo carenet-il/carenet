@@ -72,7 +72,7 @@ class BtlFeed(FeedAbstract, ABC):
                 norm_doc = self.__norm_document__(record)
                 documents.append(norm_doc)
                 
-        print(f'number of documents from BTL is - {len(documents)}')
+        print(f'Found at BTL all regions {len(documents)} documents')
     
         return documents
 
