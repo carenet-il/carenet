@@ -62,7 +62,7 @@ class BtlAnxietyFeed(FeedAbstract, ABC):
             norm_doc = self.__norm_document__(record)
             documents.append(norm_doc)
 
-        print(f'number of documents from BTL anxiety is - {len(documents)}')
+        print(f'Found at BTL anxiety {len(documents)} documents')
 
         return documents
 
