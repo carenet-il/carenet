@@ -1,12 +1,11 @@
 import os
 
-from libs.embedding.quora_distilbert_multilingual_embedding import (
-    QuoraDistilBertMultilingualEmbedding,
-)
+from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
+
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
 
-embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=False)
+embedding_model = CohereMultilingualEmbedding()
 
 storage_provider = MongoVectorProvider(
     embedding_model=embedding_model,

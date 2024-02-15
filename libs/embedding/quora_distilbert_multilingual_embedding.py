@@ -17,6 +17,9 @@ class QuoraDistilBertMultilingualEmbedding(EmbeddingAbstract, ABC):
                 "sentence-transformers/quora-distilbert-multilingual"
             )
 
+    def encode_bulk(self, texts: List[str]) -> List[List[float]]:
+        raise NotImplementedError()
+
     def encode(self, text: str) -> List[float]:
 
         if self.load_locally_model:

@@ -85,8 +85,13 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
     def insert_many(self, documents: List[Document]):
         operations = []
-        for doc in documents:
-            vector = self.generate_vector(doc)
+        vectors = self.generate_vector_bulk(documents)
+
+        if len(vectors) == 0:
+            raise Exception("not embedded vectors to insert - issue with generate vectors on embedding model")
+
+        for i, doc in enumerate(documents):
+            vector = vectors[i]
             _id = self.generate_id(doc)
             # Prepare the update operation instead of creating a new document
 
@@ -104,8 +109,22 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if operations:  # Check if the list is not empty
             self.document_collection.bulk_write(operations)
 
-    def generate_vector(self, doc: Document):
-        return self.embedding_model.encode(doc.title)
+    # def generate_vector(self, doc: Document):
+    #     return self.embedding_model.encode(doc.title)
+
+    def generate_vector_bulk(self, documents: List[Document]) -> List[List[float]]:
+        titles = list(map(lambda doc: doc.title, documents))
+
+        # Function to chunk the titles list into batches of 25
+        def chunker(seq, size):
+            return (seq[pos:pos + size] for pos in range(0, len(seq), size))
+
+        vectors = []  # Initialize an empty list to store the encoded vectors
+        for chunk in chunker(titles, 25):
+            # Encode each chunk and extend the vectors list with the results
+            vectors.extend(self.embedding_model.encode_bulk(chunk))
+
+        return vectors
 
     def fetch_search_filters(self) -> DocumentSearchFilters:
 

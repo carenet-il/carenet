@@ -7,3 +7,4 @@ beautifulsoup4==4.12.3
 pandas==2.2.0
 python-dotenv==1.0.0
 pymongo==4.6.1
+cohere==4.47
