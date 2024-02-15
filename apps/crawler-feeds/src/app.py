@@ -34,7 +34,6 @@ def main():
     feeds = [n12_feed, nafshi_feed, minster_of_health_resilience_centers_feed, btl_all_regions_feed, btl_anxiety_feed,otef_lev_feed,minster_of_health_mental_clinic]
  
     for feed in feeds:
-        print(f"Start pulling from {str(feed)}")
         norm_documents: List[Document] = feed.pull()
         vector_storage.insert_documents(norm_documents=norm_documents)
 
