@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBertMultilingualEmbedding
+from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
 from libs.feed.moh_mentalHeltahClinics_feed import MOH_MentalHealthClinicsFeed
 from libs.feed.moh_resilienceCenters_feed import MOH_ResilienceCentersFeed
@@ -15,7 +15,7 @@ from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
 
 
 def main():
-    embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=True)
+    embedding_model = CohereMultilingualEmbedding()
 
     storage_provider = MongoVectorProvider(mongodb_uri=os.getenv("MONGO_URI"),
                                            embedding_model=embedding_model, db_name="dev")

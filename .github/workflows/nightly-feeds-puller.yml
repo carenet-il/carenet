@@ -45,4 +45,5 @@ jobs:
         PINECONE_INDEX_NAME: ${{ env.PINECONE_INDEX_NAME }}
         PINECONE_API_KEY: ${{ secrets.PINECONE_API_KEY }}
         MONGO_URI: ${{ secrets.MONGO_URI }}
+        COHERE_API: ${{ secrets.COHERE_API }}
         PYTHONPATH: .
