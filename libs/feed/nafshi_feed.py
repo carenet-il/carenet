@@ -6,11 +6,11 @@ import requests
 from pydantic import BaseModel, Field
 
 from libs.feed.abstract import FeedAbstract
+from libs.feed.extractors.extractors import extract_geo_loc_from_region
 from libs.interfaces.document import Document, SourceType
 
 
 nafshi_to_genral_region = {
-    
     "איו״ש": "מחוז ירושלים",
     "ארצי - מרחוק": "ארצי - מרחוק",
     "דרום - נגב צפוני": "מחוז הדרום",
@@ -21,7 +21,6 @@ nafshi_to_genral_region = {
     "מרכז": "מחוז תל אביב",
     "צפון": "מחוז הצפון",
     "שפלה": "מחוז המרכז"
-    
 }
 
 class NafshiDocument(BaseModel):
@@ -117,23 +116,40 @@ class NafshiFeed(FeedAbstract, ABC):
 
         if type(document.location1) == list:
             for location in document.location1:
+                
+                # state is the region of this record
+                state = nafshi_to_genral_region.get(location,"")
+                
+                # get's the right geo-location based on the region
+                latitude, longitude = extract_geo_loc_from_region(state)
+                
                 document_dict = {
                     "title": document.organizationName + " " + document.serviceName,
                     "description": description,
                     "phone_number": document.phoneNumber,
                     "source": SourceType.NAFSHI.name,
                     "website": document.serviceLink,
-                    "state": nafshi_to_genral_region.get(location,"")
+                    "state": state,
+                    "latitude": latitude,
+                    "longitude" : longitude,
+                    
                 }
                 documents_final.append(Document(**document_dict))
         else:
+            
+            state = nafshi_to_genral_region.get(document.location1,"")
+            latitude, longitude = extract_geo_loc_from_region(state)
+            
             document_dict = {
                 "title": document.serviceName,
                 "description": description,
                 "phone_number": document.phoneNumber,
                 "source": SourceType.NAFSHI.name,
                 "website": document.serviceLink,
-                "state": nafshi_to_genral_region.get(document.location1,"")
+                "state": state,
+                "latitude": latitude,
+                "longitude" : longitude,
+                
             }
 
             documents_final.append(Document(**document_dict))

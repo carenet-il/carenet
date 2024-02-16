@@ -3,6 +3,7 @@ from typing import List
 
 from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBertMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
+from libs.feed.extractors.extractors import extract_best_match, insert_geo_loc_to_doc
 from libs.feed.moh_mentalHeltahClinics_feed import MOH_MentalHealthClinicsFeed
 from libs.feed.moh_resilienceCenters_feed import MOH_ResilienceCentersFeed
 from libs.feed.n12_feed import N12Feed
@@ -12,6 +13,7 @@ from libs.feed.otef_lev_feed import OtefLevFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.pincone_vector_provider import PineconeVectorProvider
+
 
 
 def main():
@@ -36,8 +38,23 @@ def main():
  
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
-        vector_storage.insert_documents(norm_documents=norm_documents)
+                
+        '''' 
+        edge-case:
+        check if the class name of the current feed object matches 'NafshiFeed'
+        because the geo-location is insert inside the nafshi_feed.py file.
+        # todo : this part can be remove and put a city inside nafshi with the extract_best_match
+        '''
+        if feed.__class__.__name__ == "NafshiFeed":
+            vector_storage.insert_documents(norm_documents=norm_documents)
+        else:
+            # normalize each city in each doc
+            norm_documents_city_normalize = extract_best_match(norm_documents)
 
+            # adding to each doc his geo-location based on city name
+            norm_documents_geo_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
+            vector_storage.insert_documents(norm_documents=norm_documents_geo_city_normalize)
+                
 
 if __name__ == "__main__":
     main()

@@ -21,6 +21,8 @@ class Document(BaseModel):
     phone_number: Optional[str] = Field(default="")
     full_location: Optional[str] = Field(default="")
     city: Optional[str] = Field(default="")
+    latitude: Optional[str] = Field(default="None")
+    longitude: Optional[str]= Field(default="None")
     state: Optional[str] = Field(default="")
     score: Optional[float] = Field(default=0)
 
@@ -38,6 +40,9 @@ class Document(BaseModel):
         city = "city"
         state = "state"
         score = "score"
+        latitude = "latitude"
+        longitude = "longitude"
+        
 
 class EmbeddingDocument(BaseModel):
     id: str
