@@ -4,3 +4,5 @@ pydantic==2.5.3
 pinecone-client==2.2.4
 sentence-transformers==2.2.2
 python-dotenv==1.0.0
+pymongo==4.6.1
+cohere==4.47
