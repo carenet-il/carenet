@@ -42,7 +42,7 @@ def main():
         edge-case:
         check if the class name of the current feed object matches 'NafshiFeed'
         because the geo-location is insert inside the nafshi_feed.py file.
-        # todo : this part can be remove and put a city inside nafshi with the extract_best_match
+        # todo : this part can be remove and put a city inside nafshi
         '''
         if feed.__class__.__name__ == "NafshiFeed":
             vector_storage.insert_documents(norm_documents=norm_documents)
@@ -54,10 +54,6 @@ def main():
             norm_documents_geo_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
             vector_storage.insert_documents(norm_documents=norm_documents_geo_city_normalize)
             
-    print("done feeds crawler")
-                
-        vector_storage.insert_documents(norm_documents=norm_documents)
-
     print("done feeds crawler")
 
 if __name__ == "__main__":
