@@ -1,5 +1,5 @@
 'use client'
-import { Card, Col, Form, Row } from 'antd';
+import { Card, Col, Form, Row, Space } from 'antd';
 import { MailOutlined, PhoneOutlined, GlobalOutlined } from '@ant-design/icons';
 import { Avatar, List } from 'antd';
 import { Slider } from 'antd';
@@ -97,7 +97,7 @@ export default function SearchPage() {
       <Row gutter={24}>
         <Col span={24}>
 
-          <Card title="תוצאות" bodyStyle={{ maxHeight: "50vh", overflowY: "auto", direction: "rtl" }} bordered={true}>
+          <Card title="תוצאות" bodyStyle={{  direction: "rtl" }} bordered={true}>
 
             {
               (results.length > 0) && <ListResults loading={loading} results={results}></ListResults>
@@ -312,79 +312,45 @@ interface ChipsResultsComponentProps {
   result: Result;
 }
 
-const ChipsResultsComponent: React.FC<ChipsResultsComponentProps> = ({ result }) => {
+
+const IconTextWithHref = ({icon,text,href,value} : { icon : React.FC ;text:string,href:string,value?:string}) =>{
+
+  if(!value)
+  {
+    return null
+  }
+
+  return <Space>
+    {React.createElement(icon)}
+    <a rel="noopener noreferrer" 
+       target="_blank"
+       href={href}>
+      {text}</a>
+  </Space>
+}
+
+
+
+
+const WazeIcon = ({full_location} : { full_location : string }) => {
+
+  if(!full_location) return null;
+
 
   const generateWazeLink = (address: string) => {
     return `https://waze.com/ul?q=${encodeURIComponent(address)}&navigate=yes`;
   };
 
-  return (
-    <div className='pt-5'>
-      <Row gutter={[16, 16]} wrap>
-        {result.email && (
-          <Col>
-            <Button
-              href={`mailto:${result.email}`}
-              size='large'
-              icon={<MailOutlined />}
-            >
-            </Button>
-          </Col>
-        )}
-        {result.phone_number && (
-          <Col>
-            <Button
-              href={`tel:${result.phone_number}`}
-              size='large'
-              icon={<PhoneOutlined />}
-            >
-            </Button>
-          </Col>
-        )}
-
-
-
-        {result.full_location && (
-          <Col>
-            <a href={generateWazeLink(result.full_location)} target="_blank"
+  return <> <a href={generateWazeLink(full_location)} target="_blank"
               rel="noopener noreferrer" >
-              <img
+              <Avatar
                 key="waze icon"
                 src="https://www.myteacherlanguages.com/wp-content/uploads/2018/11/Waze-Icon-copy_Link.jpg"
                 alt="Waze Icon"
-                style={{ width: '40px', height: '40px' }}
               />
-            </a>
-
-
-          </Col>
-        )}
-
-
-        {result.website && (
-          <Col>
-            <Button
-              size='large'
-              href={result.website}
-              target="_blank"
-              rel="noopener noreferrer"
-              icon={<GlobalOutlined />}
-            >
-              אתר
-            </Button>
-          </Col>
-        )}
-
-
-      </Row>
-    </div>
-  );
-};
-
-
-
-
-
+              </a>
+         </>
+}
 
 
 export interface ResultsProps {
@@ -409,7 +375,7 @@ const ListResults = (resultsProps: ResultsProps) => {
 
   const sourceMapAvater = {
     [SourceType.N12]: <AvatarSource url={"https://img.mako.co.il/2020/02/17/SHAREIMG.png"}></AvatarSource>,
-    [SourceType.MOH]: <AvatarSource url={"https://www.ihud.org.il/wp-content/uploads/2018/07/unnamed.jpg"} ></AvatarSource>,
+    [SourceType.MOH]: <AvatarSource url={"https://i.ibb.co/qCMFSM8/moh.jpg"} ></AvatarSource>,
     [SourceType.NAFSHI]: <AvatarSource url={"https://static.wixstatic.com/media/12ddcf_dd9eec1e62e1470b9d358a04db980fdc~mv2.png/v1/fill/w_400,h_400,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/AdobeStock_529317698-%5BConverted%5D.png"}>
     </AvatarSource>,
     [SourceType.BTL]: <AvatarSource url={"https://lirp.cdn-website.com/6acf9e61/dms3rep/multi/opt/66-320w.jpg"} ></AvatarSource>,
@@ -419,20 +385,66 @@ const ListResults = (resultsProps: ResultsProps) => {
   return <>
     <List
       loading={resultsProps.loading}
-      itemLayout="horizontal"
+      itemLayout="vertical"
+      bordered={true}
+      grid={{
+        gutter: 16,
+        xs: 1,
+        sm: 1,
+        md: 1,
+        lg: 2,
+        xl: 2,
+        xxl: 3,
+      }}
+      size="large"
+    
       dataSource={resultsProps.results}
-      renderItem={(item, index) => (
-        <List.Item actions={
-          [
+      renderItem={(item, index) => {
 
-            <ChipsResultsComponent key={index} result={item}></ChipsResultsComponent>
+        const actions = []
+        if(item.email)
+        {
+            actions.push( <IconTextWithHref key={index}              
+              href={`mailto:${item.email}`}          
+                icon={MailOutlined} value={item.email} text='איימל'></IconTextWithHref>)
+        }
+
+        if(item.phone_number)
+        {
+          actions.push( <IconTextWithHref key={index}              
+            href={`tel:${item.phone_number}`}
+            icon={PhoneOutlined} value={item.phone_number} text='טלפון'></IconTextWithHref>)
+        }
 
 
-          ]}>
-          <List.Item.Meta
+        if(item.website)
+        {
+          actions.push(
+            <IconTextWithHref key={index}              
+            href={`${item.website}`}          
+              icon={GlobalOutlined} value={item.website} text='אתר'></IconTextWithHref>,
+ 
+          )
+        }
+
+        if(item.full_location)
+        {
+          actions.push(
+            <WazeIcon full_location={item.full_location}></WazeIcon>
+
+          )
+        }
+
+        actions.push(<>{item.source}</>)
+
+        return <List.Item
+        key={`item-${index}`}
+        >
+            <Card       className='custom-border-card'  title={item.title} actions={actions}>
+            <List.Item.Meta
             avatar={sourceMapAvater[SourceType[item.source]]}
-            title={item.title}
-            description={<div className='flex flex-col space-y-2 break-words'>
+              />
+            <div className='flex flex-col space-y-2 break-words'>
               <div className='break-words'>
                 {
                   item.description
@@ -454,13 +466,18 @@ const ListResults = (resultsProps: ResultsProps) => {
                 }
               </div>
 
-
-
+              <div className='break-words'>
+                {
+                  item.phone_number
+                }
+              </div>
             </div>
-            }></List.Item.Meta>
+              
+            </Card>
 
+          
         </List.Item>
-      )}
+      }}
     />
   </>
 }

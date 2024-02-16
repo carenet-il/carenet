@@ -1,20 +1,16 @@
 import os
 
-from libs.embedding.quora_distilbert_multilingual_embedding import (
-    QuoraDistilBertMultilingualEmbedding,
-)
+from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
+
 from libs.vector_storage import VectorStorage
-from libs.vector_storage.vector_provider.pincone_vector_provider import (
-    PineconeVectorProvider,
-)
+from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
 
-embedding_model = QuoraDistilBertMultilingualEmbedding(load_locally_model=False)
+embedding_model = CohereMultilingualEmbedding()
 
-storage_provider = PineconeVectorProvider(
+storage_provider = MongoVectorProvider(
     embedding_model=embedding_model,
-    api_key=os.getenv("PINECONE_API_KEY"),
-    environment=os.getenv("PINECONE_ENVIRONMENT"),
-    index_name=os.getenv("PINECONE_INDEX_NAME"),
+    db_name="dev",
+    mongodb_uri=os.getenv("MONGO_URI"),
 )
 
 vector_storage = VectorStorage(storage_provider=storage_provider)
