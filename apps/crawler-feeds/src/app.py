@@ -3,7 +3,7 @@ from typing import List
 
 from libs.embedding.quora_distilbert_multilingual_embedding import QuoraDistilBertMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
-from libs.feed.extractors.extractors import extract_best_match, insert_geo_loc_to_doc
+from libs.feed.extractors.extractors import find_best_city_match_israel, insert_geo_loc_to_doc
 from libs.feed.moh_mentalHeltahClinics_feed import MOH_MentalHealthClinicsFeed
 from libs.feed.moh_resilienceCenters_feed import MOH_ResilienceCentersFeed
 from libs.feed.n12_feed import N12Feed
@@ -49,11 +49,13 @@ def main():
             vector_storage.insert_documents(norm_documents=norm_documents)
         else:
             # normalize each city in each doc
-            norm_documents_city_normalize = extract_best_match(norm_documents)
+            norm_documents_city_normalize = find_best_city_match_israel(norm_documents)
 
             # adding to each doc his geo-location based on city name
             norm_documents_geo_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
             vector_storage.insert_documents(norm_documents=norm_documents_geo_city_normalize)
+            
+    print("done feeds crawler")
                 
 
 if __name__ == "__main__":
