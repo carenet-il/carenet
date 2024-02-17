@@ -3,6 +3,7 @@
 __pycache__
 
 .idea
+.run
 
 # node
 node_modules
@@ -11,3 +12,6 @@ node_modules
 # mac
 .DS_Store
 apps/**/.env
+
+
+git-filter-repo
