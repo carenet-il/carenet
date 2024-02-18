@@ -2,7 +2,7 @@ name: Nightly Python Script Run
 
 on:
   schedule:
-    - cron: '30 6 * * 0'  # Runs at midnight every 3 days
+    - cron: '30 6 * * 0'  # Runs at each sunday - once that week at 6:30 am
   workflow_dispatch:
     inputs:
 
