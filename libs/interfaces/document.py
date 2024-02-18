@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, Union
+from typing import Optional, Union, Dict
 
 from pydantic import BaseModel, Field, conlist
 
@@ -21,8 +21,17 @@ class Document(BaseModel):
     phone_number: Optional[str] = Field(default="")
     full_location: Optional[str] = Field(default="")
     city: Optional[str] = Field(default="")
-    latitude: Optional[float] = Field(default= -91)
-    longitude: Optional[float]= Field(default= 91)
+    
+    location: Optional[Dict]
+    '''
+    Example of location value:
+        
+    location = {
+        "type": "Point",
+        "coordinates": [-73.856077, 40.848447]  # longitude, latitude
+    }
+    '''
+
     state: Optional[str] = Field(default="")
     score: Optional[float] = Field(default=0)
 
@@ -38,10 +47,10 @@ class Document(BaseModel):
         phone_number = "phone_number"
         full_location = "full_location"
         city = "city"
+        location = "location"
         state = "state"
         score = "score"
-        latitude = "latitude"
-        longitude = "longitude"
+
         
 
 class EmbeddingDocument(BaseModel):

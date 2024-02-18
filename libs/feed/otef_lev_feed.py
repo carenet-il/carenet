@@ -3,7 +3,7 @@ import requests
 from libs.feed.abstract import FeedAbstract
 
 from libs.interfaces.document import Document, SourceType
-from libs.feed.extractors.extractors import extract_region_by_city,join_elements_with_separator
+from libs.feed.extractors.extractors import extract_region_from_city,join_elements_with_separator
 
 class OtefLevFeed(FeedAbstract, ABC):
 
@@ -88,7 +88,7 @@ class OtefLevFeed(FeedAbstract, ABC):
             "source": SourceType.OTEFLEV.name,
             "full_location": f"{document.get('location', '')}",
             "city": document.get('city',''),
-            "state": extract_region_by_city(document.get('city','')),
+            "state": extract_region_from_city(document.get('city','')),
         }
 
         return Document(**document_dict)

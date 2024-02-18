@@ -3,7 +3,7 @@ import requests
 from libs.feed.abstract import FeedAbstract
 
 from libs.interfaces.document import Document, SourceType
-from libs.feed.extractors.extractors import extract_region_by_city
+from libs.feed.extractors.extractors import extract_region_from_city
 
 class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
 
@@ -52,7 +52,7 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
             "source": SourceType.MOH.name,
             "full_location": document.get('street', ''),
             "city": document.get('city',''),
-            "state": extract_region_by_city(document.get('city','')),
+            "state": extract_region_from_city(document.get('city','')),
         }
 
         return Document(**document_dict)

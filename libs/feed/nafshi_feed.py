@@ -130,8 +130,10 @@ class NafshiFeed(FeedAbstract, ABC):
                     "source": SourceType.NAFSHI.name,
                     "website": document.serviceLink,
                     "state": state,
-                    "latitude": latitude,
-                    "longitude" : longitude,
+                    "location":{
+                       "type": "Point",
+                       "coordinates": [longitude, latitude]  # longitude, latitude
+                    }
                     
                 }
                 documents_final.append(Document(**document_dict))
@@ -147,8 +149,10 @@ class NafshiFeed(FeedAbstract, ABC):
                 "source": SourceType.NAFSHI.name,
                 "website": document.serviceLink,
                 "state": state,
-                "latitude": latitude,
-                "longitude" : longitude,
+                "location":{
+                    "type": "Point",
+                    "coordinates": [longitude, latitude]  # longitude, latitude
+                }
                 
             }
 

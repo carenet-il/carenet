@@ -68,7 +68,7 @@ def extract_labeled_region_from_text(text: str) -> str:
     return region if region in regions else ''
 
 
-def extract_region_by_city(city: str) -> str:
+def extract_region_from_city(city: str) -> str:
     """This function gets a city and return its region using the api of openstreetmap """
 
     try:
@@ -95,8 +95,6 @@ def join_elements_with_separator(elements: list) -> str:
 
 def extract_geo_loc_from_city(city: str) -> tuple:
     """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given city """
-    if city == '':
-        return 91,-91
     try:
         url = f'https://nominatim.openstreetmap.org/search?city={city}&format=json&limit=1'
         
@@ -120,14 +118,20 @@ def extract_geo_loc_from_city(city: str) -> tuple:
 def insert_geo_loc_to_doc(docs:list[Document]) -> list[Document]:
         
     for doc in docs:
-        city = doc.city if doc.city else ''  # Using dot notation to access attributes
+        city = doc.city
+        
+        if city == '':
+            continue
+        
         latitude, longitude = extract_geo_loc_from_city(city)
         
-        # updating the document's attribute's
-        doc.latitude = latitude
-        doc.longitude = longitude
+        doc.location = {
+            "type": "Point",
+            "coordinates": [longitude, latitude]  # longitude, latitude
+        }
                 
     return docs
+
 
 def extract_geo_loc_from_region(region:str):        
     """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given region """\
@@ -154,6 +158,7 @@ def extract_geo_loc_from_region(region:str):
         print(f"Error fetching geolocation for city '{region}': {e}")
         return 91,-91
     
+    
 def find_best_city_match_israel(docs:list[Document]) -> Document:
     '''This function loop all the city & Regional Council in israel and find the best match using Jaro-Winkler similarity score'''
     
@@ -169,3 +174,14 @@ def find_best_city_match_israel(docs:list[Document]) -> Document:
         doc.city = best_match
     
     return docs
+
+def extract_point_from_city(city_name:str) -> dict:
+    
+    latitude, longitude = extract_geo_loc_from_city(city_name)
+        
+    location = {
+            "type": "Point",
+            "coordinates": [longitude, latitude]  # longitude, latitude
+    }
+    
+    return location

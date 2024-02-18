@@ -2,7 +2,7 @@ from abc import ABC
 from bs4 import BeautifulSoup
 import requests
 from libs.feed.abstract import FeedAbstract
-from libs.feed.extractors.extractors import extract_region_by_city
+from libs.feed.extractors.extractors import extract_region_from_city
 import pandas as pd
 import json
 
@@ -66,7 +66,7 @@ class BtlFeed(FeedAbstract, ABC):
                     record['state'] = "מחוז ירושלים"
                     
                 else: # if not, use the function extract_region_by_city
-                    record['state'] = extract_region_by_city(record['ישוב']) # the function returns an empty string if not found
+                    record['state'] = extract_region_from_city(record['ישוב']) # the function returns an empty string if not found
 
                 # norm the record
                 norm_doc = self.__norm_document__(record)

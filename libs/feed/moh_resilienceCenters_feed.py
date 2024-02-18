@@ -2,7 +2,7 @@ from abc import ABC
 import requests
 from libs.feed.abstract import FeedAbstract
 from libs.interfaces.document import Document, SourceType
-from libs.feed.extractors.extractors import extract_region_by_city
+from libs.feed.extractors.extractors import extract_region_from_city
 
 
 class MOH_ResilienceCentersFeed(FeedAbstract, ABC):
@@ -40,7 +40,7 @@ class MOH_ResilienceCentersFeed(FeedAbstract, ABC):
             "source": SourceType.MOH.name, # MOH stands for Ministry of Health
             "full_location": record.get('Address', ""),
             "city": city,
-            "state": extract_region_by_city(city), # the function returns an empty string if not found
+            "state": extract_region_from_city(city), # the function returns an empty string if not found
         }
 
         return Document(**document_dict)

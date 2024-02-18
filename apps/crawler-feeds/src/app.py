@@ -15,7 +15,6 @@ from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
 
 
-
 def main():
     embedding_model = CohereMultilingualEmbedding()
 
@@ -42,7 +41,6 @@ def main():
         edge-case:
         check if the class name of the current feed object matches 'NafshiFeed'
         because the geo-location is insert inside the nafshi_feed.py file.
-        # todo : this part can be remove and put a city inside nafshi
         '''
         if feed.__class__.__name__ == "NafshiFeed":
             vector_storage.insert_documents(norm_documents=norm_documents)
@@ -51,8 +49,8 @@ def main():
             norm_documents_city_normalize = find_best_city_match_israel(norm_documents)
 
             # adding to each doc his geo-location based on city name
-            norm_documents_geo_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
-            vector_storage.insert_documents(norm_documents=norm_documents_geo_city_normalize)
+            norm_documents_geolocation_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
+            vector_storage.insert_documents(norm_documents=norm_documents_geolocation_city_normalize)
             
     print("done feeds crawler")
 
