@@ -4,6 +4,8 @@ from typing import List
 from libs.embedding.abstract import EmbeddingAbstract
 import cohere
 
+from libs.utils.cache import lru_cache_with_ttl
+
 
 class CohereMultilingualEmbedding(EmbeddingAbstract, ABC):
     def __init__(self, load_locally_model=True):
@@ -20,6 +22,7 @@ class CohereMultilingualEmbedding(EmbeddingAbstract, ABC):
 
         return []
 
+    @lru_cache_with_ttl(maxsize=None, ttl=120)
     def request_to_model_api(self, texts: List[str]) -> List[List[float]]:
 
         try:

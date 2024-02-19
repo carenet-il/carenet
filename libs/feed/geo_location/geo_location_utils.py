@@ -1,8 +1,10 @@
 import requests
 
 from libs.interfaces.document import Document, LocationGeo
+from libs.utils.cache import lru_cache_with_ttl
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_geo_loc_from_city(city: str) -> tuple:
     """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given city """
     try:
@@ -24,6 +26,8 @@ def extract_geo_loc_from_city(city: str) -> tuple:
         print(f"Error fetching geolocation for city '{city}': {e}")
         return None, None
 
+
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_geo_loc_from_region(region: str):
     """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given region """
     if region == 'ארצי - מרחוק':
@@ -49,7 +53,7 @@ def extract_geo_loc_from_region(region: str):
         return None, None
 
 
-def insert_geo_loc_to_doc(docs: list[Document]) -> list[Document]:
+def insert_location_object_to_documents_by_city_or_state(docs: list[Document]) -> list[Document]:
     for doc in docs:
         if doc.city != '':
             latitude, longitude = extract_geo_loc_from_city(doc.city)
@@ -59,7 +63,7 @@ def insert_geo_loc_to_doc(docs: list[Document]) -> list[Document]:
                     "type": "Point",
                     "coordinates": [longitude, latitude]  # longitude, latitude
                 })
-        elif doc.state:
+        elif doc.state != '':
             latitude, longitude = extract_geo_loc_from_region(doc.state)
 
             if latitude is not None and longitude is not None:
@@ -69,16 +73,3 @@ def insert_geo_loc_to_doc(docs: list[Document]) -> list[Document]:
                 })
 
     return docs
-
-
-
-
-def extract_point_from_city(city_name: str) -> dict:
-    latitude, longitude = extract_geo_loc_from_city(city_name)
-
-    location = {
-        "type": "Point",
-        "coordinates": [longitude, latitude]  # longitude, latitude
-    }
-
-    return location

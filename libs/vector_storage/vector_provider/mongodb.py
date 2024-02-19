@@ -4,6 +4,7 @@ from typing import List, Optional
 from pymongo import MongoClient, UpdateOne
 
 from libs.embedding.abstract import EmbeddingAbstract
+from libs.feed.geo_location.geo_location_utils import extract_geo_loc_from_city
 from libs.interfaces.document import Document, EmbeddingDocument, DocumentSearchFilters
 from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
@@ -21,12 +22,6 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         self.db = self.client[db_name]
         self.document_collection = self.db["documents"]
 
-        # create a 2dsphere index for geospatial queries
-        try:
-            self.document_collection.create_index([("location", "2dsphere")])
-        except Exception as e:
-            print(f"Error creating index: {e}")
-
         super().__init__(embedding_model)
 
     def search(
@@ -41,13 +36,13 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
         built_filters = []
 
-        if filters.city:
-            if isinstance(filters.city, list):
-                built_filters.append({"metadata.city": {"$in": filters.city}})
-            else:
-                built_filters.append({"metadata.city": filters.city})
+        latitude = None
+        longitude = None
+        # Filter by city with radius or by state only support
+        if filters.city and isinstance(filters.city, str) and filters.radius:
+            latitude, longitude = extract_geo_loc_from_city(filters.city)
 
-        if filters.state:
+        elif filters.state:
             if isinstance(filters.state, list):
                 built_filters.append({"metadata.state": {"$in": filters.state}})
             else:
@@ -60,30 +55,41 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if len(query_vector) == 0:
             return []
 
-        results = self.document_collection.aggregate(
-            [
-                {
-                    "$vectorSearch": {
-                        "index": "default_vector_index",
-                        "path": "values",
-                        "filter": (
-                            {"$and": built_filters} if built_filters else None
-                        ),
-                        "queryVector": query_vector,
-                        "numCandidates": k,
-                        "limit": k // 10
-                    }
-                },
-                {"$addFields": {"score": {"$meta": "vectorSearchScore"}}},
-                {"$match": {"score": {"$gte": threshold}}},
-                {"$sort": {"score": -1}},
-                {
-                    "$replaceRoot": {
-                        "newRoot": {"$mergeObjects": ["$metadata", {"score": "$score"}]}
-                    }
-                },
-            ]
-        )
+        pipelines = [
+
+            {
+                "$vectorSearch": {
+                    "index": "default_vector_index",
+                    "path": "values",
+                    "filter": (
+                        {"$and": built_filters} if built_filters else None
+                    ),
+                    "queryVector": query_vector,
+                    "numCandidates": k,
+                    "limit": k // 10
+                }
+            },
+            {"$addFields": {"score": {"$meta": "vectorSearchScore"}}},
+            {"$match": {"score": {"$gte": threshold}}},
+            {"$sort": {"score": -1}},
+            {
+                "$replaceRoot": {
+                    "newRoot": {"$mergeObjects": ["$metadata", {"score": "$score"}]}
+                }
+            },
+        ]
+
+        if latitude is not None and longitude is not None and filters.radius:
+            pipelines.insert(0, {
+                "$geoNear": {
+                    "near": {"type": "Point", "coordinates": [longitude, latitude]},
+                    "metadata.location": "dist.calculated",
+                    "maxDistance": filters.radius,
+                    "spherical": True
+                }
+            })
+
+        results = self.document_collection.aggregate(pipelines)
 
         return [Document(**doc) for doc in results]
 
@@ -115,9 +121,6 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         # Perform bulk write operation with upsets
         if operations:  # Check if the list is not empty
             self.document_collection.bulk_write(operations)
-
-    # def generate_vector(self, doc: Document):
-    #     return self.embedding_model.encode(doc.title)
 
     def generate_vector_bulk(self, documents: List[Document]) -> List[List[float]]:
         titles = list(map(lambda doc: doc.title, documents))

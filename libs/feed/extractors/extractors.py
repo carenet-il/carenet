@@ -1,10 +1,10 @@
 import re
 import requests
-from libs.interfaces.document import Document, LocationGeo
-import textdistance
-from .cities import cities_israel_heb
+
+from libs.utils.cache import lru_cache_with_ttl
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def get_locations_by_coordination(lat: float, lon: float):
     url = f"https://nominatim.openstreetmap.org/reverse?format=json&lat={lat}&lon={lon}"
     response = requests.get(url)
@@ -20,6 +20,7 @@ def get_locations_by_coordination(lat: float, lon: float):
         return "", "", ""
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_phone(text: str):
     if not text:
         return ""
@@ -31,6 +32,7 @@ def extract_phone(text: str):
     return ', '.join(matches) if matches else ""
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_email(text: str):
     if not text:
         return ""
@@ -42,6 +44,7 @@ def extract_email(text: str):
     return match.group() if match else ""
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_description(text):
     if not text:
         return ""
@@ -53,6 +56,7 @@ def extract_description(text):
     return tag_re.sub('', text)
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_labeled_region_from_text(text: str) -> str:
     """Extracts the region from a given string"""
 
@@ -69,6 +73,7 @@ def extract_labeled_region_from_text(text: str) -> str:
     return region if region in regions else ''
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_region_from_city(city: str) -> str:
     """This function gets a city and return its region using the api of openstreetmap """
 
@@ -86,30 +91,10 @@ def extract_region_from_city(city: str) -> str:
         return ''
 
 
+@lru_cache_with_ttl(maxsize=None, ttl=120)
 def join_elements_with_separator(elements: list) -> str:
     if len(elements) == 0:
         return ''
     else:
         concatenated_string = ', '.join(elements)
         return concatenated_string
-
-
-
-def find_best_city_match_israel(docs: list[Document]) -> list[Document]:
-    '''This function loop all the city & Regional Council in israel and find the best match using Jaro-Winkler
-    similarity score'''
-
-    for doc in docs:
-        if doc.city:
-            highest_score = 0
-            best_match = ""
-            for actual_city in cities_israel_heb:
-                score = textdistance.jaro_winkler(doc.city, actual_city)
-                if score > highest_score:
-                    highest_score = score
-                    best_match = actual_city
-
-            doc.city = best_match
-
-    return docs
-

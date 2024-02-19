@@ -68,6 +68,7 @@ class DocumentSearchFilters(BaseModel):
     city: Optional[Union[str, conlist(str, min_length=1)]] = Field(
         default=None
     )
+    radius: Optional[int] = Field(default=None)
     state: Optional[Union[str, conlist(str, min_length=1)]] = Field(
         default=None
     )
