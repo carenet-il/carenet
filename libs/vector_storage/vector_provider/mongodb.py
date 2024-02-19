@@ -1,6 +1,5 @@
 from abc import ABC
 from typing import List, Optional
-from libs.feed.extractors.extractors import extract_point_from_city
 
 from pymongo import MongoClient, UpdateOne
 
@@ -141,27 +140,3 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
 
         return DocumentSearchFilters(city=cities, state=states)
-
-    def extract_docs_from_radius(self,city_name:str,radius:str):
-        
-        point = extract_point_from_city(city_name)
-        
-        # normalize the radius
-        radius = int(radius) * 100 # radius needs to be 1000, 2000, and etc.
-        
-        query = [
-        {
-            '$geoNear': {
-            'near': point,
-            'distanceField': "dist.calculated",
-            'maxDistance': radius,
-            'query': { 'type': "public" },
-            'includeLocs': "dist.location",
-            'spherical': True
-            }
-        }
-        ]
-        
-        results = self.document_collection.aggregate(query)
-        
-        return [Document(**doc) for doc in results]

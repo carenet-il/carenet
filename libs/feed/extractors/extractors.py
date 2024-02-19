@@ -1,6 +1,6 @@
 import re
 import requests
-from libs.interfaces.document import Document
+from libs.interfaces.document import Document, LocationGeo
 import textdistance
 from .cities import cities_israel_heb
 
@@ -52,19 +52,20 @@ def extract_description(text):
     # Remove the HTML tags
     return tag_re.sub('', text)
 
+
 def extract_labeled_region_from_text(text: str) -> str:
     """Extracts the region from a given string"""
 
     # regular expression to match 'מחוז' followed by any characters except ',' (non-greedy) until a ','
     pattern = r"מחוז(.*?),"
-    
-    regions = ['מחוז ירושלים','מחוז הצפון','מחוז הדרום','מחוז חיפה','מחוז תל אביב','ארצי - מרחוק','מחוז המרכז']
+
+    regions = ['מחוז ירושלים', 'מחוז הצפון', 'מחוז הדרום', 'מחוז חיפה', 'מחוז תל אביב', 'ארצי - מרחוק', 'מחוז המרכז']
 
     # search for the pattern in the text
     match = re.search(pattern, text)
 
     region = "מחוז " + match.group(1).strip() if match else ''
-    
+
     return region if region in regions else ''
 
 
@@ -78,12 +79,12 @@ def extract_region_from_city(city: str) -> str:
         city_details = response.get('display_name', "")  # example of the var : עכו, נפת עכו, מחוז הצפון, ישראל
 
         # happens when there is no such city in the API or city name is not in the api dataset
-        
+
         return '' if len(city_details) == 0 else extract_labeled_region_from_text(city_details)
 
     except Exception as e:
         return ''
-    
+
 
 def join_elements_with_separator(elements: list) -> str:
     if len(elements) == 0:
@@ -91,97 +92,24 @@ def join_elements_with_separator(elements: list) -> str:
     else:
         concatenated_string = ', '.join(elements)
         return concatenated_string
-    
-
-def extract_geo_loc_from_city(city: str) -> tuple:
-    """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given city """
-    try:
-        url = f'https://nominatim.openstreetmap.org/search?city={city}&format=json&limit=1'
-        
-        response = requests.get(url)
-        if response.status_code == 200:
-            results = response.json()
-            if results:
-                # extract latitude and longitude from the first result
-                latitude = results[0].get('lat')
-                longitude = results[0].get('lon')
-                return float(latitude), float(longitude)
-            else:
-                return 91,-91
-        else:
-            return 91,-91
-    except Exception as e:
-        print(f"Error fetching geolocation for city '{city}': {e}")
-        return 91,-91
 
 
-def insert_geo_loc_to_doc(docs:list[Document]) -> list[Document]:
-        
+
+def find_best_city_match_israel(docs: list[Document]) -> list[Document]:
+    '''This function loop all the city & Regional Council in israel and find the best match using Jaro-Winkler
+    similarity score'''
+
     for doc in docs:
-        city = doc.city
-        
-        if city == '':
-            continue
-        
-        latitude, longitude = extract_geo_loc_from_city(city)
-        
-        doc.location = {
-            "type": "Point",
-            "coordinates": [longitude, latitude]  # longitude, latitude
-        }
-                
+        if doc.city:
+            highest_score = 0
+            best_match = ""
+            for actual_city in cities_israel_heb:
+                score = textdistance.jaro_winkler(doc.city, actual_city)
+                if score > highest_score:
+                    highest_score = score
+                    best_match = actual_city
+
+            doc.city = best_match
+
     return docs
 
-
-def extract_geo_loc_from_region(region:str):        
-    """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given region """\
-        
-    if region == 'ארצי - מרחוק':
-        return 91,-91
-    
-    try:
-        url = f"https://nominatim.openstreetmap.org/search?format=json&q={region}"
-        
-        response = requests.get(url)
-        if response.status_code == 200:
-            results = response.json()
-            if results:
-                # extract latitude and longitude from the first result
-                latitude = results[0].get('lat')
-                longitude = results[0].get('lon')
-                return str(latitude), str(longitude)
-            else:
-                return 91,-91
-        else:
-            return 91,-91
-    except Exception as e:
-        print(f"Error fetching geolocation for city '{region}': {e}")
-        return 91,-91
-    
-    
-def find_best_city_match_israel(docs:list[Document]) -> Document:
-    '''This function loop all the city & Regional Council in israel and find the best match using Jaro-Winkler similarity score'''
-    
-    for doc in docs:
-        highest_score = 0
-        best_match = ""
-        for actual_city in cities_israel_heb:
-            score = textdistance.jaro_winkler(doc.city, actual_city)
-            if score > highest_score:
-                highest_score = score
-                best_match = actual_city
-                
-        doc.city = best_match
-    
-    return docs
-
-def extract_point_from_city(city_name:str) -> dict:
-    
-    latitude, longitude = extract_geo_loc_from_city(city_name)
-        
-    location = {
-            "type": "Point",
-            "coordinates": [longitude, latitude]  # longitude, latitude
-    }
-    
-    return location

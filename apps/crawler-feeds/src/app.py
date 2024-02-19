@@ -3,7 +3,8 @@ from typing import List
 
 from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
-from libs.feed.extractors.extractors import find_best_city_match_israel, insert_geo_loc_to_doc
+from libs.feed.extractors.extractors import find_best_city_match_israel
+from libs.feed.geo_location.geo_location_utils import insert_geo_loc_to_doc
 from libs.feed.moh_mentalHeltahClinics_feed import MOH_MentalHealthClinicsFeed
 from libs.feed.moh_resilienceCenters_feed import MOH_ResilienceCentersFeed
 from libs.feed.n12_feed import N12Feed
@@ -36,22 +37,14 @@ def main():
  
     for feed in feeds:
         norm_documents: List[Document] = feed.pull()
-                
-        '''' 
-        edge-case:
-        check if the class name of the current feed object matches 'NafshiFeed'
-        because the geo-location is insert inside the nafshi_feed.py file.
-        '''
-        if feed.__class__.__name__ == "NafshiFeed":
-            vector_storage.insert_documents(norm_documents=norm_documents)
-        else:
-            # normalize each city in each doc
-            norm_documents_city_normalize = find_best_city_match_israel(norm_documents)
 
-            # adding to each doc his geo-location based on city name
-            norm_documents_geolocation_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
-            vector_storage.insert_documents(norm_documents=norm_documents_geolocation_city_normalize)
-            
+        # normalize each city in each doc
+        norm_documents_city_normalize = find_best_city_match_israel(norm_documents)
+        # adding to each doc his geolocation based on city name
+        norm_documents_geolocation_city_normalize = insert_geo_loc_to_doc(norm_documents_city_normalize)
+        vector_storage.insert_documents(norm_documents=norm_documents_geolocation_city_normalize)
+
+
     print("done feeds crawler")
 
 if __name__ == "__main__":

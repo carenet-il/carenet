@@ -12,6 +12,12 @@ class SourceType(Enum):
     OTEFLEV = "OTEFLEV"
     # Add other source types as needed
 
+
+class LocationGeo(BaseModel):
+    type: str = Field(default="Point")
+    coordinates: [float, float] = Field()
+
+
 class Document(BaseModel):
     title: str
     description: str
@@ -21,8 +27,8 @@ class Document(BaseModel):
     phone_number: Optional[str] = Field(default="")
     full_location: Optional[str] = Field(default="")
     city: Optional[str] = Field(default="")
-    
-    location: Optional[Dict]
+
+    location: Optional[LocationGeo]
     '''
     Example of location value:
         
@@ -51,7 +57,6 @@ class Document(BaseModel):
         state = "state"
         score = "score"
 
-        
 
 class EmbeddingDocument(BaseModel):
     id: str
