@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, Union, Dict
+from typing import Optional, Union, Dict, Tuple
 
 from pydantic import BaseModel, Field, conlist
 
@@ -15,7 +15,7 @@ class SourceType(Enum):
 
 class LocationGeo(BaseModel):
     type: str = Field(default="Point")
-    coordinates: [float, float] = Field()
+    coordinates: Tuple[float, float] = Field(..., description="A tuple of two floats representing longitude and latitude")
 
 
 class Document(BaseModel):
@@ -28,7 +28,7 @@ class Document(BaseModel):
     full_location: Optional[str] = Field(default="")
     city: Optional[str] = Field(default="")
 
-    location: Optional[LocationGeo]
+    location: Optional[LocationGeo] = Field(default=None)
     '''
     Example of location value:
         

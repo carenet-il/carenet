@@ -91,7 +91,6 @@ def extract_region_from_city(city: str) -> str:
         return ''
 
 
-@lru_cache_with_ttl(maxsize=None, ttl=120)
 def join_elements_with_separator(elements: list) -> str:
     if len(elements) == 0:
         return ''

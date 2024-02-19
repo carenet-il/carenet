@@ -83,8 +83,9 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
             pipelines.insert(0, {
                 "$geoNear": {
                     "near": {"type": "Point", "coordinates": [longitude, latitude]},
-                    "metadata.location": "dist.calculated",
-                    "maxDistance": filters.radius,
+                    "distanceField": "dist.calculated",
+                    "maxDistance": filters.radius / 6371.1, # 2000 meters / 6371.1 earth radius in km = 0.0311 radians
+                    "includeLocs": "dist.location",
                     "spherical": True
                 }
             })

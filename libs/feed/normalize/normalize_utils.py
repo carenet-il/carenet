@@ -5,7 +5,7 @@ from libs.utils.cache import lru_cache_with_ttl
 
 
 @lru_cache_with_ttl(maxsize=None, ttl=120)
-def find_best_city_match(cities_israel_heb: list[str], city: str):
+def find_best_city_match(cities_israel_heb: tuple[str], city: str):
     highest_score = 0
     best_match = ""
     for actual_city in cities_israel_heb:
@@ -22,6 +22,6 @@ def normalize_cities(cities_israel_heb: list[str], docs: list[Document]) -> list
     similarity score"""
     for doc in docs:
         if doc.city:
-            doc.city = find_best_city_match(cities_israel_heb, doc.city)
+            doc.city = find_best_city_match(tuple(cities_israel_heb), doc.city)
 
     return docs

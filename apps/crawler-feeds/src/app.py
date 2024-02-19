@@ -25,7 +25,8 @@ def get_cities_israel_heb() -> list[str]:
 
     response = response.json()
 
-    cities = list(map(lambda x: x["שם_ישוב"], response["result"]["records"]))
+    # remove spaces
+    cities = list(map(lambda x: str(x["שם_ישוב"]).strip(), response["result"]["records"]))
 
     return cities
 

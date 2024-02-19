@@ -6,7 +6,6 @@ import requests
 from pydantic import BaseModel, Field
 
 from libs.feed.abstract import FeedAbstract
-from libs.feed.extractors.extractors import extract_geo_loc_from_region
 from libs.interfaces.document import Document, SourceType
 
 nafshi_to_genral_region = {
