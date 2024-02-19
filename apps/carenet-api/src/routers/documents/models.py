@@ -13,3 +13,7 @@ class SearchDocumentPayload(BaseModel):
 
 class SearchDocumentResult(BaseModel):
     results: list[Document] = Field(...)
+
+class ExtractDocsFromRadiusPayload(BaseModel):
+    city_name: str = Field(...,)
+    radius: str = Field(..., )
