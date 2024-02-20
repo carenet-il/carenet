@@ -55,6 +55,13 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if len(query_vector) == 0:
             return []
 
+        documents_in_the_area = []
+        if latitude is not None and longitude is not None and filters.radius > 0:
+            documents_in_the_area = self.get_documents_in_the_area(longitude, latitude, filters.radius)
+
+        if len(documents_in_the_area) > 0:
+            built_filters.append({"id": {"$in": documents_in_the_area}})
+
         pipelines = [
 
             {
@@ -78,17 +85,6 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
                 }
             },
         ]
-
-        if latitude is not None and longitude is not None and filters.radius:
-            pipelines.insert(0, {
-                "$geoNear": {
-                    "near": {"type": "Point", "coordinates": [longitude, latitude]},
-                    "distanceField": "dist.calculated",
-                    "maxDistance": filters.radius / 6371.1, # 2000 meters / 6371.1 earth radius in km = 0.0311 radians
-                    "includeLocs": "dist.location",
-                    "spherical": True
-                }
-            })
 
         results = self.document_collection.aggregate(pipelines)
 
@@ -144,3 +140,24 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
 
         return DocumentSearchFilters(city=cities, state=states)
+
+    def get_documents_in_the_area(self, longitude, latitude, radius):
+
+        pipeline = [
+            {
+                "$geoNear": {
+                    "near": {"type": "Point", "coordinates": [longitude, latitude]},
+                    "distanceField": "dist.calculated",
+                    "maxDistance": radius,
+                    "includeLocs": "dist.location",
+                    "spherical": True
+                }
+            },
+            {
+                "$project": {"id": 1}
+            }
+        ]
+
+        results = self.document_collection.aggregate(pipeline)
+
+        return list(map(lambda r: r["id"], results))
