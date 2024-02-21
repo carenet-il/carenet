@@ -4,7 +4,7 @@ from typing import List, Optional
 from pymongo import MongoClient, UpdateOne
 
 from libs.embedding.abstract import EmbeddingAbstract
-from libs.feed.geo_location.geo_location_utils import extract_geo_loc_from_city
+from libs.feed.geo_location.geo_location_utils import extract_geo_loc_from_city, get_cities_israel_heb
 from libs.interfaces.document import Document, EmbeddingDocument, DocumentSearchFilters
 from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
@@ -135,7 +135,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
     def fetch_search_filters(self) -> DocumentSearchFilters:
 
-        cities = self.document_collection.distinct("metadata.city", {"metadata.city": {"$nin": [None, ""]}})
+        cities = get_cities_israel_heb()
 
         states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
 

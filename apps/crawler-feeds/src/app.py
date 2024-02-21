@@ -5,7 +5,8 @@ import requests
 
 from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
-from libs.feed.geo_location.geo_location_utils import insert_location_object_to_documents_by_city_or_state
+from libs.feed.geo_location.geo_location_utils import insert_location_object_to_documents_by_city_or_state, \
+    get_cities_israel_heb
 from libs.feed.moh_mentalHeltahClinics_feed import MOH_MentalHealthClinicsFeed
 from libs.feed.moh_resilienceCenters_feed import MOH_ResilienceCentersFeed
 from libs.feed.n12_feed import N12Feed
@@ -16,19 +17,6 @@ from libs.feed.otef_lev_feed import OtefLevFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
-
-
-def get_cities_israel_heb() -> list[str]:
-    url = "https://data.gov.il/api/3/action/datastore_search?resource_id=5c78e9fa-c2e2-4771-93ff-7f400a12f7ba&limit=2000"
-
-    response = requests.request("GET", url)
-
-    response = response.json()
-
-    # remove spaces
-    cities = list(map(lambda x: str(x["שם_ישוב"]).strip(), response["result"]["records"]))
-
-    return cities
 
 
 def main():

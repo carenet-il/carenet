@@ -4,6 +4,20 @@ from libs.interfaces.document import Document, LocationGeo
 from libs.utils.cache import lru_cache_with_ttl
 
 
+
+@lru_cache_with_ttl(maxsize=None, ttl=120)
+def get_cities_israel_heb() -> list[str]:
+    url = "https://data.gov.il/api/3/action/datastore_search?resource_id=5c78e9fa-c2e2-4771-93ff-7f400a12f7ba&limit=2000"
+
+    response = requests.request("GET", url)
+
+    response = response.json()
+
+    # remove spaces
+    cities = list(map(lambda x: str(x["שם_ישוב"]).strip(), response["result"]["records"]))
+
+    return cities
+
 @lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_geo_loc_from_city(city: str) -> tuple:
     """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given city """

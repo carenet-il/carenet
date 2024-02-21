@@ -35,18 +35,15 @@ interface Result {
 }
 
 const hostname = "https://api-carenet.koyeb.app";
-//   const hostname = "http://localhost:8000";
+// const hostname = "http://localhost:8000";
 
 export default function SearchPage() {
 
-  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {},threshold : 0.8  });
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {}, threshold: 0.8 });
 
   const [loading, setLoading] = useState<boolean>(false);
 
   const [results, setResults] = useState<Result[]>([]);
-
-
-
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,30 +80,28 @@ export default function SearchPage() {
   return (
 
     <DashboardLayout>
-    <div>
 
-      <Row gutter={24}>
-        <Col span={24}>
-          <Card title="חיפוש" bordered={true}>
-            <SearchComponent setSearchArgs={setSearchArgs} />
-          </Card>
-        </Col>
+        <Row gutter={24}>
+          <Col span={24}>
+            <Card title="חיפוש" bordered={true}>
+              <SearchComponent setSearchArgs={setSearchArgs} />
+            </Card>
+          </Col>
 
-      </Row>
+        </Row>
 
-      <Row gutter={24}>
-        <Col span={24}>
+        <Row gutter={24}>
+          <Col span={24}>
 
-          <Card title="תוצאות" bodyStyle={{  direction: "rtl" }} bordered={true}>
+            <Card title="תוצאות" bodyStyle={{ direction: "rtl" }} bordered={true}>
 
-            {
-              (results.length > 0) && <ListResults loading={loading} results={results}></ListResults>
-            }
-          </Card>
-        </Col>
-      </Row>
+              {
+                (results.length > 0) && <ListResults loading={loading} results={results}></ListResults>
+              }
+            </Card>
+          </Col>
+        </Row>
 
-    </div>
     </DashboardLayout>
   )
 
@@ -116,10 +111,11 @@ export default function SearchPage() {
 interface SearchArgs {
   query: string
   filters: {
-    city?: string[],
+    city?: string,
+    radius?: number,
     state?: string[]
   },
-  threshold:number
+  threshold: number
 }
 
 
@@ -137,12 +133,17 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
 
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCities, setSelectedCities] = useState([]);
+  const [selectedCity, setSelectedCity] = useState('');
   const [selectedStates, setSelectedStates] = useState([]);
   const [thresholdValue, setThresholdValue] = useState(0.8); // Initial value of the slider
+  const [radiusValue, setRadiusValue] = useState(5); // Initial value of the slider
 
-  const onChange = (value:number) => {
-        setThresholdValue(value);
+  const onChange = (value: number) => {
+    setThresholdValue(value);
+  };
+
+  const onRadiusChange = (value: number) => {
+    setRadiusValue(value);
   };
 
   useEffect(() => {
@@ -177,26 +178,30 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
   // Handler for submitting the search
   const handleSubmit = () => {
-
     if (searchQuery !== "") {
       const searchData: SearchArgs = {
         query: searchQuery,
         filters: {},
-        threshold : thresholdValue
+        threshold: thresholdValue
       };
 
-      if (selectedStates.length) {
-        searchData.filters.state = selectedStates
+      // Check if city and radius are selected; if so, prioritize city filter
+      if (selectedCity && radiusValue > 0) {
+        searchData.filters.city = selectedCity;
+        searchData.filters.radius = radiusValue * 1000; // Convert radius to meters or as required
+        // Clear state selection if city is prioritized
+        setSelectedStates([]);
+      }
+      // If city is not selected but states are, use state filter
+      else if (selectedStates.length) {
+        searchData.filters.state = selectedStates;
+        // Clear city and radius if states are prioritized
+        setSelectedCity('');
+        setRadiusValue(5); // Reset to default or any logic you prefer
       }
 
-      if (selectedCities.length) {
-        searchData.filters.city = selectedCities
-      }
-
-      setSearchArgs(searchData)
+      setSearchArgs(searchData);
     }
-
-
   };
 
   return (
@@ -234,19 +239,46 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
           label=""
           wrapperCol={{ offset: 0, span: 16 }}>
           <Select
-            mode="multiple"
+            allowClear
+            showSearch
             placeholder="עיר"
-            onChange={(value) => setSelectedCities(value)}
-
+            onChange={(value) => {
+              setSelectedCity(value);
+              if (value) {
+                setSelectedStates([]); // Clear states if city is selected
+              }
+            }}
+            value={selectedCity}
+            // Add this to disable the select when states are selected
+            disabled={selectedStates.length > 0}
           >
-
-            {
-              cities.map((city, index) => {
-                return <Option key={`city-${index}`} value={city}>{city}</Option>
-              })
-            }
-
+            {cities.map((city, index) => (
+              <Option key={`city-${index}`} value={city}>{city}</Option>
+            ))}
           </Select>
+
+        </Form.Item>
+
+
+        <Form.Item
+          label='רדיוס מהעיר בק"מ'
+
+        >
+          <Slider
+            disabled={selectedStates.length > 0}
+            tooltip={{ open: true }}
+            min={5}
+            max={20}
+            step={5}
+            onChange={onRadiusChange}
+            value={typeof radiusValue === 'number' ? radiusValue : 0}
+            marks={{
+              5: '5 km',
+              10: '10 km',
+              15: '15 km',
+              20: '20 km',
+            }}
+          />
         </Form.Item>
 
 
@@ -257,36 +289,42 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
           <Select
             mode="multiple"
             placeholder="אזור בארץ"
-            onChange={(value) => setSelectedStates(value)}
+            onChange={(value) => {
+              setSelectedStates(value);
+              if (value.length) {
+                setSelectedCity(''); // Clear city if states are selected
+                setRadiusValue(5); // Reset radius if states are selected
+              }
+            }}
+            value={selectedStates}
+            // Add this to disable the select when a city is selected
+            disabled={!!selectedCity}
           >
-
-            {
-              states.map((state, index) => {
-                return <Option key={`state-${index}`} value={state}>{state}</Option>
-              })
-            }
-
+            {states.map((state, index) => (
+              <Option key={`state-${index}`} value={state}>{state}</Option>
+            ))}
           </Select>
         </Form.Item>
 
 
         <Form.Item
 
-         label="חוזק התאמה"
+          label="חוזק התאמה"
 
         >
-        <Slider
-              min={0.6}
-              max={0.8}
-              step={0.1}
-              onChange={onChange}
-              value={typeof thresholdValue === 'number' ? thresholdValue : 0}
-              marks={{
-                0.6: '0.6',
-                0.7: '0.7',
-                0.8: '0.8',
-              }}
-            />
+          <Slider
+            tooltip={{ open: true }}
+            min={0.6}
+            max={0.8}
+            step={0.1}
+            onChange={onChange}
+            value={typeof thresholdValue === 'number' ? thresholdValue : 0}
+            marks={{
+              0.6: '0.6',
+              0.7: '0.7',
+              0.8: '0.8',
+            }}
+          />
         </Form.Item>
 
 
@@ -313,18 +351,17 @@ interface ChipsResultsComponentProps {
 }
 
 
-const IconTextWithHref = ({icon,text,href,value} : { icon : React.FC ;text:string,href:string,value?:string}) =>{
+const IconTextWithHref = ({ icon, text, href, value }: { icon: React.FC; text: string, href: string, value?: string }) => {
 
-  if(!value)
-  {
+  if (!value) {
     return null
   }
 
   return <Space>
     {React.createElement(icon)}
-    <a rel="noopener noreferrer" 
-       target="_blank"
-       href={href}>
+    <a rel="noopener noreferrer"
+      target="_blank"
+      href={href}>
       {text}</a>
   </Space>
 }
@@ -332,9 +369,9 @@ const IconTextWithHref = ({icon,text,href,value} : { icon : React.FC ;text:strin
 
 
 
-const WazeIcon = ({full_location} : { full_location : string }) => {
+const WazeIcon = ({ full_location }: { full_location: string }) => {
 
-  if(!full_location) return null;
+  if (!full_location) return null;
 
 
   const generateWazeLink = (address: string) => {
@@ -342,14 +379,14 @@ const WazeIcon = ({full_location} : { full_location : string }) => {
   };
 
   return <> <a href={generateWazeLink(full_location)} target="_blank"
-              rel="noopener noreferrer" >
-              <Avatar
-                key="waze icon"
-                src="https://www.myteacherlanguages.com/wp-content/uploads/2018/11/Waze-Icon-copy_Link.jpg"
-                alt="Waze Icon"
-              />
-              </a>
-         </>
+    rel="noopener noreferrer" >
+    <Avatar
+      key="waze icon"
+      src="https://www.myteacherlanguages.com/wp-content/uploads/2018/11/Waze-Icon-copy_Link.jpg"
+      alt="Waze Icon"
+    />
+  </a>
+  </>
 }
 
 
@@ -397,38 +434,34 @@ const ListResults = (resultsProps: ResultsProps) => {
         xxl: 3,
       }}
       size="large"
-    
+
       dataSource={resultsProps.results}
       renderItem={(item, index) => {
 
         const actions = []
-        if(item.email)
-        {
-            actions.push( <IconTextWithHref key={index}              
-              href={`mailto:${item.email}`}          
-                icon={MailOutlined} value={item.email} text='איימל'></IconTextWithHref>)
+        if (item.email) {
+          actions.push(<IconTextWithHref key={index}
+            href={`mailto:${item.email}`}
+            icon={MailOutlined} value={item.email} text='איימל'></IconTextWithHref>)
         }
 
-        if(item.phone_number)
-        {
-          actions.push( <IconTextWithHref key={index}              
+        if (item.phone_number) {
+          actions.push(<IconTextWithHref key={index}
             href={`tel:${item.phone_number}`}
             icon={PhoneOutlined} value={item.phone_number} text='טלפון'></IconTextWithHref>)
         }
 
 
-        if(item.website)
-        {
+        if (item.website) {
           actions.push(
-            <IconTextWithHref key={index}              
-            href={`${item.website}`}          
+            <IconTextWithHref key={index}
+              href={`${item.website}`}
               icon={GlobalOutlined} value={item.website} text='אתר'></IconTextWithHref>,
- 
+
           )
         }
 
-        if(item.full_location)
-        {
+        if (item.full_location) {
           actions.push(
             <WazeIcon full_location={item.full_location}></WazeIcon>
 
@@ -438,12 +471,12 @@ const ListResults = (resultsProps: ResultsProps) => {
         actions.push(<>{item.source}</>)
 
         return <List.Item
-        key={`item-${index}`}
+          key={`item-${index}`}
         >
-            <Card       className='custom-border-card'  title={item.title} actions={actions}>
+          <Card className='custom-border-card' title={item.title} actions={actions}>
             <List.Item.Meta
-            avatar={sourceMapAvater[SourceType[item.source]]}
-              />
+              avatar={sourceMapAvater[SourceType[item.source]]}
+            />
             <div className='flex flex-col space-y-2 break-words'>
               <div className='break-words'>
                 {
@@ -472,10 +505,10 @@ const ListResults = (resultsProps: ResultsProps) => {
                 }
               </div>
             </div>
-              
-            </Card>
 
-          
+          </Card>
+
+
         </List.Item>
       }}
     />
