@@ -4,6 +4,8 @@ from typing import List
 from libs.embedding.abstract import EmbeddingAbstract
 import cohere
 
+from libs.utils.cache import lru_cache_with_ttl
+
 
 class CohereMultilingualEmbedding(EmbeddingAbstract, ABC):
     def __init__(self, load_locally_model=True):
@@ -11,21 +13,22 @@ class CohereMultilingualEmbedding(EmbeddingAbstract, ABC):
         self.co = cohere.Client(os.getenv("COHERE_API"))  # This is your trial API key
 
     def encode_bulk(self, texts: List[str]) -> List[List[float]]:
-        return self.request_to_model_api(texts)
+        return self.request_to_model_api(tuple(texts))
 
     def encode(self, text: str) -> List[float]:
-        results = self.request_to_model_api([text])
+        results = self.request_to_model_api(tuple([text]))
         if len(results) > 0:
             return results[0]
 
         return []
 
-    def request_to_model_api(self, texts: List[str]) -> List[List[float]]:
+    @lru_cache_with_ttl(maxsize=None, ttl=120)
+    def request_to_model_api(self, texts: tuple[str]) -> List[List[float]]:
 
         try:
             response = self.co.embed(
                 model='embed-multilingual-light-v3.0',
-                texts=texts,
+                texts=list(texts),
                 input_type='classification'
             )
             return response.embeddings

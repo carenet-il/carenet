@@ -8,9 +8,7 @@ from pydantic import BaseModel, Field
 from libs.feed.abstract import FeedAbstract
 from libs.interfaces.document import Document, SourceType
 
-
 nafshi_to_genral_region = {
-    
     "איו״ש": "מחוז ירושלים",
     "ארצי - מרחוק": "ארצי - מרחוק",
     "דרום - נגב צפוני": "מחוז הדרום",
@@ -21,8 +19,8 @@ nafshi_to_genral_region = {
     "מרכז": "מחוז תל אביב",
     "צפון": "מחוז הצפון",
     "שפלה": "מחוז המרכז"
-    
 }
+
 
 class NafshiDocument(BaseModel):
     tagsAges: Optional[List[str]] = []
@@ -117,23 +115,29 @@ class NafshiFeed(FeedAbstract, ABC):
 
         if type(document.location1) == list:
             for location in document.location1:
+                # state is the region of this record
+                state = nafshi_to_genral_region.get(location, "")
+
                 document_dict = {
                     "title": document.organizationName + " " + document.serviceName,
                     "description": description,
                     "phone_number": document.phoneNumber,
                     "source": SourceType.NAFSHI.name,
                     "website": document.serviceLink,
-                    "state": nafshi_to_genral_region.get(location,"")
+                    "state": state
+
                 }
                 documents_final.append(Document(**document_dict))
         else:
+
+            state = nafshi_to_genral_region.get(str(document.location1), "")
             document_dict = {
                 "title": document.serviceName,
                 "description": description,
                 "phone_number": document.phoneNumber,
                 "source": SourceType.NAFSHI.name,
                 "website": document.serviceLink,
-                "state": nafshi_to_genral_region.get(document.location1,"")
+                "state": state
             }
 
             documents_final.append(Document(**document_dict))

@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException
 from services import vector_storage
 from .models import SearchDocumentResult, SearchDocumentPayload
 
@@ -15,3 +15,4 @@ def search(payload: SearchDocumentPayload):
 # @router.post("/")
 def upload_documents():
     return {"message": "Hello World"}
+

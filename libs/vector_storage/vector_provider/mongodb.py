@@ -4,6 +4,7 @@ from typing import List, Optional
 from pymongo import MongoClient, UpdateOne
 
 from libs.embedding.abstract import EmbeddingAbstract
+from libs.feed.geo_location.geo_location_utils import extract_geo_loc_from_city, get_cities_israel_heb
 from libs.interfaces.document import Document, EmbeddingDocument, DocumentSearchFilters
 from libs.vector_storage.vector_provider.abstract import VectorProviderAbstract
 
@@ -20,6 +21,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         self.client = MongoClient(mongodb_uri)
         self.db = self.client[db_name]
         self.document_collection = self.db["documents"]
+
         super().__init__(embedding_model)
 
     def search(
@@ -34,13 +36,13 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
         built_filters = []
 
-        if filters.city:
-            if isinstance(filters.city, list):
-                built_filters.append({"metadata.city": {"$in": filters.city}})
-            else:
-                built_filters.append({"metadata.city": filters.city})
+        latitude = None
+        longitude = None
+        # Filter by city with radius or by state only support
+        if filters.city and isinstance(filters.city, str) and filters.radius:
+            latitude, longitude = extract_geo_loc_from_city(filters.city)
 
-        if filters.state:
+        elif filters.state:
             if isinstance(filters.state, list):
                 built_filters.append({"metadata.state": {"$in": filters.state}})
             else:
@@ -53,30 +55,38 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if len(query_vector) == 0:
             return []
 
-        results = self.document_collection.aggregate(
-            [
-                {
-                    "$vectorSearch": {
-                        "index": "default_vector_index",
-                        "path": "values",
-                        "filter": (
-                            {"$and": built_filters} if built_filters else None
-                        ),
-                        "queryVector": query_vector,
-                        "numCandidates": k,
-                        "limit": k // 10
-                    }
-                },
-                {"$addFields": {"score": {"$meta": "vectorSearchScore"}}},
-                {"$match": {"score": {"$gte": threshold}}},
-                {"$sort": {"score": -1}},
-                {
-                    "$replaceRoot": {
-                        "newRoot": {"$mergeObjects": ["$metadata", {"score": "$score"}]}
-                    }
-                },
-            ]
-        )
+        documents_in_the_area = []
+        if latitude is not None and longitude is not None and filters.radius > 0:
+            documents_in_the_area = self.get_documents_in_the_area(longitude, latitude, filters.radius)
+
+        if len(documents_in_the_area) > 0:
+            built_filters.append({"id": {"$in": documents_in_the_area}})
+
+        pipelines = [
+
+            {
+                "$vectorSearch": {
+                    "index": "default_vector_index",
+                    "path": "values",
+                    "filter": (
+                        {"$and": built_filters} if built_filters else None
+                    ),
+                    "queryVector": query_vector,
+                    "numCandidates": k,
+                    "limit": k // 10
+                }
+            },
+            {"$addFields": {"score": {"$meta": "vectorSearchScore"}}},
+            {"$match": {"score": {"$gte": threshold}}},
+            {"$sort": {"score": -1}},
+            {
+                "$replaceRoot": {
+                    "newRoot": {"$mergeObjects": ["$metadata", {"score": "$score"}]}
+                }
+            },
+        ]
+
+        results = self.document_collection.aggregate(pipelines)
 
         return [Document(**doc) for doc in results]
 
@@ -109,9 +119,6 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if operations:  # Check if the list is not empty
             self.document_collection.bulk_write(operations)
 
-    # def generate_vector(self, doc: Document):
-    #     return self.embedding_model.encode(doc.title)
-
     def generate_vector_bulk(self, documents: List[Document]) -> List[List[float]]:
         titles = list(map(lambda doc: doc.title, documents))
 
@@ -128,8 +135,29 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
     def fetch_search_filters(self) -> DocumentSearchFilters:
 
-        cities = self.document_collection.distinct("metadata.city", {"metadata.city": {"$nin": [None, ""]}})
+        cities = get_cities_israel_heb()
 
         states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
 
         return DocumentSearchFilters(city=cities, state=states)
+
+    def get_documents_in_the_area(self, longitude, latitude, radius):
+
+        pipeline = [
+            {
+                "$geoNear": {
+                    "near": {"type": "Point", "coordinates": [longitude, latitude]},
+                    "distanceField": "dist.calculated",
+                    "maxDistance": radius,
+                    "includeLocs": "dist.location",
+                    "spherical": True
+                }
+            },
+            {
+                "$project": {"id": 1}
+            }
+        ]
+
+        results = self.document_collection.aggregate(pipeline)
+
+        return list(map(lambda r: r["id"], results))

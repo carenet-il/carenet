@@ -7,7 +7,7 @@ import json
 
 from libs.interfaces.document import Document, SourceType
 from libs.feed.btl_all_regions_feed import clean_text
-from libs.feed.extractors.extractors import extract_region_by_city
+from libs.feed.extractors.extractors import extract_region_from_city
 
 class BtlAnxietyFeed(FeedAbstract, ABC):
 
@@ -56,7 +56,7 @@ class BtlAnxietyFeed(FeedAbstract, ABC):
                 record['כתובת'] = 'הגפן 13, כרמיאל'
                 
             # for all regions to be the same, we use open map street api
-            record['state'] = extract_region_by_city(record['ישוב']) # the function returns an empty string if not found
+            record['state'] = extract_region_from_city(record['ישוב']) # the function returns an empty string if not found
 
             # norm the record
             norm_doc = self.__norm_document__(record)
