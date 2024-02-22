@@ -97,3 +97,15 @@ def join_elements_with_separator(elements: list) -> str:
     else:
         concatenated_string = ', '.join(elements)
         return concatenated_string
+
+def extract_center_city_from_state(region:str) -> str:
+    
+    city_to_region = {
+        "מחוז ירושלים": "ירושלים",
+        "מחוז הצפון": "טבריה",
+        "מחוז הדרום": "באר שבע",
+        "מחוז חיפה": "חיפה",  
+        "מחוז תל אביב": "תל אביב - יפו",
+    }
+    
+    return city_to_region.get(region,"")

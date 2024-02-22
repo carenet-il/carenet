@@ -1,4 +1,5 @@
 import textdistance
+from libs.feed.extractors.extractors import extract_city_from_region
 
 from libs.interfaces.document import Document
 from libs.utils.cache import lru_cache_with_ttl

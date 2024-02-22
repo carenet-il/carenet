@@ -2,6 +2,8 @@ from abc import ABC
 from typing import List, Optional
 
 from pymongo import MongoClient, UpdateOne
+from pymongo.errors import PyMongoError
+
 
 from libs.embedding.abstract import EmbeddingAbstract
 from libs.feed.geo_location.geo_location_utils import extract_geo_loc_from_city, get_cities_israel_heb
@@ -91,7 +93,14 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         return [Document(**doc) for doc in results]
 
     def delete_all(self):
-        self.document_collection.delete_many({})
+        try:
+            deleted_docs = self.document_collection.delete_many({})
+            if deleted_docs.deleted_count > 0:
+                print('Deleted all documents from the collection successfully.')
+            else:
+                print('No documents found to delete.')
+        except PyMongoError as e:
+            print(f'An error occurred while deleting documents: {e}')
 
     def insert_many(self, documents: List[Document]):
         operations = []
