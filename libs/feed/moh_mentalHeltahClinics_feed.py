@@ -43,7 +43,7 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
             specialization = ''
     
         # extract the name of the helath care company using the HMO_code
-        health_care_company = clinic_code_to_str.get(document.get("HMO_code",""))
+        health_care_company = clinic_code_to_str.get(document.get("HMO_code",""), "")
         
         document_dict = {
             "title": f'{document.get("clinic_name","")} {document.get("audience","")} {health_care_company}',
