@@ -24,6 +24,28 @@ html,
   text-overflow: unset !important;
   white-space: unset !important;
 }
+
+
+
+.carousel-img
+{
+    width: 100%!important;
+    height:500px!important;
+    object-fit: cover;
+
+}
+
+.header-style
+{
+  background-color:  #00203FFF;
+}
+
+.background-style
+{
+  background-color:  #00203FFF;
+  color: white;
+}
+
 .ant-menu-item-selected {
-  background-color: #291F68 !important;
+  background-color:  #00203FFF !important;
 }

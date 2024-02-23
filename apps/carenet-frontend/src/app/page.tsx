@@ -8,6 +8,7 @@ import { Slider } from 'antd';
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Input, Select, Button, Spin } from 'antd';
 import DashboardLayout from './dashboard-layout';
+import { InfoCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 
@@ -39,7 +40,7 @@ const hostname = "https://api-carenet.koyeb.app";
 
 export default function SearchPage() {
 
-  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {}, threshold: 0.8 });
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {}, threshold: 0.6 });
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -81,7 +82,7 @@ export default function SearchPage() {
 
       <Row gutter={24} style={{ marginBottom: '10px' }}>
         <Col span={24}>
-          <Card title="חיפוש" bordered={true}>
+          <Card title="חיפוש טיפולים ברחבי הארץ" bordered={true}>
             <SearchComponent setSearchArgs={setSearchArgs} />
           </Card>
         </Col>
@@ -134,7 +135,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
-  const [thresholdValue, setThresholdValue] = useState<number>(0.7); // Initial value of the slider
+  const [thresholdValue, setThresholdValue] = useState<number>(0.6); // Initial value of the slider
   const [radiusValue, setRadiusValue] = useState<number>(5); // Initial value of the slider
 
   const onChange = (value: number) => {
@@ -218,7 +219,8 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
       {/* search field  */}
       <Form.Item
-        label=""
+         tooltip={{ title: 'ניתן לחפש בשפות שונות סוגי טיפולים, מוסדות', icon: <InfoCircleOutlined /> }}
+        label="חיפוש בעלי מקצוע ומוסדות"
         name="search"
         rules={[{ required: true, message: 'שדה חובה' }]}
         wrapperCol={{ offset: 0, span: 16 }}
@@ -226,7 +228,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
       >
         <Input
           size='large'
-          placeholder="הכנס פרטים עבור מציאת טיפול מתאים"
+          placeholder="פסיכולוג /פסיכיאטר למבוגרים"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -310,7 +312,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
       </Form.Item>
 
       {/* strong match slider */}
-      <Form.Item
+      {/* <Form.Item
         label="חוזק התאמה"
         wrapperCol={{ offset: 0, span: 16 }}
       >
@@ -327,14 +329,14 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
             0.8: '0.8',
           }}
         />
-      </Form.Item>
+      </Form.Item> */}
 
 
       {/* submit */}
       <Form.Item label=""
         wrapperCol={{ offset: 0, span: 16 }}>
 
-        <Button htmlType='submit' style={{ background: "#291F68", color: "white" }} onClick={handleSubmit}>
+        <Button htmlType='submit' className='ant-menu-item-selected' style={{ color: "white" }} onClick={handleSubmit}>
           חיפוש
         </Button>
 
