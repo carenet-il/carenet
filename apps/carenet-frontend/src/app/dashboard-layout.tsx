@@ -1,14 +1,14 @@
 'use client'
 
 import React from 'react';
-import {  Avatar, Layout, Menu, theme, MenuProps } from 'antd';
+import {  Layout, Menu, theme, MenuProps, Carousel } from 'antd';
 import { useRouter } from 'next/navigation'
-import { usePathname } from 'next/navigation'
 import Image from 'next/image';
 
 const { Header, Content, Footer } = Layout;
 
-const items = [{key : "/",label : "חיפוש"},{key : "about",label : "אודות"},]
+const items = [{ key: "/", label: "חיפוש טיפולים ברחבי הארץ" }, { key: "about", label: "אודות" }
+, { key: "terms-conditions", label: "תנאי שימוש" }]
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
@@ -18,46 +18,59 @@ export default function DashboardLayout({
 
   const router = useRouter()
 
-  const {
-    token: { colorBgContainer, borderRadiusLG },
-  } = theme.useToken();
+  // const {
+  //   token: { colorBgContainer, borderRadiusLG },
+  // } = theme.useToken();
 
-   const onClick: MenuProps['onClick'] = (e) => {
+  const onClick: MenuProps['onClick'] = (e) => {
 
     router.push(e["key"])
   };
 
   return (
-    <Layout className="layout">
-      <Header  className='flex flex-row items-center'>
+    <Layout className="layout background-style">
+      <Header className='flex flex-row items-center header-style'> 
 
-      <Image alt="Carenet Logo" height={64}  width={64} unoptimized  src="https://i.ibb.co/6bC8ndt/carenet.webp" />
+        <Image alt="Carenet Logo" height={64} width={64} unoptimized src="https://i.ibb.co/6bC8ndt/carenet.webp" />
 
-            <Menu
-              theme="dark"
-              mode="horizontal"
-              defaultSelectedKeys={['/']}
-              items={items}
-              style={{ flex: 1, minWidth: 0 }}
-              onClick={onClick}
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          defaultSelectedKeys={['/']}
+          items={items}
+          className='header-style'
+          style={{ flex: 1, minWidth: 0 }}
+          onClick={onClick}
 
-            />
+        />
+
+       
 
       </Header>
+
+      <Carousel autoplay>
+            <div>
+              <img className="carousel-img" src="https://wallpapers.com/images/hd/israel-flag-on-vast-desert-t4ftsydbv2t0a1oq.jpg"></img>
+
+            </div>
+          
+          
+
+          </Carousel>
       <Content className='p-5'>
 
         <div
-          style={{
-            background: colorBgContainer,
-            padding: 24,
-            borderRadius: borderRadiusLG,
-          }}
+        className='background-style'
         >
-          { children }
+
+          
+          {children}
         </div>
       </Content>
-      <Footer style={{ textAlign: 'center' }}>
-        Carenet ©{new Date().getFullYear()}
+      <Footer style={{ textAlign: 'center' }} className='background-style'>
+        {
+          `כל הזכויות שמורות ל Carenet @${new Date().getFullYear()}`
+        }
       </Footer>
     </Layout>
   );

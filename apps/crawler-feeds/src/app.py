@@ -1,8 +1,5 @@
 import os
 from typing import List
-
-import requests
-
 from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
 from libs.feed.geo_location.geo_location_utils import insert_location_object_to_documents_by_city_or_state, \
@@ -17,15 +14,23 @@ from libs.feed.otef_lev_feed import OtefLevFeed
 from libs.interfaces.document import Document
 from libs.vector_storage import VectorStorage
 from libs.vector_storage.vector_provider.mongodb import MongoVectorProvider
+import sys, os
+from dotenv import load_dotenv
 
 
 def main():
+    load_dotenv()
+    # to allow import from libs
+    sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
+
     embedding_model = CohereMultilingualEmbedding()
 
     storage_provider = MongoVectorProvider(mongodb_uri=os.getenv("MONGO_URI"),
                                            embedding_model=embedding_model, db_name="dev")
 
     vector_storage = VectorStorage(storage_provider=storage_provider)
+
+    vector_storage.delete_all()
 
     # feeds
     n12_feed = N12Feed()

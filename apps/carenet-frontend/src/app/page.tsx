@@ -8,6 +8,7 @@ import { Slider } from 'antd';
 import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Input, Select, Button, Spin } from 'antd';
 import DashboardLayout from './dashboard-layout';
+import { InfoCircleOutlined } from '@ant-design/icons';
 const { Option } = Select;
 
 
@@ -39,7 +40,7 @@ const hostname = "https://api-carenet.koyeb.app";
 
 export default function SearchPage() {
 
-  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {}, threshold: 0.8 });
+  const [searchArgs, setSearchArgs] = useState<SearchArgs>({ query: "", filters: {}, threshold: 0.6 });
 
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -47,8 +48,9 @@ export default function SearchPage() {
 
   useEffect(() => {
     const fetchData = async () => {
+      if (!searchArgs.query) return; // Only proceed if there's a query
 
-      setLoading(true)
+      setLoading(true);
       try {
         const response = await fetch(`${hostname}/documents/search`, {
           method: 'POST',
@@ -64,43 +66,41 @@ export default function SearchPage() {
 
         const data = await response.json();
         setResults(data.results);
-        setLoading(false)
       } catch (error) {
         console.error('Fetch error:', error);
-        setLoading(true)
+      } finally {
+        setLoading(false); // Ensure loading is set to false both after success and error
       }
     };
 
-    if (searchArgs) {
-      fetchData();
-    }
-  }, [searchArgs]);
+    fetchData();
+  }, [searchArgs]); // Depend on searchArgs for re-fetching
 
 
   return (
-
     <DashboardLayout>
 
-        <Row gutter={24}>
-          <Col span={24}>
-            <Card title="חיפוש" bordered={true}>
-              <SearchComponent setSearchArgs={setSearchArgs} />
-            </Card>
-          </Col>
+      <Row gutter={24} style={{ marginBottom: '10px' }}>
+        <Col span={24}>
+          <Card title="חיפוש טיפולים ברחבי הארץ" bordered={true}>
+            <SearchComponent setSearchArgs={setSearchArgs} />
+          </Card>
+        </Col>
 
-        </Row>
+      </Row>
 
-        <Row gutter={24}>
-          <Col span={24}>
 
-            <Card title="תוצאות" bodyStyle={{ direction: "rtl" }} bordered={true}>
+      <Row gutter={24}>
+        <Col span={24}>
 
-              {
-                (results.length > 0) && <ListResults loading={loading} results={results}></ListResults>
-              }
-            </Card>
-          </Col>
-        </Row>
+          <Card title="תוצאות" bodyStyle={{ direction: "rtl" }} bordered={true}>
+
+            {
+              (results.length > 0) && <ListResults loading={loading} results={results}></ListResults>
+            }
+          </Card>
+        </Col>
+      </Row>
 
     </DashboardLayout>
   )
@@ -132,11 +132,11 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   const [states, setStates] = useState<string[]>([]);
 
 
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCity, setSelectedCity] = useState('');
-  const [selectedStates, setSelectedStates] = useState([]);
-  const [thresholdValue, setThresholdValue] = useState(0.8); // Initial value of the slider
-  const [radiusValue, setRadiusValue] = useState(5); // Initial value of the slider
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedCity, setSelectedCity] = useState<string>('');
+  const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [thresholdValue, setThresholdValue] = useState<number>(0.6); // Initial value of the slider
+  const [radiusValue, setRadiusValue] = useState<number>(5); // Initial value of the slider
 
   const onChange = (value: number) => {
     setThresholdValue(value);
@@ -144,6 +144,36 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
   const onRadiusChange = (value: number) => {
     setRadiusValue(value);
+  };
+
+
+
+  // Handler for submitting the search
+  const handleSubmit = () => {
+    if (searchQuery !== "") {
+      const searchData: SearchArgs = {
+        query: searchQuery,
+        filters: {},
+        threshold: thresholdValue
+      };
+
+      // Check if city and radius are selected; if so, prioritize city filter
+      if (selectedCity && radiusValue > 0) {
+        searchData.filters.city = selectedCity;
+        searchData.filters.radius = radiusValue * 1000; // Convert radius to meters or as required
+        // Clear state selection if city is prioritized
+        setSelectedStates([]);
+      }
+      // If city is not selected but states are, use state filter
+      else if (selectedStates.length) {
+        searchData.filters.state = selectedStates;
+        // Clear city and radius if states are prioritized
+        setSelectedCity('');
+        setRadiusValue(5); // Reset to default or any logic you prefer
+      }
+
+      setSearchArgs(searchData);
+    }
   };
 
   useEffect(() => {
@@ -176,182 +206,161 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
   }, [states, cities])
 
 
-  // Handler for submitting the search
-  const handleSubmit = () => {
-    if (searchQuery !== "") {
-      const searchData: SearchArgs = {
-        query: searchQuery,
-        filters: {},
-        threshold: thresholdValue
-      };
-
-      // Check if city and radius are selected; if so, prioritize city filter
-      if (selectedCity && radiusValue > 0) {
-        searchData.filters.city = selectedCity;
-        searchData.filters.radius = radiusValue * 1000; // Convert radius to meters or as required
-        // Clear state selection if city is prioritized
-        setSelectedStates([]);
-      }
-      // If city is not selected but states are, use state filter
-      else if (selectedStates.length) {
-        searchData.filters.state = selectedStates;
-        // Clear city and radius if states are prioritized
-        setSelectedCity('');
-        setRadiusValue(5); // Reset to default or any logic you prefer
-      }
-
-      setSearchArgs(searchData);
-    }
-  };
-
   return (
-    <div className='flex flex-col'>
-      <Form
-        name="basic"
-        labelCol={{ span: 8 }}
-        wrapperCol={{ span: 16 }}
-        style={{ maxWidth: 600 }}
-        initialValues={{ remember: true }}
-        onFinish={handleSubmit}
-        layout="vertical"
-        autoComplete="off"
+    <Form
+      name="basic"
+      labelCol={{ span: 8 }}
+      wrapperCol={{ span: 16 }}
+      style={{ maxWidth: 600 }}
+      onFinish={handleSubmit}
+      layout="vertical"
+      autoComplete="off"
+    >
+
+      {/* search field  */}
+      <Form.Item
+         tooltip={{ title: 'ניתן לחפש בשפות שונות סוגי טיפולים, מוסדות', icon: <InfoCircleOutlined /> }}
+        label="חיפוש בעלי מקצוע ומוסדות"
+        name="search"
+        rules={[{ required: true, message: 'שדה חובה' }]}
+        wrapperCol={{ offset: 0, span: 16 }}
+
       >
+        <Input
+          size='large'
+          placeholder="פסיכולוג /פסיכיאטר למבוגרים"
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+        />
 
-        <Form.Item
-          label=""
-          name="search"
-          rules={[{ required: true, message: 'שדה חובה' }]}
-          wrapperCol={{ offset: 0, span: 16 }}
 
+      </Form.Item>
+
+
+      {/* city field  */}
+
+      <Form.Item
+        label="עיר"
+        wrapperCol={{ offset: 0, span: 16 }}>
+        <Select
+          allowClear
+          showSearch
+          placeholder="עיר"
+          onChange={(value) => {
+            setSelectedCity(value);
+            if (value) {
+              setSelectedStates([]); // Clear states if city is selected
+            }
+          }}
+          value={selectedCity != '' ? selectedCity : undefined}
+          // Add this to disable the select when states are selected
+          disabled={selectedStates.length > 0}
         >
-          <Input
-            size='large'
-            placeholder="הכנס פרטים עבור מציאת טיפול מתאים"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
+          {cities.map((city, index) => (
+            <Option key={`city-${index}`} value={city}>{city}</Option>
+          ))}
+        </Select>
+
+      </Form.Item>
 
 
-        </Form.Item>
+      {/* radius field  */}
+      <Form.Item
+        label='רדיוס מהעיר בק"מ'
+        wrapperCol={{ offset: 0, span: 16 }}
+      >
+        <Slider
+          disabled={selectedStates.length > 0}
+          min={10}
+          max={50}
+          step={20}
+          onChange={onRadiusChange}
+          value={typeof radiusValue === 'number' ? radiusValue : 0}
+          marks={{
+            10: '10 km',
+            30: '30 km',
+            50: '50 km',
+          }}
+        />
+      </Form.Item>
 
 
-        <Form.Item
-          label=""
-          wrapperCol={{ offset: 0, span: 16 }}>
-          <Select
-            allowClear
-            showSearch
-            placeholder="עיר"
-            onChange={(value) => {
-              setSelectedCity(value);
-              if (value) {
-                setSelectedStates([]); // Clear states if city is selected
-              }
-            }}
-            value={selectedCity}
-            // Add this to disable the select when states are selected
-            disabled={selectedStates.length > 0}
-          >
-            {cities.map((city, index) => (
-              <Option key={`city-${index}`} value={city}>{city}</Option>
-            ))}
-          </Select>
-
-        </Form.Item>
-
-
-        <Form.Item
-          label='רדיוס מהעיר בק"מ'
-
+      {/* state field  */}
+      <Form.Item
+        label="אזור בארץ"
+        wrapperCol={{ offset: 0, span: 16 }}
+      >
+        <Select
+          mode="multiple"
+          allowClear
+          placeholder="אזור בארץ"
+          onChange={(value) => {
+            setSelectedStates(value);
+            if (value.length) {
+              setSelectedCity(''); // Clear city if states are selected
+              setRadiusValue(5); // Reset radius if states are selected
+            }
+          }}
+          value={selectedStates}
+          // Add this to disable the select when a city is selected
+          disabled={!!selectedCity}
         >
-          <Slider
-            disabled={selectedStates.length > 0}
-            tooltip={{ open: true }}
-            min={5}
-            max={20}
-            step={5}
-            onChange={onRadiusChange}
-            value={typeof radiusValue === 'number' ? radiusValue : 0}
-            marks={{
-              5: '5 km',
-              10: '10 km',
-              15: '15 km',
-              20: '20 km',
-            }}
-          />
-        </Form.Item>
+          {states.map((state, index) => (
+            <Option key={`state-${index}`} value={state}>{state}</Option>
+          ))}
+        </Select>
+      </Form.Item>
+
+      {/* strong match slider */}
+      {/* <Form.Item
+        label="חוזק התאמה"
+        wrapperCol={{ offset: 0, span: 16 }}
+      >
+        <Slider
+          // tooltip={{ open: true }}
+          min={0.6}
+          max={0.8}
+          step={0.1}
+          onChange={onChange}
+          value={typeof thresholdValue === 'number' ? thresholdValue : 0}
+          marks={{
+            0.6: '0.6',
+            0.7: '0.7',
+            0.8: '0.8',
+          }}
+        />
+      </Form.Item> */}
 
 
-        <Form.Item
-          label=""
-          wrapperCol={{ offset: 0, span: 16 }}
-        >
-          <Select
-            mode="multiple"
-            placeholder="אזור בארץ"
-            onChange={(value) => {
-              setSelectedStates(value);
-              if (value.length) {
-                setSelectedCity(''); // Clear city if states are selected
-                setRadiusValue(5); // Reset radius if states are selected
-              }
-            }}
-            value={selectedStates}
-            // Add this to disable the select when a city is selected
-            disabled={!!selectedCity}
-          >
-            {states.map((state, index) => (
-              <Option key={`state-${index}`} value={state}>{state}</Option>
-            ))}
-          </Select>
-        </Form.Item>
+      {/* submit */}
+      <Form.Item label=""
+        wrapperCol={{ offset: 0, span: 16 }}>
+
+        <Button htmlType='submit' className='ant-menu-item-selected' style={{ color: "white" }} onClick={handleSubmit}>
+          חיפוש
+        </Button>
+
+      </Form.Item>
 
 
-        <Form.Item
-
-          label="חוזק התאמה"
-
-        >
-          <Slider
-            tooltip={{ open: true }}
-            min={0.6}
-            max={0.8}
-            step={0.1}
-            onChange={onChange}
-            value={typeof thresholdValue === 'number' ? thresholdValue : 0}
-            marks={{
-              0.6: '0.6',
-              0.7: '0.7',
-              0.8: '0.8',
-            }}
-          />
-        </Form.Item>
-
-
-        <Form.Item label=""
-          wrapperCol={{ offset: 0, span: 16 }}
-
-        >
-          <Button htmlType='submit' style={{ background: "#291F68", color: "white" }} onClick={handleSubmit}>
-            חיפוש
-          </Button>
-
-        </Form.Item>
-
-
-      </Form>
-    </div>
+    </Form>
   );
 };
 
 
 
-interface ChipsResultsComponentProps {
-  result: Result;
-}
-
-
 const IconTextWithHref = ({ icon, text, href, value }: { icon: React.FC; text: string, href: string, value?: string }) => {
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // This code will run after the component mounts, which means it's client-side
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // Or a placeholder until the portal is ready
+  }
 
   if (!value) {
     return null
@@ -370,6 +379,18 @@ const IconTextWithHref = ({ icon, text, href, value }: { icon: React.FC; text: s
 
 
 const WazeIcon = ({ full_location }: { full_location: string }) => {
+
+
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // This code will run after the component mounts, which means it's client-side
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return null; // Or a placeholder until the portal is ready
+  }
 
   if (!full_location) return null;
 
@@ -410,7 +431,30 @@ const AvatarSource = (props: AvatarSourceProps) => {
 
 const ListResults = (resultsProps: ResultsProps) => {
 
-  const sourceMapAvater = {
+  return (
+    <div className="grid-container">
+      {resultsProps.loading ? (
+        <div className="loading-container">
+          <Spin size="large" />
+        </div>
+      ) : (
+        <Row gutter={[16, 16]}>
+          {resultsProps.results.map((item,index) => (
+            <Col xs={24} sm={12} md={8} lg={6} xl={4} key={index} style={{ display: "flex" }}>
+                <ResultCard item={item}></ResultCard>
+            </Col>
+          ))}
+        </Row>
+      )}
+    </div>)
+
+}
+
+
+
+const ResultCard = ({ item }: { item: Result }) => {
+
+  const sourceMapAvatar = {
     [SourceType.N12]: <AvatarSource url={"https://img.mako.co.il/2020/02/17/SHAREIMG.png"}></AvatarSource>,
     [SourceType.MOH]: <AvatarSource url={"https://i.ibb.co/qCMFSM8/moh.jpg"} ></AvatarSource>,
     [SourceType.NAFSHI]: <AvatarSource url={"https://static.wixstatic.com/media/12ddcf_dd9eec1e62e1470b9d358a04db980fdc~mv2.png/v1/fill/w_400,h_400,al_c,q_85,usm_0.66_1.00_0.01,enc_auto/AdobeStock_529317698-%5BConverted%5D.png"}>
@@ -419,99 +463,60 @@ const ListResults = (resultsProps: ResultsProps) => {
     [SourceType.OTEFLEV]: <AvatarSource url={"https://static.wixstatic.com/media/46c8a1_e579417c72394b0295fe9c107ec45da5~mv2.png/v1/fill/w_2500,h_2500,al_c/46c8a1_e579417c72394b0295fe9c107ec45da5~mv2.png"} ></AvatarSource>,
   }
 
-  return <>
-    <List
-      loading={resultsProps.loading}
-      itemLayout="vertical"
-      bordered={true}
-      grid={{
-        gutter: 16,
-        xs: 1,
-        sm: 1,
-        md: 1,
-        lg: 2,
-        xl: 2,
-        xxl: 3,
-      }}
-      size="large"
+  const actions = []
+  if (item.email) {
+    actions.push(<IconTextWithHref
+      href={`mailto:${item.email}`}
+      icon={MailOutlined} value={item.email} text='איימל'></IconTextWithHref>)
+  }
 
-      dataSource={resultsProps.results}
-      renderItem={(item, index) => {
-
-        const actions = []
-        if (item.email) {
-          actions.push(<IconTextWithHref key={index}
-            href={`mailto:${item.email}`}
-            icon={MailOutlined} value={item.email} text='איימל'></IconTextWithHref>)
-        }
-
-        if (item.phone_number) {
-          actions.push(<IconTextWithHref key={index}
-            href={`tel:${item.phone_number}`}
-            icon={PhoneOutlined} value={item.phone_number} text='טלפון'></IconTextWithHref>)
-        }
+  if (item.phone_number) {
+    actions.push(<IconTextWithHref
+      href={`tel:${item.phone_number}`}
+      icon={PhoneOutlined} value={item.phone_number} text='טלפון'></IconTextWithHref>)
+  }
 
 
-        if (item.website) {
-          actions.push(
-            <IconTextWithHref key={index}
-              href={`${item.website}`}
-              icon={GlobalOutlined} value={item.website} text='אתר'></IconTextWithHref>,
+  if (item.website) {
+    actions.push(
+      <IconTextWithHref
+        href={`${item.website}`}
+        icon={GlobalOutlined} value={item.website} text='אתר'></IconTextWithHref>,
 
-          )
-        }
+    )
+  }
 
-        if (item.full_location) {
-          actions.push(
-            <WazeIcon full_location={item.full_location}></WazeIcon>
+  if (item.full_location) {
+    actions.push(
+      <WazeIcon full_location={item.full_location}></WazeIcon>
 
-          )
-        }
+    )
+  }
 
-        actions.push(<>{item.source}</>)
+  actions.push(<>{item.source}</>)
 
-        return <List.Item
-          key={`item-${index}`}
-        >
-          <Card className='custom-border-card' title={item.title} actions={actions}>
-            <List.Item.Meta
-              avatar={sourceMapAvater[SourceType[item.source]]}
-            />
-            <div className='flex flex-col space-y-2 break-words'>
-              <div className='break-words'>
-                {
-                  item.description
-                }
-              </div>
-              <div className='break-words'>
-                {
-                  item.full_location
-                }
-              </div>
-              <div className='break-words'>
-                {
-                  item.city
-                }
-              </div>
-              <div className='break-words'>
-                {
-                  item.state
-                }
-              </div>
+  return (
+    <Card 
+          style={{ display: 'flex', flexDirection: 'column',width:"100%" }}
+          className='flexible-card'
+          title={item.title} actions={actions}>
+        <Card.Meta avatar={sourceMapAvatar[SourceType[item.source]]}>
+        </Card.Meta>
 
-              <div className='break-words'>
-                {
-                  item.phone_number
-                }
-              </div>
-            </div>
+        <br></br>
 
-          </Card>
+        <div className='break-words'>
+              {item.description}
+              <address className='break-words'>
+              {
+                [item.full_location,item.city,item.state].filter(x => x).join(",")
+              }
+            </address>
+
+            {item.phone_number}
+        </div>
+            
+    </Card >)
 
 
-        </List.Item>
-      }}
-    />
-  </>
-}
-
+} 

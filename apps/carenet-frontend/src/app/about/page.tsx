@@ -29,11 +29,8 @@ export default function About() {
 
     <p className="large-font">מרכזים את המודעות ממגוון מקורות, עם הזכויות שמורות למקור ההודעה. מידע איכותי ומהימן.</p>
 
-    <br></br>
 
-    <h3 className="large-font"><strong>צרו קשר</strong>   </h3>
 
-    <p className="large-font">לכל שאלה או התעניינות, אל תהססו לפנות אלינו.</p>
 </Card>
 </DashboardLayout>
 );
