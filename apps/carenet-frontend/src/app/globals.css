@@ -13,19 +13,17 @@ html,
       }
 
 
-
-.custom-tag
-{
-
-  /* background-color:   #99a3ff; */
+.flexible-card .ant-card-body {
+    flex-grow: 1;
+    padding: 5px; /* Or any other value */
 
 }
 
+
+.ant-card-head-title {
+  text-overflow: unset !important;
+  white-space: unset !important;
+}
 .ant-menu-item-selected {
   background-color: #291F68 !important;
-}
-
-
-.custom-border-card {
-  border: 3px solid #d9d9d9 !important; /* Use !important only as a last resort */
 }

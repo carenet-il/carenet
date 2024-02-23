@@ -57,7 +57,9 @@ export default function DashboardLayout({
         </div>
       </Content>
       <Footer style={{ textAlign: 'center' }}>
-        Carenet ©{new Date().getFullYear()}
+        {
+          `כל הזכויות שמורות ל Carenet @${new Date().getFullYear()}`
+        }
       </Footer>
     </Layout>
   );
