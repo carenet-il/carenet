@@ -1,4 +1,5 @@
 import requests
+from libs.feed.extractors.extractors import extract_center_city_from_state
 
 from libs.interfaces.document import Document, LocationGeo
 from libs.utils.cache import lru_cache_with_ttl
@@ -16,7 +17,7 @@ def get_cities_israel_heb() -> list[str]:
     # remove spaces
     cities = list(map(lambda x: str(x["שם_ישוב"]).strip(), response["result"]["records"]))
 
-    return cities
+    return sorted(cities)
 
 @lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_geo_loc_from_city(city: str) -> tuple:
@@ -40,7 +41,7 @@ def extract_geo_loc_from_city(city: str) -> tuple:
         print(f"Error fetching geolocation for city '{city}': {e}")
         return None, None
 
-
+# todo: not been used in this project. can be removed.
 @lru_cache_with_ttl(maxsize=None, ttl=120)
 def extract_geo_loc_from_region(region: str):
     """Query the OpenStreetMap Nominatim API to get latitude and longitude for a given region """
@@ -78,7 +79,9 @@ def insert_location_object_to_documents_by_city_or_state(docs: list[Document]) -
                     "coordinates": [longitude, latitude]  # longitude, latitude
                 })
         elif doc.state != '':
-            latitude, longitude = extract_geo_loc_from_region(doc.state)
+            center_city_inside_state = extract_center_city_from_state(doc.state)
+            
+            latitude, longitude = extract_geo_loc_from_city(center_city_inside_state)
 
             if latitude is not None and longitude is not None:
                 doc.location = LocationGeo(**{

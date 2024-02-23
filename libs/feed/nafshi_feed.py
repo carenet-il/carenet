@@ -139,7 +139,7 @@ class NafshiFeed(FeedAbstract, ABC):
                 "website": document.serviceLink,
                 "state": state
             }
-
+            
             documents_final.append(Document(**document_dict))
 
         return documents_final
