@@ -41,6 +41,11 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
         specialization = document.get('specialization','')
         if specialization == 'אין נתונים':
             specialization = ''
+            
+        
+        phone_number = document.get('אין נתונים','')
+        if phone_number == 'אין נתונים':
+            phone_number = ''
     
         # extract the name of the helath care company using the HMO_code
         health_care_company = clinic_code_to_str.get(document.get("HMO_code",""), "")
@@ -48,7 +53,7 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
         document_dict = {
             "title": f'{document.get("clinic_name","")} {document.get("audience","")} {health_care_company}',
             "description": f'{intervention_type} {specialization}',
-            "phone_number": document.get("phone", ''),
+            "phone_number": phone_number,
             "source": SourceType.MOH.name,
             "full_location": document.get('street', ''),
             "city": document.get('city',''),
