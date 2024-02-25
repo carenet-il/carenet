@@ -25,12 +25,26 @@ html,
   white-space: unset !important;
 }
 
-
-
 .carousel-img
 {
     width: 100%!important;
-    height:500px!important;
+    height:400px!important;
+    object-fit: cover;
+
+}
+
+.ant-layout-header 
+{
+  padding: 0px;
+  height: 128px;
+}
+
+
+
+.logo-img
+{
+    width: 100%!important;
+    height:128px!important;
     object-fit: cover;
 
 }

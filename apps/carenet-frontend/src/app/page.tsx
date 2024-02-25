@@ -270,7 +270,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
         wrapperCol={{ offset: 0, span: 16 }}
       >
         <Slider
-          disabled={selectedStates.length > 0}
+          disabled={selectedStates.length > 0 || !selectedCity}
           min={10}
           max={50}
           step={20}
