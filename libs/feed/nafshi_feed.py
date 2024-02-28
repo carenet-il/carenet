@@ -6,6 +6,7 @@ import requests
 from pydantic import BaseModel, Field
 
 from libs.feed.abstract import FeedAbstract
+from libs.feed.extractors.extractors import extract_audience_from_doc
 from libs.interfaces.document import Document, SourceType
 
 nafshi_to_genral_region = {
@@ -112,6 +113,15 @@ class NafshiFeed(FeedAbstract, ABC):
             {",".join(document.serviceOrientationTags)} 
             {",".join(document.langsTags)} 
             """
+            
+        # extract the audiences from the doc, can be : צעירים מבוגרים אזרחים ותיקים in one doc and we only have to filters for ages
+        audiences = []
+        for age in document.tagsAges:
+            audience_candidate = extract_audience_from_doc(age)
+            if audience_candidate in audiences:
+                continue
+            audiences.append(audience_candidate)
+                
 
         if type(document.location1) == list:
             for location in document.location1:
@@ -124,10 +134,13 @@ class NafshiFeed(FeedAbstract, ABC):
                     "phone_number": document.phoneNumber,
                     "source": SourceType.NAFSHI.name,
                     "website": document.serviceLink,
-                    "state": state
-
+                    "state": state,
+                    "audience": audiences
                 }
+                
                 documents_final.append(Document(**document_dict))
+                print(Document(**document_dict))
+
         else:
 
             state = nafshi_to_genral_region.get(str(document.location1), "")
@@ -137,7 +150,8 @@ class NafshiFeed(FeedAbstract, ABC):
                 "phone_number": document.phoneNumber,
                 "source": SourceType.NAFSHI.name,
                 "website": document.serviceLink,
-                "state": state
+                "state": state,
+                "audience": audiences
             }
             
             documents_final.append(Document(**document_dict))

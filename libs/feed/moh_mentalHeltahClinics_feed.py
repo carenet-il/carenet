@@ -3,7 +3,7 @@ import requests
 from libs.feed.abstract import FeedAbstract
 
 from libs.interfaces.document import Document, SourceType
-from libs.feed.extractors.extractors import extract_region_from_city
+from libs.feed.extractors.extractors import extract_audience_from_doc, extract_region_from_city
 
 class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
 
@@ -50,6 +50,9 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
         # extract the name of the helath care company using the HMO_code
         health_care_company = clinic_code_to_str.get(document.get("HMO_code",""), "")
         
+        # extract the audience inside each doc for filter by age
+        audience = [extract_audience_from_doc(document.get('audience',''))]
+        
         document_dict = {
             "title": f'{document.get("clinic_name","")} {document.get("audience","")} {health_care_company}',
             "description": f'{intervention_type} {specialization}',
@@ -58,7 +61,9 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
             "full_location": document.get('street', ''),
             "city": document.get('city',''),
             "state": extract_region_from_city(document.get('city','')),
+            "audience" : audience
         }
+    
 
         return Document(**document_dict)
 

@@ -49,6 +49,14 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
                 built_filters.append({"metadata.state": {"$in": filters.state}})
             else:
                 built_filters.append({"metadata.state": filters.state})
+                
+        # Audience filter setup
+        if filters.audience:
+            if isinstance(filters.audience, list):
+                built_filters.append({"audience": {"$in": filters.audience}})
+            else:
+                print('error fetching data from the filters.audience')
+
 
         query_vector = self.embedding_model.encode(
             query

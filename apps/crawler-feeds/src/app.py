@@ -30,8 +30,6 @@ def main():
 
     vector_storage = VectorStorage(storage_provider=storage_provider)
 
-    vector_storage.delete_all()
-
     # feeds
     n12_feed = N12Feed()
     nafshi_feed = NafshiFeed()
@@ -41,8 +39,8 @@ def main():
     otef_lev_feed = OtefLevFeed()
     minster_of_health_mental_clinic = MOH_MentalHealthClinicsFeed()
 
-    feeds = [n12_feed, nafshi_feed, minster_of_health_resilience_centers_feed, btl_all_regions_feed, btl_anxiety_feed,
-             otef_lev_feed, minster_of_health_mental_clinic]
+
+    feeds = [ n12_feed, nafshi_feed, minster_of_health_resilience_centers_feed, btl_all_regions_feed, btl_anxiety_feed,otef_lev_feed,minster_of_health_mental_clinic]
 
     # For dynamic list and updated
     cities_israel_heb = get_cities_israel_heb()
