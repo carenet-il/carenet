@@ -9,6 +9,7 @@ import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { Input, Select, Button, Spin } from 'antd';
 import DashboardLayout from './dashboard-layout';
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/navigation'
 const { Option } = Select;
 
 
@@ -46,6 +47,8 @@ export default function SearchPage() {
 
   const [results, setResults] = useState<Result[]>([]);
 
+  const router = useRouter()
+
   useEffect(() => {
     const fetchData = async () => {
       if (!searchArgs.query) return; // Only proceed if there's a query
@@ -82,7 +85,9 @@ export default function SearchPage() {
 
       <Row gutter={24} style={{ marginBottom: '10px' }}>
         <Col span={24}>
-          <Card title="חיפוש טיפולים ברחבי הארץ" bordered={true}>
+          <Card title="חיפוש טיפולים ברחבי הארץ" bordered={true} extra={[<Button key="feedback-button" onClick={() => {
+            router.push("/feedback")
+          }}>החיפוש עזר לכם ? מוזמנים לשלוח לנו משוב </Button>]}>
             <SearchComponent setSearchArgs={setSearchArgs} />
           </Card>
         </Col>
@@ -219,7 +224,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
       {/* search field  */}
       <Form.Item
-         tooltip={{ title: 'ניתן לחפש בשפות שונות סוגי טיפולים, מוסדות', icon: <InfoCircleOutlined /> }}
+        tooltip={{ title: 'ניתן לחפש בשפות שונות סוגי טיפולים, מוסדות', icon: <InfoCircleOutlined /> }}
         label="חיפוש בעלי מקצוע ומוסדות"
         name="search"
         rules={[{ required: true, message: 'שדה חובה' }]}
@@ -228,7 +233,7 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
       >
         <Input
           size='large'
-          placeholder="פסיכולוג /פסיכיאטר למבוגרים"
+          placeholder=""
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
@@ -439,9 +444,9 @@ const ListResults = (resultsProps: ResultsProps) => {
         </div>
       ) : (
         <Row gutter={[16, 16]}>
-          {resultsProps.results.map((item,index) => (
+          {resultsProps.results.map((item, index) => (
             <Col xs={24} sm={12} md={8} lg={6} xl={4} key={index} style={{ display: "flex" }}>
-                <ResultCard item={item}></ResultCard>
+              <ResultCard item={item}></ResultCard>
             </Col>
           ))}
         </Row>
@@ -496,26 +501,26 @@ const ResultCard = ({ item }: { item: Result }) => {
   actions.push(<>{item.source}</>)
 
   return (
-    <Card 
-          style={{ display: 'flex', flexDirection: 'column',width:"100%" }}
-          className='flexible-card'
-          title={item.title} actions={actions}>
-        <Card.Meta avatar={sourceMapAvatar[SourceType[item.source]]}>
-        </Card.Meta>
+    <Card
+      style={{ display: 'flex', flexDirection: 'column', width: "100%" }}
+      className='flexible-card'
+      title={item.title} actions={actions}>
+      <Card.Meta avatar={sourceMapAvatar[SourceType[item.source]]}>
+      </Card.Meta>
 
-        <br></br>
+      <br></br>
 
-        <div className='break-words'>
-              {item.description}
-              <address className='break-words'>
-              {
-                [item.full_location,item.city,item.state].filter(x => x).join(",")
-              }
-            </address>
+      <div className='break-words'>
+        {item.description}
+        <address className='break-words'>
+          {
+            [item.full_location, item.city, item.state].filter(x => x).join(",")
+          }
+        </address>
 
-            {item.phone_number}
-        </div>
-            
+        {item.phone_number}
+      </div>
+
     </Card >)
 
 
