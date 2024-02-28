@@ -10,8 +10,9 @@ const { Title } = Typography;
 
 const { Header, Content, Footer } = Layout;
 
-const items = [{ key: "/", label: "חיפוש טיפולים \\ מוסדות" }, { key: "about", label: "אודות" }
+const items = [{ key: "/", label: "חיפוש טיפולים \\ מוסדות" }, { key : "feedback", label : "משוב"}, { key: "about", label: "אודות" }
   , { key: "terms-conditions", label: "תנאי שימוש" }]
+
 
 export default function DashboardLayout({
   children, // will be a page or nested layout
