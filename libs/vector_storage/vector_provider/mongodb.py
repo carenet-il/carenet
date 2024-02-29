@@ -53,7 +53,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         # Audience filter setup
         if filters.audience:
             if isinstance(filters.audience, list):
-                built_filters.append({"audience": {"$in": filters.audience}})
+                built_filters.append({"metadata.audience": {"$in": filters.audience}})
             else:
                 print('error fetching data from the filters.audience')
 
@@ -155,8 +155,10 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         cities = get_cities_israel_heb()
 
         states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
+        
+        audiences = self.document_collection.distinct('metadata.audience',{'metadata.audience' : {'$nin':[None,""]}})
 
-        return DocumentSearchFilters(city=cities, state=states)
+        return DocumentSearchFilters(city=cities, state=states,audience=audiences)
 
     def get_documents_in_the_area(self, longitude, latitude, radius):
 
