@@ -31,6 +31,7 @@ interface Result {
   phone_number?: string;   // Optional property
   source: SourceType;
   full_location: string;
+  audience: string[]
   city: string;
   state: string;
   score: number;           // Assuming score is a numeric value
@@ -118,6 +119,7 @@ interface SearchArgs {
   filters: {
     city?: string,
     radius?: number,
+    audience?: string[],
     state?: string[]
   },
   threshold: number
@@ -135,11 +137,14 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
 
   const [cities, setCities] = useState<string[]>([]);
   const [states, setStates] = useState<string[]>([]);
+  const [audiences, setAudiences] = useState<string[]>([]);
 
 
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedCity, setSelectedCity] = useState<string>('');
   const [selectedStates, setSelectedStates] = useState<string[]>([]);
+  const [selectedAudiences, setSelectedAudiences] = useState<string[]>([]);
+
   const [thresholdValue, setThresholdValue] = useState<number>(0.6); // Initial value of the slider
   const [radiusValue, setRadiusValue] = useState<number>(5); // Initial value of the slider
 
@@ -161,6 +166,10 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
         filters: {},
         threshold: thresholdValue
       };
+
+      if (selectedAudiences) {
+        searchData.filters.audience = selectedAudiences
+      }
 
       // Check if city and radius are selected; if so, prioritize city filter
       if (selectedCity && radiusValue > 0) {
@@ -199,16 +208,18 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
         const data = await response.json();
         setCities(data.results.city)
         setStates(data.results.state)
+        setAudiences(data.results.audience)
+
       } catch (error) {
         console.error('Fetch error:', error);
       }
     };
 
-    if (states.length === 0 && cities.length === 0) {
+    if (states.length === 0 && cities.length === 0 && audiences.length === 0) {
       fetchFilter()
     }
 
-  }, [states, cities])
+  }, [states, cities, audiences])
 
 
   return (
@@ -335,6 +346,26 @@ const SearchComponent = (SearchComponentProps: SearchComponentProps) => {
           }}
         />
       </Form.Item> */}
+
+      {/* state field  */}
+      <Form.Item
+        label="טווח גילאים"
+        wrapperCol={{ offset: 0, span: 16 }}
+      >
+        <Select
+          mode="multiple"
+          allowClear
+          placeholder="טווח גילאים"
+          onChange={(value) => {
+            setSelectedAudiences(value);
+          }}
+          value={selectedAudiences}
+        >
+          {audiences.map((audience, index) => (
+            <Option key={`audience-${index}`} value={audience}>{audience}</Option>
+          ))}
+        </Select>
+      </Form.Item>
 
 
       {/* submit */}
@@ -475,6 +506,7 @@ const ResultCard = ({ item }: { item: Result }) => {
       icon={MailOutlined} value={item.email} text='איימל'></IconTextWithHref>)
   }
 
+
   if (item.phone_number) {
     actions.push(<IconTextWithHref
       href={`tel:${item.phone_number}`}
@@ -496,6 +528,17 @@ const ResultCard = ({ item }: { item: Result }) => {
       <WazeIcon full_location={item.full_location}></WazeIcon>
 
     )
+  }
+
+  if (item.audience?.length > 0) {
+    item.audience.forEach((audience: string) => {
+      actions.push(
+        <>
+          {audience}
+        </>
+      )
+    })
+
   }
 
   actions.push(<>{item.source}</>)

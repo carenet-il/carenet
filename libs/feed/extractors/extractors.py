@@ -110,3 +110,27 @@ def extract_center_city_from_state(region: str) -> str:
     }
 
     return city_to_region.get(region, "")
+
+
+def extract_audience_from_doc(audience: str) -> str:
+    # this function coverage all the optional audience in the feeds of Nafshi and Moh Mental Clinics and normalize them for filter operation
+    if 'פעוטות וילדים' in audience:
+        return 'ילדים ונוער'
+
+    elif 'ילדים ונוער' in audience:
+        return 'ילדים ונוער'
+
+    elif 'בני נוער' in audience:
+        return 'ילדים ונוער'
+
+    elif 'צעירים' in audience:
+        return 'מבוגרים'
+
+    elif 'מבוגרים' in audience:
+        return 'מבוגרים'
+
+    elif 'אזרחים ותיקים' in audience:
+        return 'מבוגרים'
+    
+    else:
+        return ''
