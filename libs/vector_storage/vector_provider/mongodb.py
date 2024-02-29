@@ -4,7 +4,6 @@ from typing import List, Optional
 from pymongo import MongoClient, UpdateOne
 from pymongo.errors import PyMongoError
 
-
 from libs.embedding.abstract import EmbeddingAbstract
 from libs.feed.geo_location.geo_location_utils import extract_geo_loc_from_city, get_cities_israel_heb
 from libs.interfaces.document import Document, EmbeddingDocument, DocumentSearchFilters
@@ -49,14 +48,13 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
                 built_filters.append({"metadata.state": {"$in": filters.state}})
             else:
                 built_filters.append({"metadata.state": filters.state})
-                
+
         # Audience filter setup
         if filters.audience:
             if isinstance(filters.audience, list):
                 built_filters.append({"metadata.audience": {"$in": filters.audience}})
             else:
                 print('error fetching data from the filters.audience')
-
 
         query_vector = self.embedding_model.encode(
             query
@@ -155,10 +153,10 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         cities = get_cities_israel_heb()
 
         states = self.document_collection.distinct("metadata.state", {"metadata.state": {"$nin": [None, ""]}})
-        
-        audiences = self.document_collection.distinct('metadata.audience',{'metadata.audience' : {'$nin':[None,""]}})
 
-        return DocumentSearchFilters(city=cities, state=states,audience=audiences)
+        audiences = self.document_collection.distinct('metadata.audience', {'metadata.audience': {'$nin': [None, ""]}})
+
+        return DocumentSearchFilters(city=cities, state=states, audience=audiences)
 
     def get_documents_in_the_area(self, longitude, latitude, radius):
 

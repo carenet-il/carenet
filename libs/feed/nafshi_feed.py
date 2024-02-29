@@ -114,7 +114,8 @@ class NafshiFeed(FeedAbstract, ABC):
             {",".join(document.langsTags)} 
             """
             
-        # extract the audiences from the doc, can be : צעירים מבוגרים אזרחים ותיקים in one doc and we only have to filters for ages
+        # extract the audiences from the doc, can be : צעירים מבוגרים אזרחים ותיקים in one doc and we only have to
+        # filters for ages
         audiences = list(set(map(extract_audience_from_doc, document.tagsAges)))
 
         if type(document.location1) == list:
