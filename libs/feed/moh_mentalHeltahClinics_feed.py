@@ -64,7 +64,6 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
             "audience" : audience
         }
     
-
         return Document(**document_dict)
 
 

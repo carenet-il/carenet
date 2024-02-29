@@ -115,13 +115,7 @@ class NafshiFeed(FeedAbstract, ABC):
             """
             
         # extract the audiences from the doc, can be : צעירים מבוגרים אזרחים ותיקים in one doc and we only have to filters for ages
-        audiences = []
-        for age in document.tagsAges:
-            audience_candidate = extract_audience_from_doc(age)
-            if audience_candidate in audiences:
-                continue
-            audiences.append(audience_candidate)
-                
+        audiences = list(set(map(extract_audience_from_doc, document.tagsAges)))
 
         if type(document.location1) == list:
             for location in document.location1:
@@ -139,7 +133,6 @@ class NafshiFeed(FeedAbstract, ABC):
                 }
                 
                 documents_final.append(Document(**document_dict))
-                print(Document(**document_dict))
 
         else:
 
