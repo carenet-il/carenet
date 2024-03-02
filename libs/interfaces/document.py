@@ -30,7 +30,7 @@ class Document(BaseModel):
     audience: Optional[List[str]] = Field(default=[])
     state: Optional[str] = Field(default="")
     score: Optional[float] = Field(default=0)
-
+    id: Optional[str] = Field(default="")
     location: Optional[LocationGeo] = Field(default=None)
     '''
     Example of location value:
@@ -57,6 +57,7 @@ class Document(BaseModel):
         state = "state"
         score = "score"
         audience = "audience"
+        id = "id"
 
 
 class EmbeddingDocument(BaseModel):

@@ -23,6 +23,26 @@ class CohereMultilingualEmbedding(EmbeddingAbstract, ABC):
         return []
 
     @lru_cache_with_ttl(maxsize=None, ttl=120)
+    def request_rerank(self, query: str, texts: tuple[str]) -> List[str]:
+        print("\n======Query=====")
+        print(query)
+        print("\n===========")
+        print("documents pre results:")
+        for hit in texts:
+            print(hit)
+            print("-----")
+        try:
+            rerank_hits = self.co.rerank(query=query, documents=list(texts), top_n=10, model="rerank-multilingual-v2.0")
+            print("\n===========")
+            print("ReRank results:")
+            for hit in rerank_hits:
+                print(texts[hit.index])
+                print("-----")
+        except Exception as error:
+            print(error)
+            return []
+
+    @lru_cache_with_ttl(maxsize=None, ttl=120)
     def request_to_model_api(self, texts: tuple[str]) -> List[List[float]]:
 
         try:
