@@ -110,18 +110,27 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
     def insert_many(self, documents: List[Document]):
         operations = []
-        vectors = self.generate_vector_bulk(documents)
 
-        if len(vectors) == 0:
-            raise Exception("not embedded vectors to insert - issue with generate vectors on embedding model")
+        for doc in documents:
+            doc.id = self.generate_id(doc)
+
+        ids_db = set(self.document_collection.distinct('id'))
+
+        documents = list(filter(lambda _doc: _doc.id not in ids_db, documents))
+
+        print(f"document insert now {len(documents)}")
+
+        if len(documents) == 0:
+            return
+
+        vectors = self.generate_vector_bulk(documents)
 
         for i, doc in enumerate(documents):
             vector = vectors[i]
-            _id = self.generate_id(doc)
             # Prepare the update operation instead of creating a new document
 
             record: EmbeddingDocument = EmbeddingDocument(
-                id=_id, values=vector, metadata=doc)
+                id=doc.id, values=vector, metadata=doc)
 
             operation = UpdateOne(
                 {'id': record.id},  # Filter document by _id
@@ -134,15 +143,18 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
         if operations:  # Check if the list is not empty
             self.document_collection.bulk_write(operations)
 
+    def generate_vector_text(self, doc: Document):
+        return " ".join([doc.title, doc.description, " ".join(doc.audience), doc.city, doc.state])
+
     def generate_vector_bulk(self, documents: List[Document]) -> List[List[float]]:
-        titles = list(map(lambda doc: doc.title, documents))
+        titles = list(map(lambda doc: self.generate_vector_text(doc), documents))
 
         # Function to chunk the titles list into batches of 25
         def chunker(seq, size):
             return (seq[pos:pos + size] for pos in range(0, len(seq), size))
 
         vectors = []  # Initialize an empty list to store the encoded vectors
-        for chunk in chunker(titles, 25):
+        for chunk in chunker(titles, 100):
             # Encode each chunk and extend the vectors list with the results
             vectors.extend(self.embedding_model.encode_bulk(chunk))
 

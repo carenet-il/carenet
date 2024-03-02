@@ -50,34 +50,44 @@ export default function SearchPage() {
 
   const router = useRouter()
 
+
+
+
   useEffect(() => {
-    const fetchData = async () => {
-      if (!searchArgs.query) return; // Only proceed if there's a query
 
-      setLoading(true);
-      try {
-        const response = await fetch(`${hostname}/documents/search`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(searchArgs)
-        });
+    const timerId = setTimeout(() => {
+      const fetchData = async () => {
+        if (!searchArgs.query) return; // Only proceed if there's a query
 
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
+        setLoading(true);
+        try {
+          const response = await fetch(`${hostname}/documents/search`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchArgs)
+          });
+
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+
+          const data = await response.json();
+          setResults(data.results);
+        } catch (error) {
+          console.error('Fetch error:', error);
+        } finally {
+          setLoading(false); // Ensure loading is set to false both after success and error
         }
+      };
+      fetchData();
+    }, 200)
 
-        const data = await response.json();
-        setResults(data.results);
-      } catch (error) {
-        console.error('Fetch error:', error);
-      } finally {
-        setLoading(false); // Ensure loading is set to false both after success and error
-      }
+    return () => {
+      clearTimeout(timerId); // Clear the timeout if the component unmounts or if the effect re-runs
     };
 
-    fetchData();
   }, [searchArgs]); // Depend on searchArgs for re-fetching
 
 
