@@ -88,7 +88,9 @@ export default function DashboardLayout({
           </Title>
 
           <div>
-            <img src={"https://hospitals.clalit.co.il/shalvata/he/PublishingImages/hospital_logo.png"}></img>
+            <img style={{height : "100%" , width : "250px"}} src={"https://hospitals.clalit.co.il/shalvata/he/PublishingImages/hospital_logo.png"}></img>
+
+            <img  style={{height : "100%" , width : "250px"}} src={"https://www.hotzvim.org.il/wp-content/uploads/2013/10/%D7%A9%D7%99%D7%A8%D7%95%D7%AA%D7%99-%D7%91%D7%A8%D7%99%D7%90%D7%95%D7%AA-%D7%9B%D7%9C%D7%9C%D7%99%D7%AA.png"}></img>
           </div>
 
           
