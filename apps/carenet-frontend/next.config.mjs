@@ -7,7 +7,8 @@ const nextConfig = {
   // output: 'standalone'
   // for git pages use the two lines below
   output: "export",
-  basePath: "/carenet",
+  // when using git pages with a custom domain comment the line below
+  // basePath: "/carenet",
 };
 
 export default nextConfig;
