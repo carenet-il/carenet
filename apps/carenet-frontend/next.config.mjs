@@ -7,7 +7,7 @@ const nextConfig = {
   // output: 'standalone'
   // for git pages use the two lines below
   output: "export",
-//   basePath: "/carenet",
+  basePath: "/carenet",
 };
 
 export default nextConfig;

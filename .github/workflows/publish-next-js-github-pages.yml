@@ -1,9 +1,8 @@
-name: publish-frontend-to-ftp
-# on:
-#   push:
-#     branches:
-#       - main
-on: workflow_dispatch
+name: publish-frontend-to-github-pages
+on:
+  push:
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -11,7 +10,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "ftp"
+  group: "pages"
   cancel-in-progress: false
 
 jobs:
@@ -25,21 +24,29 @@ jobs:
       - name: Setup Node.js ⚙️ - Cache dependencies ⚡ - Install dependencies 🔧
         uses: ./.github/workflows/setup-node
 
+      - name: Setup Pages ⚙️
+        uses: actions/configure-pages@v4
+        with:
+          static_site_generator: next
 
       - name: Build with Next.js 🏗️
         working-directory: ./apps/carenet-frontend
-        run: npm run build
+        run: npx next build
 
       - name: Upload artifact 📡
         uses: actions/upload-pages-artifact@v3
         with:
           path: ./apps/carenet-frontend/out
 
-      - name: Deploy to FTP
-        uses: SamKirkland/FTP-Deploy-Action@4.0.0
-        with:
-            server: ${{ secrets.FTP_HOST }}
-            username: ${{ secrets.FTP_USERNAME }}
-            password: ${{ secrets.FTP_PASSWORD }}
-            local-dir: ./apps/carenet-frontend/out/
-            server-dir: /htdocs/
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Publish to GitHub Pages 🚀
+        id: deployment
+        uses: actions/deploy-pages@v4
