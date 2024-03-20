@@ -9,7 +9,8 @@ origins = [
     "http://localhost",
     "http://localhost:3000",
     "https://carenet-il.github.io",
-    "https://carenet.free.nf"
+    "https://carenet.free.nf",
+    "https://carenet.co.il"
 ]
 
 app.add_middleware(
