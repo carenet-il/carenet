@@ -40,6 +40,13 @@ html,
 }
 
 
+.responsive-button {
+  white-space: normal; /* Allow the text to move to the next line */
+  text-align: center;  /* Keep the text centered */
+  height: auto
+
+}
+
 .logo-img
 {
     width: 100%!important;
@@ -47,6 +54,7 @@ html,
     object-fit: cover;
 
 }
+
 
 .header-style
 {

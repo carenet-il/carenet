@@ -96,10 +96,15 @@ export default function SearchPage() {
 
       <Row gutter={24} style={{ marginBottom: '10px' }}>
         <Col span={24}>
-          <Card title="חיפוש טיפולים ברחבי הארץ" bordered={true} extra={[<Button key="feedback-button" onClick={() => {
-            router.push("/feedback")
-          }}>החיפוש עזר לכם ? מוזמנים לשלוח לנו משוב </Button>]}>
+          <Card title="חיפוש טיפולים ברחבי הארץ" bordered={true}>
             <SearchComponent setSearchArgs={setSearchArgs} />
+
+            <Button className="responsive-button" onClick={() => { router.push("/feedback") }}>
+            <span>
+                החיפוש עזר לכם ? מוזמנים לשלוח לנו משוב 
+            </span>
+        </Button>
+          
           </Card>
         </Col>
 
