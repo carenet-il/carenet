@@ -36,6 +36,7 @@ export default function RootLayout({
           sizes="16x16"
           href="/favicon-16x16.png"
         />
+        <link rel="icon" href="/favicon_io/favicon.ico" />
         <link rel="/favicon_io/manifest" href="/site.webmanifest" />
       </Head>
       <GoogleAnalytics gaId="G-28BG9RD7VT" />
