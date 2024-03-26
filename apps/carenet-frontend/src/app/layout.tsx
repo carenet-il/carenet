@@ -20,23 +20,24 @@ export default function RootLayout({
     <html lang="he">
       <Head>
         <link
-          rel="/favicon_io/apple-touch-icon"
+          rel="apple-touch-icon"
           sizes="180x180"
-          href="/apple-touch-icon.png"
+          href="/favicon_io/apple-touch-icon.png"
         />
         <link
-          rel="/favicon_io/icon"
+          rel="icon"
           type="image/png"
           sizes="32x32"
-          href="/favicon-32x32.png"
+          href="/favicon_io/favicon-32x32.png"
         />
         <link
-          rel="/favicon_io/icon"
+          rel="icon"
           type="image/png"
           sizes="16x16"
-          href="/favicon-16x16.png"
+          href="/favicon_io/favicon-16x16.png"
         />
-        <link rel="/favicon_io/manifest" href="/site.webmanifest" />
+        <link rel="icon" href="/favicon_io/favicon.ico" />
+        <link rel="manifest" href="/favicon_io/site.webmanifest" />
       </Head>
       <GoogleAnalytics gaId="G-28BG9RD7VT" />
       <body className={inter.className} dir={"rtl"}>
