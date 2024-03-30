@@ -118,7 +118,7 @@ const { Option } = Select;
             >
               <Input
                 size='large'
-                placeholder=""
+                placeholder="חיפוש"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
