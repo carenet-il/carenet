@@ -10,6 +10,7 @@ class SourceType(Enum):
     MOH = "Ministry of Health"
     BTL = "BTL"
     OTEFLEV = "OTEFLEV"
+    MACCABI_ART_THERAPY = "MACCABI_ART_THERAPY"
     # Add other source types as needed
 
 

@@ -43,7 +43,7 @@ class MOH_MentalHealthClinicsFeed(FeedAbstract, ABC):
             specialization = ''
             
         
-        phone_number = document.get('אין נתונים','')
+        phone_number = document.get('phone','')
         if phone_number == 'אין נתונים':
             phone_number = ''
     
