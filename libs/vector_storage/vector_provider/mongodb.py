@@ -80,7 +80,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
                 built_filters.append({
                     "$or": [
                         {"id": {"$in": documents_in_the_area}},
-                        {"state": IsraelRegions.NATIONAL.value}
+                        {"metadata.state": IsraelRegions.NATIONAL.value}
                     ]
                 })
             else:
