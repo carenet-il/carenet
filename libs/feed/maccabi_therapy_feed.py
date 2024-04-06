@@ -4,21 +4,22 @@ from libs.feed.abstract import FeedAbstract
 from bs4 import BeautifulSoup
 import pandas as pd
 
-
 from libs.feed.extractors.extractors import extract_and_add_email_to_docs, extract_rows_from_table
 from libs.interfaces.document import Document, SourceType
+from libs.interfaces.locations import IsraelRegions
+
 
 class MaccabiTherapyClinicsFeed(FeedAbstract, ABC):
 
     def pull(self) -> list[Document]:
-        
+
         documents: list[Document] = []
-                        
+
         # The given URL
         url = 'https://www.maccabi4u.co.il/new/eligibilites/4767/'
         response = requests.get(url)
         html_content = response.content
-        
+
         # parse the HTML content
         soup = BeautifulSoup(html_content, 'html.parser')
         divided_box_containers = soup.find_all('div', {'class': 'divided-box-container'})
@@ -26,19 +27,21 @@ class MaccabiTherapyClinicsFeed(FeedAbstract, ABC):
         # There is 25 containers, each container is a set of 5 regions, each 5 is a different kind of therapy
         # create a dict with the therapy kind as the key and the right container as the value
         treatment_container = {"הבעה ויצירה": divided_box_containers[:5],
-                            "רכיבה טיפולית": divided_box_containers[5:10],
-                            "תרפיה באמצעות בעלי חיים": divided_box_containers[10:15],
-                            "ספורט טיפולי": divided_box_containers[15:20],
-                            "פעילות טיפולית במים": divided_box_containers[20:25]}
+                               "רכיבה טיפולית": divided_box_containers[5:10],
+                               "תרפיה באמצעות בעלי חיים": divided_box_containers[10:15],
+                               "ספורט טיפולי": divided_box_containers[15:20],
+                               "פעילות טיפולית במים": divided_box_containers[20:25]}
         regions = [
-            'מחוז הצפון',
-            'מחוז המרכז',
-            'מחוז תל אביב',
-            'מחוז ירושלים',
-            'מחוז הדרום'
+
+            IsraelRegions.NORTH.value,
+            IsraelRegions.CENTER.value,
+            IsraelRegions.TEL_AVIV.value,
+            IsraelRegions.JERUSALEM.value,
+            IsraelRegions.SOUTH.value
+
         ]
         maccabi_url = 'https://www.maccabi4u.co.il/new/eligibilites/4767/'
-        
+
         for treatment, containers in treatment_container.items():
             for container, region in zip(containers, regions):  # each container is a table
                 table = container.find('div', {'class': 'd-table-desktop'})
@@ -58,13 +61,13 @@ class MaccabiTherapyClinicsFeed(FeedAbstract, ABC):
                 # Normalize the documents
                 for new_doc in docs:
                     documents.append(self.__norm_document__(new_doc))
-                                        
-        print(f'Number of documents in Maccabi Therapy: {len(documents)}') 
-             
+
+        print(f'Number of documents in Maccabi Therapy: {len(documents)}')
+
         return documents
 
-    def __norm_document__(self,document) -> Document:
-        
+    def __norm_document__(self, document) -> Document:
+
         document_dict = {
             "title": document.get('treat_type', ''),
             "description": f"{document.get('מכון / מטפל', '')}, {document.get('treat_type', '')}",
@@ -78,7 +81,3 @@ class MaccabiTherapyClinicsFeed(FeedAbstract, ABC):
         }
 
         return Document(**document_dict)
-
-
-
-

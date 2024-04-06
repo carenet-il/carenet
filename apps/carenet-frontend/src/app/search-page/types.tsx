@@ -67,7 +67,7 @@ export interface SearchComponentProps {
     </AvatarSource>,
     [SourceType.BTL]: <AvatarSource url={"https://lirp.cdn-website.com/6acf9e61/dms3rep/multi/opt/66-320w.jpg"} ></AvatarSource>,
     [SourceType.OTEFLEV]: <AvatarSource url={"https://static.wixstatic.com/media/46c8a1_e579417c72394b0295fe9c107ec45da5~mv2.png/v1/fill/w_2500,h_2500,al_c/46c8a1_e579417c72394b0295fe9c107ec45da5~mv2.png"} ></AvatarSource>,
-    [SourceType.MACCABI_ART_THERAPY]: <AvatarSource url={"https://www.maccabi4u.co.il/new/media/xtxhwsfh/%D7%9C%D7%95%D7%92%D7%95-%D7%9E%D7%9B%D7%91%D7%99_%D7%90%D7%93%D7%A8-%D7%93%D7%A1%D7%A7%D7%98%D7%95%D7%A4.svg"} ></AvatarSource>,
+    [SourceType.MACCABI_ART_THERAPY]: <AvatarSource url={"https://www.maccabi4u.co.il/new/media/mjtdunor/newapp.png"} ></AvatarSource>,
 
 }
 
