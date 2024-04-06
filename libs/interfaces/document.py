@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional, Union, Dict, Tuple, List
+from typing import Optional, Union, Tuple, List
 
 from pydantic import BaseModel, Field, conlist
 
@@ -66,7 +66,6 @@ class EmbeddingDocument(BaseModel):
     values: list[float]
     metadata: Document
 
-
 class DocumentSearchFilters(BaseModel):
     """
     Defines the filters that can be applied when searching for documents.
@@ -87,4 +86,8 @@ class DocumentSearchFilters(BaseModel):
     audience: Optional[Union[str, List[str]]] = Field(
         default=None,
         description="The target audience or audiences for the documents. Can be a single audience category or a list of categories."
+    )
+    include_remote: bool = Field(
+        default=True,
+        description="Whether to include remote therapy documents in the search results."
     )
