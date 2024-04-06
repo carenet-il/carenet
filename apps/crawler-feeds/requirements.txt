@@ -9,3 +9,4 @@ textdistance==4.6.1
 python-dotenv==1.0.0
 pymongo==4.6.1
 cohere==4.47
+google-generativeai==0.4.1
