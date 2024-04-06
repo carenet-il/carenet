@@ -134,3 +134,32 @@ def extract_audience_from_doc(audience: str) -> str:
     
     else:
         return ''
+    
+def extract_and_add_email_to_docs(docs):
+    # Extract emails from phone_numbers values in maccabi feed and add them to the docs
+    for doc in docs:
+        phone_number_values = doc.get('טלפון', '').split(',')  # telephone value can include emails
+        for element in phone_number_values:
+            if '@' in element:  # means it's an email
+
+                # adding the email to the doc
+                doc['email'] = element
+
+                # remove the email from the phone number value inside the doc
+                phone_number_values.remove(element)
+
+                # adding the phone number to the doc
+                doc['טלפון'] = ','.join(phone_number_values)
+                
+def extract_rows_from_table(table):
+    rows = []
+    for tr in table.find_all('tr'):
+        cells_data = []
+        for cell in tr.find_all(['th', 'td']):
+            # Extract all text parts within the cell; handles both single and multiple values
+            parts = [part.strip() for part in cell.stripped_strings]
+            cell_text = ','.join(parts)
+
+            cells_data.append(cell_text)
+        rows.append(cells_data)
+    return rows

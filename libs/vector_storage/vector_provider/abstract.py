@@ -26,7 +26,7 @@ class VectorProviderAbstract(ABC):
 
     def generate_id(self, doc: Document) -> str:
         return hashlib.md5(
-            doc.title.encode("utf-8") + doc.source.encode("utf-8")
+            doc.title.encode("utf-8") + doc.description.encode('utf-8') + doc.full_location.encode("utf-8") + doc.source.encode("utf-8")
         ).hexdigest()
 
     @abstractmethod

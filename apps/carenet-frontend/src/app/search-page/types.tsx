@@ -7,7 +7,9 @@ export enum SourceType {
     NAFSHI = "NAFSHI",
     MOH = 'MOH',
     BTL = "BTL",
-    OTEFLEV = "OTEFLEV"
+    OTEFLEV = "OTEFLEV",
+    MACCABI_ART_THERAPY = "MACCABI_ART_THERAPY"
+
 }
 
 export interface SimilarityTitleProps {
@@ -65,6 +67,8 @@ export interface SearchComponentProps {
     </AvatarSource>,
     [SourceType.BTL]: <AvatarSource url={"https://lirp.cdn-website.com/6acf9e61/dms3rep/multi/opt/66-320w.jpg"} ></AvatarSource>,
     [SourceType.OTEFLEV]: <AvatarSource url={"https://static.wixstatic.com/media/46c8a1_e579417c72394b0295fe9c107ec45da5~mv2.png/v1/fill/w_2500,h_2500,al_c/46c8a1_e579417c72394b0295fe9c107ec45da5~mv2.png"} ></AvatarSource>,
+    [SourceType.MACCABI_ART_THERAPY]: <AvatarSource url={"https://www.maccabi4u.co.il/new/media/mjtdunor/newapp.png"} ></AvatarSource>,
+
 }
 
 

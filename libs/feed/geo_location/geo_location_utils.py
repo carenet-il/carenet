@@ -1,3 +1,5 @@
+import json
+
 import requests
 from libs.feed.extractors.extractors import extract_center_city_from_state
 
@@ -8,14 +10,16 @@ from libs.utils.cache import lru_cache_with_ttl
 
 @lru_cache_with_ttl(maxsize=None, ttl=120)
 def get_cities_israel_heb() -> list[str]:
-    url = "https://data.gov.il/api/3/action/datastore_search?resource_id=5c78e9fa-c2e2-4771-93ff-7f400a12f7ba&limit=2000"
-
-    response = requests.request("GET", url)
-
-    response = response.json()
+    try:
+        # Correctly load the local JSON file as a fallback
+        with open('libs/feed/geo_location/israel_cities.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+    except Exception as e:  # It's better to catch specific exceptions, this is just an example
+        print(f"Failed to load fallback JSON: {e}")
+        return []
 
     # remove spaces
-    cities = list(map(lambda x: str(x["שם_ישוב"]).strip(), response["result"]["records"]))
+    cities = list(map(lambda x: str(x["שם_ישוב"]).strip(), data["result"]["records"]))
 
     return sorted(cities)
 
@@ -82,7 +86,7 @@ def insert_location_object_to_documents_by_city_or_state(docs: list[Document]) -
         # doc.state != '': -> this didnt cover the case of state = None
         elif doc.state:
             center_city_inside_state = extract_center_city_from_state(doc.state)
-            
+
             latitude, longitude = extract_geo_loc_from_city(center_city_inside_state)
 
             if latitude is not None and longitude is not None:
