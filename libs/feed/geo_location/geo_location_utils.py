@@ -70,7 +70,8 @@ def extract_geo_loc_from_region(region: str):
 
 def insert_location_object_to_documents_by_city_or_state(docs: list[Document]) -> list[Document]:
     for doc in docs:
-        if doc.city != '':
+        # if doc.city != '': -> this didnt cover the case of city = None
+        if doc.city:
             latitude, longitude = extract_geo_loc_from_city(doc.city)
 
             if latitude is not None and longitude is not None:
@@ -78,7 +79,8 @@ def insert_location_object_to_documents_by_city_or_state(docs: list[Document]) -
                     "type": "Point",
                     "coordinates": [longitude, latitude]  # longitude, latitude
                 })
-        elif doc.state != '':
+        # doc.state != '': -> this didnt cover the case of state = None
+        elif doc.state:
             center_city_inside_state = extract_center_city_from_state(doc.state)
             
             latitude, longitude = extract_geo_loc_from_city(center_city_inside_state)

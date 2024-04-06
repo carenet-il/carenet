@@ -2,7 +2,7 @@ import re
 import requests
 
 from libs.utils.cache import lru_cache_with_ttl
-
+from libs.interfaces.locations import IsraelRegions
 
 @lru_cache_with_ttl(maxsize=None, ttl=120)
 def get_locations_by_coordination(lat: float, lon: float):
@@ -63,11 +63,11 @@ def extract_labeled_region_from_text(text: str) -> str:
     # regular expression to match 'מחוז' followed by any characters except ',' (non-greedy) until a ','
     pattern = r"מחוז(.*?),"
 
-    regions = ['מחוז ירושלים', 'מחוז הצפון', 'מחוז הדרום', 'מחוז חיפה', 'מחוז תל אביב', 'ארצי - מרחוק', 'מחוז המרכז']
+    regions = IsraelRegions.get_regions()
 
     # search for the pattern in the text
     match = re.search(pattern, text)
-
+    
     region = "מחוז " + match.group(1).strip() if match else ''
 
     return region if region in regions else ''
