@@ -25,3 +25,34 @@ def normalize_cities(cities_israel_heb: list[str], docs: list[Document]) -> list
             doc.city = find_best_city_match(tuple(cities_israel_heb), doc.city)
 
     return docs
+
+def normalize_treatments(supplier: dict) -> str:
+    treatments = []
+
+    services = [{
+        "ServiceDescription": service.get("ServiceDescription", ""),
+        "Treatments": [treatment.get("TreatmentDescription", "") for treatment in
+                       service.get("Treatments", [])]
+    } for service in supplier.get("Services", [])]
+
+    for service in services:
+        for treat in service["Treatments"]:
+            if treat not in treatments:
+                treatments.append(treat)
+
+    return ', '.join(treatments)
+
+
+def normalize_telephones(supplier: dict) -> str:
+    ans = []
+    telephones = [supplier.get("TelephoneA", ""),
+                  supplier.get("TelephoneB", ""),
+                  supplier.get("TelephoneC", ""),
+                  supplier.get("TelephoneD", "")]
+
+    for tel in telephones:
+        if tel == '' or tel is None:
+            continue
+        ans.append(tel)
+
+    return ','.join(ans)

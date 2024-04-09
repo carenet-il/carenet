@@ -11,6 +11,7 @@ class SourceType(Enum):
     BTL = "BTL"
     OTEFLEV = "OTEFLEV"
     MACCABI_ART_THERAPY = "MACCABI_ART_THERAPY"
+    CLALIT = "CLALIT"
     # Add other source types as needed
 
 
