@@ -3,6 +3,7 @@ from typing import List, Optional
 
 from pymongo import MongoClient, UpdateOne
 from pymongo.errors import PyMongoError
+from tqdm import tqdm
 
 from libs.embedding.abstract import EmbeddingAbstract
 from libs.feed.geo_location.geo_location_utils import (
@@ -138,7 +139,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
 
         vectors = self.generate_vector_bulk(documents)
 
-        for i, doc in enumerate(documents):
+        for i, doc in tqdm(enumerate(documents)):
             vector = vectors[i]
             # Prepare the update operation instead of creating a new document
 

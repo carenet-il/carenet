@@ -61,11 +61,17 @@ def main():
         try:
             norm_documents: List[Document] = feed.pull()
 
+
+            print("start normalize cities")
             # normalize each city in each doc
             norm_documents_city_normalize = normalize_cities(cities_israel_heb, norm_documents)
             # adding to each doc his geolocation based on city name
+
+            print("start insert_location_object_to_documents_by_city_or_state")
             norm_documents_included_location = insert_location_object_to_documents_by_city_or_state(
                 norm_documents_city_normalize)
+
+            print("start insert_documents to vector storage")
             vector_storage.insert_documents(norm_documents=norm_documents_included_location)
         except Exception as error:
             logging.error(msg=error)
