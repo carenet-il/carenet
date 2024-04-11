@@ -3,6 +3,7 @@ import os
 from typing import List
 from libs.embedding.cohere_multilingual_embedding import CohereMultilingualEmbedding
 from libs.feed.btl_anxiety_feed import BtlAnxietyFeed
+from libs.feed.clalit_feed import ClalitFeed
 from libs.feed.geo_location.geo_location_utils import insert_location_object_to_documents_by_city_or_state, \
     get_cities_israel_heb
 from libs.feed.maccabi_therapy_feed import MaccabiTherapyClinicsFeed
@@ -41,7 +42,8 @@ def main():
     otef_lev_feed = OtefLevFeed()
     minster_of_health_mental_clinic = MOH_MentalHealthClinicsFeed()
     maccabi_feed = MaccabiTherapyClinicsFeed()
-
+    clalit_feed = ClalitFeed()
+ 
     feeds = [
         n12_feed,
         nafshi_feed,
@@ -50,18 +52,26 @@ def main():
         btl_all_regions_feed,
         btl_anxiety_feed,
         otef_lev_feed,
-        maccabi_feed]
+        maccabi_feed,
+        clalit_feed,
+        ]
     # For dynamic list and updated
     cities_israel_heb = get_cities_israel_heb()
     for feed in feeds:
         try:
             norm_documents: List[Document] = feed.pull()
 
+
+            print("start normalize cities")
             # normalize each city in each doc
             norm_documents_city_normalize = normalize_cities(cities_israel_heb, norm_documents)
             # adding to each doc his geolocation based on city name
+
+            print("start insert_location_object_to_documents_by_city_or_state")
             norm_documents_included_location = insert_location_object_to_documents_by_city_or_state(
                 norm_documents_city_normalize)
+
+            print("start insert_documents to vector storage")
             vector_storage.insert_documents(norm_documents=norm_documents_included_location)
         except Exception as error:
             logging.error(msg=error)

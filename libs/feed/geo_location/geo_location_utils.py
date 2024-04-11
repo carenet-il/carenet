@@ -1,7 +1,12 @@
 import json
+from typing import List
 
 import requests
+from tqdm import tqdm
+
 from libs.feed.extractors.extractors import extract_center_city_from_state
+from concurrent.futures import ThreadPoolExecutor, as_completed
+from tqdm import tqdm
 
 from libs.interfaces.document import Document, LocationGeo
 from libs.utils.cache import lru_cache_with_ttl
@@ -72,27 +77,49 @@ def extract_geo_loc_from_region(region: str):
         return None, None
 
 
-def insert_location_object_to_documents_by_city_or_state(docs: list[Document]) -> list[Document]:
-    for doc in docs:
-        # if doc.city != '': -> this didnt cover the case of city = None
-        if doc.city:
-            latitude, longitude = extract_geo_loc_from_city(doc.city)
 
-            if latitude is not None and longitude is not None:
-                doc.location = LocationGeo(**{
-                    "type": "Point",
-                    "coordinates": [longitude, latitude]  # longitude, latitude
-                })
-        # doc.state != '': -> this didnt cover the case of state = None
-        elif doc.state:
-            center_city_inside_state = extract_center_city_from_state(doc.state)
 
-            latitude, longitude = extract_geo_loc_from_city(center_city_inside_state)
+def process_document_insert_location(doc:Document):
+    """
+    Process a single document to add location information based on city or state.
+    """
+    if doc.city:
+        latitude, longitude = extract_geo_loc_from_city(doc.city)
 
-            if latitude is not None and longitude is not None:
-                doc.location = LocationGeo(**{
-                    "type": "Point",
-                    "coordinates": [longitude, latitude]  # longitude, latitude
-                })
+        if latitude is not None and longitude is not None:
+            doc.location = LocationGeo(**{
+                "type": "Point",
+                "coordinates": [longitude, latitude]  # longitude, latitude
+            })
+    elif doc.state:
+        center_city_inside_state = extract_center_city_from_state(doc.state)
+
+        latitude, longitude = extract_geo_loc_from_city(center_city_inside_state)
+
+        if latitude is not None and longitude is not None:
+            doc.location = LocationGeo(**{
+                "type": "Point",
+                "coordinates": [longitude, latitude]  # longitude, latitude
+            })
+
+    return doc
+
+
+def insert_location_object_to_documents_by_city_or_state(docs: List[Document]):
+    """
+    Modify the documents list to include location objects for documents based on city or state, using 20 threads.
+    """
+    # Use ThreadPoolExecutor to parallelize the operation
+    with ThreadPoolExecutor(max_workers=5) as executor:
+        # Submit all documents to the executor
+        future_to_doc = {executor.submit(process_document_insert_location, doc): doc for doc in docs}
+
+        # Use tqdm to show progress
+        for future in tqdm(as_completed(future_to_doc), total=len(docs)):
+            try:
+                # This will also raise any exceptions caught during the execution of the task.
+                future.result()
+            except Exception as exc:
+                print(f"Generated an exception: {exc}")
 
     return docs
