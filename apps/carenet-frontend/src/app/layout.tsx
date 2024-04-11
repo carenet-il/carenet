@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleTagManager } from '@next/third-parties/google'
+
 import "./globals.css";
 import Head from "next/head";
 
@@ -43,6 +45,7 @@ export default function RootLayout({
       <body className={inter.className} dir={"rtl"}>
         {children}
       </body>
+      <GoogleTagManager gtmId="GTM-TLBS7L6X" />
     </html>
   );
 }
