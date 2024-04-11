@@ -79,7 +79,7 @@ export const ResultCard = ({ item }: { item: Result }) => {
 
     }
 
-    actions.push(<>{item.source}</>)
+    
 
     const formattedScore = item.score.toFixed(2);
 
