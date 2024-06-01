@@ -2,6 +2,7 @@ if __name__ == "__main__":
     import uvicorn, sys, os
     from dotenv import load_dotenv
 
+    
     load_dotenv()
     # to allow import from libs
     sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", ".."))
