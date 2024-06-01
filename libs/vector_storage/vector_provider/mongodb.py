@@ -86,18 +86,28 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
                 })
             else:
                 built_filters.append({"id": {"$in": documents_in_the_area}})
-                
-        pipelines = [
-            {
-                "$vectorSearch": {
-                    "index": "default_vector_index",
-                    "path": "values",
-                    "filter": ({"$and": built_filters} if built_filters else None),
-                    "queryVector": query_vector,
-                    "numCandidates": k,
-                    "limit": k // 10,
-                }
-            },
+
+        pipelines = []
+
+        # Create the $vectorSearch stage
+        vector_search_stage = {
+            "$vectorSearch": {
+                "index": "default_vector_index",
+                "path": "values",
+                "queryVector": query_vector,
+                "numCandidates": k,
+                "limit": k // 10,
+            }
+        }
+
+        # Add the filter conditionally
+        if built_filters:
+            vector_search_stage["$vectorSearch"]["filter"] = {"$and": built_filters}
+
+        pipelines.append(vector_search_stage)
+
+        # Add the remaining stages
+        pipelines.extend([
             {"$addFields": {"score": {"$meta": "vectorSearchScore"}}},
             {"$match": {"score": {"$gte": threshold}}},
             {"$sort": {"score": -1}},
@@ -106,7 +116,7 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
                     "newRoot": {"$mergeObjects": ["$metadata", {"score": "$score"}]}
                 }
             },
-        ]
+        ])
 
         results = self.document_collection.aggregate(pipelines)
 
