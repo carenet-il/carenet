@@ -100,7 +100,6 @@ class MongoVectorProvider(VectorProviderAbstract, ABC):
             }
         }
 
-        print(built_filters)
         # Add the filter conditionally
         if built_filters:
             vector_search_stage["$vectorSearch"]["filter"] = {"$and": built_filters}
